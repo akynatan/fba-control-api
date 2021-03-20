@@ -18,7 +18,7 @@ export default class CreateSupplierService {
 
   public async execute(): Promise<Supplier[]> {
     const hubspotClient = new hubspot.Client({
-      apiKey: '45ea5af3-2025-4f67-a8d4-2ea3fa6cd8bb',
+      apiKey: process.env.API_KEY_HUBSPOT,
     });
 
     // const allCompanies = await hubspotClient.crm.companies.searchApi.doSearch({

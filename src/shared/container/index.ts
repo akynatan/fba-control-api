@@ -9,6 +9,12 @@ import SuppliersRepository from '@modules/suppliers/infra/typeorm/repositories/S
 import IShopsRepository from '@modules/shops/repositories/IShopsRepository';
 import ShopsRepository from '@modules/shops/infra/typeorm/repositories/ShopsRepository';
 
+import IProductsRepository from '@modules/products/repositories/IProductsRepository';
+import ProductsRepository from '@modules/products/infra/typeorm/repositories/ProductsRepository';
+
+import IProductSupplierRepository from '@modules/products/repositories/IProductSupplierRepository';
+import ProductSupplierRepository from '@modules/products/infra/typeorm/repositories/ProductSupplierRepository';
+
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
 
@@ -23,6 +29,16 @@ container.registerSingleton<ISuppliersRepository>(
 container.registerSingleton<IShopsRepository>(
   'ShopsRepository',
   ShopsRepository,
+);
+
+container.registerSingleton<IProductsRepository>(
+  'ProductsRepository',
+  ProductsRepository,
+);
+
+container.registerSingleton<IProductSupplierRepository>(
+  'ProductSupplierRepository',
+  ProductSupplierRepository,
 );
 
 container.registerSingleton<IUsersRepository>(
