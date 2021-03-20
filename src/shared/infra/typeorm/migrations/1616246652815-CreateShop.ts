@@ -1,0 +1,53 @@
+import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+
+export default class CreateShop1616246652815 implements MigrationInterface {
+  public async up(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.createTable(
+      new Table({
+        name: 'shops',
+        columns: [
+          {
+            name: 'id',
+            type: 'uuid',
+            isPrimary: true,
+            generationStrategy: 'uuid',
+            default: 'uuid_generate_v4()',
+          },
+          {
+            name: 'name',
+            type: 'varchar',
+          },
+          {
+            name: 'token_hubspot',
+            type: 'varchar',
+          },
+          {
+            name: 'token_amazon',
+            type: 'varchar',
+          },
+          {
+            name: 'avatar',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'created_at',
+            type: 'timestamp',
+            isUnique: true,
+            default: 'now()',
+          },
+          {
+            name: 'updated_at',
+            type: 'timestamp',
+            isUnique: true,
+            default: 'now()',
+          },
+        ],
+      }),
+    );
+  }
+
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.dropTable('shops');
+  }
+}
