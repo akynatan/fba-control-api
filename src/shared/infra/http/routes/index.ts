@@ -3,6 +3,7 @@ import { Router } from 'express';
 import suppliersRouter from '@modules/suppliers/infra/http/routes/suppliers.routes';
 import shopsRouter from '@modules/shops/infra/http/routes/shops.routes';
 import productsRouter from '@modules/products/infra/http/routes/products.routes';
+import productSupplierRouter from '@modules/products/infra/http/routes/product_supplier.routes';
 import usersRouter from '@modules/users/infra/http/routes/users.routes';
 import sessionsRouter from '@modules/users/infra/http/routes/sessions.routes';
 import passwordRouter from '@modules/users/infra/http/routes/password.routes';
@@ -16,5 +17,6 @@ routes.use('/users', usersRouter);
 routes.use('/sessions', sessionsRouter);
 routes.use('/password', passwordRouter);
 routes.use('/profile', profileRouter);
+routes.use('/product_supplier', productSupplierRouter);
 
 export default routes;

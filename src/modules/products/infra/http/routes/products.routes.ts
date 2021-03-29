@@ -42,4 +42,10 @@ productsRouter.put(
 
 productsRouter.get('/', productsController.index);
 
+productsRouter.get('/detail', productsController.detailProduct);
+
+productsRouter.get('/estimate', productsController.getFeesEstimate);
+
+productsRouter.get('/suppliers', productsController.listSupplierProducts);
+
 export default productsRouter;

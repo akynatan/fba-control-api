@@ -1,0 +1,26 @@
+/* eslint-disable camelcase */
+import { injectable, inject } from 'tsyringe';
+
+import AppError from '@shared/errors/AppError';
+import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
+import Supplier from '../infra/typeorm/entities/Supplier';
+import ISuppliersRepository from '../repositories/ISuppliersRepository';
+
+@injectable()
+export default class ListAllSuppliersService {
+  constructor(
+    @inject('SuppliersRepository')
+    private suppliersRepository: ISuppliersRepository,
+
+    @inject('CacheProvider')
+    private cacheProvider: ICacheProvider,
+  ) {}
+
+  public async execute(): Promise<Supplier[]> {
+    const suppliers = await this.suppliersRepository.findAll();
+
+    // await this.cacheProvider.invalidate(`suppliers`);
+
+    return suppliers;
+  }
+}

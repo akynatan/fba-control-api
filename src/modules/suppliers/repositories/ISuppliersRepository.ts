@@ -3,4 +3,5 @@ import ICreateSupplierDTO from '../dtos/ICreateSupplierDTO';
 
 export default interface ISuppliersRepository {
   create(data: ICreateSupplierDTO): Promise<Supplier>;
+  findAll(): Promise<Supplier[]>;
 }

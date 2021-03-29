@@ -26,6 +26,8 @@ suppliersRouter.post(
   suppliersController.create,
 );
 
+suppliersRouter.get('/', suppliersController.index);
+
 suppliersRouter.post('/sync-hubspot', syncSuppliersController.create);
 
 export default suppliersRouter;

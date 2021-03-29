@@ -20,16 +20,16 @@ export default class ProductSupplier {
   @Column()
   supplier_id: string;
 
-  @ManyToOne(() => Supplier)
+  @ManyToOne(() => Supplier, { primary: true })
   @JoinColumn({ name: 'supplier_id' })
-  supplier: Supplier;
+  suppliers: Supplier[];
 
   @Column()
   product_id: string;
 
-  @ManyToOne(() => Product)
+  @ManyToOne(() => Product, { primary: true })
   @JoinColumn({ name: 'product_id' })
-  product: Product;
+  products: Product[];
 
   @Column()
   sku_supplier: string;
