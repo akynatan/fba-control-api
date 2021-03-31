@@ -32,12 +32,9 @@ export default class ProductSupplierRepository
   public async save(
     product_supplier: ProductSupplier,
   ): Promise<ProductSupplier> {
-    const new_product_supplier = await this.ormRepository.save(
-      product_supplier,
-    );
-    console.log(new_product_supplier);
+    await this.ormRepository.save(product_supplier);
 
-    return new_product_supplier;
+    return product_supplier;
   }
 
   public async findByID(id: string): Promise<ProductSupplier | undefined> {

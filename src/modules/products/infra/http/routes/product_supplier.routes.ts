@@ -34,4 +34,17 @@ productSupplierRouter.post(
   productSupplierController.create,
 );
 
+productSupplierRouter.put(
+  '/',
+  celebrate({
+    [Segments.BODY]: {
+      product_supplier_id: Joi.string().required(),
+      supplier_id: Joi.string().required(),
+      sku_supplier: Joi.string().required(),
+      note: Joi.string().required(),
+    },
+  }),
+  productSupplierController.update,
+);
+
 export default productSupplierRouter;

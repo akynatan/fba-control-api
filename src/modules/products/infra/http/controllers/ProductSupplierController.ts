@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import { classToClass } from 'class-transformer';
 
-import AlterSupplierForProductSupplierService from '@modules/products/services/AlterSupplierForProductSupplierService';
+import UpdateProductSupplierService from '@modules/products/services/UpdateProductSupplierService';
 import CreateProductSupplierService from '@modules/products/services/CreateProductSupplierService';
 
 export default class ProductSupplierController {
@@ -24,15 +24,22 @@ export default class ProductSupplierController {
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
-    const { product_supplier_id, new_supplier_id } = request.body;
+    const {
+      product_supplier_id,
+      supplier_id,
+      note,
+      sku_supplier,
+    } = request.body;
 
-    const alterSupplierForProductSupplier = container.resolve(
-      AlterSupplierForProductSupplierService,
+    const updateProductSupplier = container.resolve(
+      UpdateProductSupplierService,
     );
 
-    const product_supplier = await alterSupplierForProductSupplier.execute({
-      id: product_supplier_id,
-      new_supplier_id,
+    const product_supplier = await updateProductSupplier.execute({
+      product_supplier_id,
+      supplier_id,
+      note,
+      sku_supplier,
     });
 
     return response.json(product_supplier);
