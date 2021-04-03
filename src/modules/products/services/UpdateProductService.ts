@@ -35,7 +35,7 @@ export default class updateProductService {
     const product = await this.productsRepository.findByID(product_id);
 
     if (!product) {
-      throw new AppError('User not found.');
+      throw new AppError('Product not found.');
     }
 
     product.name = name;

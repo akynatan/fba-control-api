@@ -4,6 +4,7 @@ import { classToClass } from 'class-transformer';
 
 import UpdateProductSupplierService from '@modules/products/services/UpdateProductSupplierService';
 import CreateProductSupplierService from '@modules/products/services/CreateProductSupplierService';
+import DeleteProductSupplierService from '@modules/products/services/DeleteProductSupplierService';
 
 export default class ProductSupplierController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -40,6 +41,20 @@ export default class ProductSupplierController {
       supplier_id,
       note,
       sku_supplier,
+    });
+
+    return response.json(product_supplier);
+  }
+
+  public async delete(request: Request, response: Response): Promise<Response> {
+    const { product_supplier_id } = request.body;
+
+    const deleteProductSupplier = container.resolve(
+      DeleteProductSupplierService,
+    );
+
+    const product_supplier = await deleteProductSupplier.execute({
+      id: product_supplier_id,
     });
 
     return response.json(product_supplier);

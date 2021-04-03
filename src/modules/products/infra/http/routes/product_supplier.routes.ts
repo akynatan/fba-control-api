@@ -47,4 +47,14 @@ productSupplierRouter.put(
   productSupplierController.update,
 );
 
+productSupplierRouter.delete(
+  '/',
+  celebrate({
+    [Segments.BODY]: {
+      product_supplier_id: Joi.string().required(),
+    },
+  }),
+  productSupplierController.delete,
+);
+
 export default productSupplierRouter;

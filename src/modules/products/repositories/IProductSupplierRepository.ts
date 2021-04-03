@@ -6,4 +6,5 @@ export default interface IProductSupplierRepository {
   getSuppliers(product_id: string): Promise<ProductSupplier[]>;
   save(product_supplier: ProductSupplier): Promise<ProductSupplier>;
   findByID(id: string): Promise<ProductSupplier | undefined>;
+  delete(id: string): Promise<void>;
 }

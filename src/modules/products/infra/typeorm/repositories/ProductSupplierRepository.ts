@@ -41,4 +41,10 @@ export default class ProductSupplierRepository
     const product_supplier = await this.ormRepository.findOne(id);
     return product_supplier;
   }
+
+  public async delete(id: string): Promise<void> {
+    await await this.ormRepository.delete({
+      id,
+    });
+  }
 }
