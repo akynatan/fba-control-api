@@ -40,6 +40,7 @@ productSupplierRouter.put(
     [Segments.BODY]: {
       product_supplier_id: Joi.string().required(),
       supplier_id: Joi.string().required(),
+      product_id: Joi.string().required(),
       sku_supplier: Joi.string().required(),
       note: Joi.string().required(),
     },

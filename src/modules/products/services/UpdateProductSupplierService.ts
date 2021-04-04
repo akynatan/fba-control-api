@@ -10,6 +10,7 @@ import ProductSupplier from '../infra/typeorm/entities/ProductSupplier';
 interface IRequest {
   product_supplier_id: string;
   supplier_id: string;
+  product_id: string;
   note: string;
   sku_supplier: string;
 }
@@ -27,6 +28,7 @@ export default class UpdateProductSupplierService {
   public async execute({
     product_supplier_id,
     supplier_id,
+    product_id,
     note,
     sku_supplier,
   }: IRequest): Promise<ProductSupplier> {
@@ -39,6 +41,7 @@ export default class UpdateProductSupplierService {
     }
 
     product_supplier.supplier_id = supplier_id;
+    product_supplier.product_id = product_id;
     product_supplier.note = note;
     product_supplier.sku_supplier = sku_supplier;
 

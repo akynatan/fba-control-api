@@ -9,7 +9,7 @@ export default class SyncSuppliersController {
 
     const suppliers = await SyncSuppliersHubspot.execute();
 
-    console.log(suppliers);
+    // console.log(suppliers);
 
     return response.json(suppliers);
   }

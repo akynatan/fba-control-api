@@ -29,6 +29,15 @@ export default class ProductSupplierRepository
     return suppliers;
   }
 
+  public async getProducts(supplier_id: string): Promise<ProductSupplier[]> {
+    const products = await this.ormRepository.find({
+      where: { supplier_id },
+      relations: ['products'],
+    });
+
+    return products;
+  }
+
   public async save(
     product_supplier: ProductSupplier,
   ): Promise<ProductSupplier> {

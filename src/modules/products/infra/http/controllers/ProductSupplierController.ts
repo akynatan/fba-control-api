@@ -28,6 +28,7 @@ export default class ProductSupplierController {
     const {
       product_supplier_id,
       supplier_id,
+      product_id,
       note,
       sku_supplier,
     } = request.body;
@@ -39,6 +40,7 @@ export default class ProductSupplierController {
     const product_supplier = await updateProductSupplier.execute({
       product_supplier_id,
       supplier_id,
+      product_id,
       note,
       sku_supplier,
     });

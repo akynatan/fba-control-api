@@ -37,4 +37,9 @@ export default class SuppliersRepository implements ISuppliersRepository {
     const suppliers = this.ormRepository.find();
     return suppliers;
   }
+
+  public async findByID(id: string): Promise<Supplier | undefined> {
+    const supplier = this.ormRepository.findOne(id);
+    return supplier;
+  }
 }
