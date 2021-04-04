@@ -22,10 +22,12 @@ export default class CreateProductSupplier1616261806279
           {
             name: 'product_id',
             type: 'uuid',
+            isNullable: true,
           },
           {
             name: 'supplier_id',
             type: 'uuid',
+            isNullable: true,
           },
           {
             name: 'note',

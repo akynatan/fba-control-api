@@ -2,6 +2,7 @@ import { getRepository, Repository } from 'typeorm';
 import IProductsRepository from '@modules/products/repositories/IProductsRepository';
 import ICreateProductDTO from '@modules/products/dtos/ICreateProductDTO';
 
+import AppError from '@shared/errors/AppError';
 import Product from '../entities/Product';
 
 export default class ProductsRepository implements IProductsRepository {
@@ -25,12 +26,25 @@ export default class ProductsRepository implements IProductsRepository {
   }
 
   public async findAll(): Promise<Product[]> {
-    const users = await this.ormRepository.find();
-    return users;
+    const products = await this.ormRepository.find({
+      relations: ['product_suppliers', 'product_suppliers.suppliers'],
+    });
+    return products;
   }
 
   public async findByID(id: string): Promise<Product | undefined> {
     const product = await this.ormRepository.findOne(id);
     return product;
+  }
+
+  public async delete(id: string): Promise<void> {
+    try {
+      await await this.ormRepository.delete({
+        id,
+      });
+    } catch (err) {
+      console.log(err);
+      throw new AppError('Erro');
+    }
   }
 }

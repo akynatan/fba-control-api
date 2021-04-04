@@ -1,10 +1,14 @@
 import { Router } from 'express';
 import { celebrate, Segments, Joi } from 'celebrate';
+import multer from 'multer';
+
+import uploadConfig from '@config/upload';
 
 import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
 
 import ProductsController from '../controllers/ProductsController';
 
+const upload = multer(uploadConfig.multer);
 const productsRouter = Router();
 const productsController = new ProductsController();
 
@@ -47,5 +51,22 @@ productsRouter.get('/detail', productsController.detailProduct);
 productsRouter.get('/estimate', productsController.getFeesEstimate);
 
 productsRouter.get('/suppliers', productsController.listSupplierProducts);
+
+productsRouter.delete(
+  '/',
+  celebrate({
+    [Segments.BODY]: {
+      product_id: Joi.string().required(),
+    },
+  }),
+  productsController.delete,
+);
+
+productsRouter.post(
+  '/upload',
+  ensureAuthenticated,
+  upload.single('products'),
+  productsController.uploadProducts,
+);
 
 export default productsRouter;

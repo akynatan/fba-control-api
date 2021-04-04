@@ -18,7 +18,8 @@ export default class listAllProductsService {
   public async execute(): Promise<Product[]> {
     const cacheKey = `products-list`;
 
-    let products = await this.cacheProvider.recover<Product[]>(cacheKey);
+    // let products = await this.cacheProvider.recover<Product[]>(cacheKey);
+    let products;
 
     if (!products) {
       products = await this.productsRepository.findAll();

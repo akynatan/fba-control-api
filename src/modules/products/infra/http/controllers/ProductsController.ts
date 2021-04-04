@@ -8,6 +8,8 @@ import ListAllProductsService from '@modules/products/services/ListAllProductsSe
 import UpdateProductService from '@modules/products/services/UpdateProductService';
 import ListSupplierProductsService from '@modules/products/services/ListSupplierProductsService';
 import DetailProductService from '@modules/products/services/DetailProductService';
+import DeleteProductService from '@modules/products/services/DeleteProductService';
+import UploadProductsService from '@modules/products/services/UploadProductsService';
 
 export default class ProductsController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -91,5 +93,29 @@ export default class ProductsController {
     });
 
     return response.json(suppliers);
+  }
+
+  public async delete(request: Request, response: Response): Promise<Response> {
+    const { product_id } = request.body;
+
+    const deleteProduct = container.resolve(DeleteProductService);
+
+    const product = await deleteProduct.execute({
+      id: product_id,
+    });
+
+    return response.json(product);
+  }
+
+  public async uploadProducts(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const uploadProducts = container.resolve(UploadProductsService);
+    const user = await uploadProducts.execute({
+      avatarFileName: request.file.filename,
+    });
+
+    return response.json(classToClass(user));
   }
 }
