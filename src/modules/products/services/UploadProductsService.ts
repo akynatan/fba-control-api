@@ -27,6 +27,8 @@ export default class UploadProductsService {
 
   public async execute({ avatarFileName }: IRequest): Promise<Product[]> {
     const filename = await this.storageProvider.saveFile(avatarFileName);
+    console.log('-------------------------------------------');
+    console.log(uploadConfig.uploadsFolder);
     const { data } = ExcelToJson({
       sourceFile: `${uploadConfig.uploadsFolder}/${filename}`,
     });

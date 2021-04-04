@@ -112,10 +112,10 @@ export default class ProductsController {
     response: Response,
   ): Promise<Response> {
     const uploadProducts = container.resolve(UploadProductsService);
-    const user = await uploadProducts.execute({
+    const products = await uploadProducts.execute({
       avatarFileName: request.file.filename,
     });
 
-    return response.json(classToClass(user));
+    return response.json(products);
   }
 }
