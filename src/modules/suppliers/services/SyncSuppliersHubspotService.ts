@@ -23,68 +23,69 @@ export default class CreateSupplierService {
       apiKey: process.env.API_KEY_HUBSPOT,
     });
 
-    const allSuppliers = await hubspotClient.crm.companies.searchApi.doSearch({
-      after: 0,
-      limit: 100,
-      properties: [
-        'city',
-        'description',
-        'industry',
-        'about_us',
-        'phone',
-        'zip',
-        'state',
-        'region',
-        'is_public',
-        'country',
-        'name',
-      ],
-      sorts: [
-        JSON.stringify({ propertyName: 'createdate', direction: 'DESCENDING' }),
-      ],
-      filterGroups: [
-        {
-          filters: [
-            // { propertyName: 'createdate', operator: 'NOT_HAS_PROPERTY' },
-            // {
-            //   propertyName: 'archived',
-            //   operator: 'EQ',
-            //   value: 'false',
-            // },
-            // {
-            //   propertyName: 'createdAt',
-            //   operator: 'GTE',
-            //   value: '2019-02-16T00:26:30.710Z',
-            // },
-          ],
-        },
-      ],
-    });
+    // const allSuppliers = await hubspotClient.crm.companies.searchApi.doSearch({
+    //   after: 0,
+    //   limit: 100,
+    //   properties: [
+    //     'city',
+    //     'description',
+    //     'industry',
+    //     'about_us',
+    //     'phone',
+    //     'zip',
+    //     'state',
+    //     'region',
+    //     'is_public',
+    //     'country',
+    //     'name',
+    //     'hs_lead_status',
+    //   ],
+    //   sorts: [
+    //     JSON.stringify({ propertyName: 'createdate', direction: 'DESCENDING' }),
+    //   ],
+    //   filterGroups: [
+    //     {
+    //       filters: [
+    //         // { propertyName: 'createdate', operator: 'NOT_HAS_PROPERTY' },
+    //         // {
+    //         //   propertyName: 'archived',
+    //         //   operator: 'EQ',
+    //         //   value: 'false',
+    //         // },
+    //         // {
+    //         //   propertyName: 'createdAt',
+    //         //   operator: 'GTE',
+    //         //   value: '2019-02-16T00:26:30.710Z',
+    //         // },
+    //       ],
+    //     },
+    //   ],
+    // });
 
-    // const allSuppliers = await hubspotClient.crm.companies.getAll(
-    //   100,
-    //   '5604839009',
-    // );
+    const allSuppliers = await hubspotClient.crm.companies.getAll(
+      100,
+      '5604839009',
+    );
 
     console.log(allSuppliers);
 
-    // const suppliers = allSuppliers.map(async supplier => {
-    //   const { domain, name, hs_object_id } = supplier.properties;
-    //   const id_hubspot = Number(hs_object_id);
+    const suppliers = allSuppliers.map(async supplier => {
+      const { domain, name, hs_object_id } = supplier.properties;
+      const id_hubspot = Number(hs_object_id);
 
-    //   if (name !== null && domain !== null) {
-    //     const supplierInsered = await this.suppliersRepository.create({
-    //       name,
-    //       domain,
-    //       id_hubspot,
-    //     });
+      if (name !== null && domain !== null) {
+        const supplierInsered = await this.suppliersRepository.create({
+          name,
+          domain,
+          id_hubspot,
+        });
 
-    //     return supplierInsered;
-    //   }
-    //   return {} as Supplier;
-    // });
+        return supplierInsered;
+      }
+      return {} as Supplier;
+    });
 
-    return allSuppliers;
-    // return Promise.all(suppliers);
+    // return allSuppliers;
+    return Promise.all(suppliers);
   }
 }

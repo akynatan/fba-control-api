@@ -24,6 +24,29 @@ usersRouter.post(
   usersController.create,
 );
 
+usersRouter.post(
+  '/invite',
+  celebrate({
+    [Segments.BODY]: {
+      email: Joi.string().email().required(),
+      shop_id: Joi.string().required(),
+    },
+  }),
+  usersController.invite,
+);
+
+usersRouter.post(
+  '/accept_invite',
+  celebrate({
+    [Segments.BODY]: {
+      token: Joi.string().required(),
+      password: Joi.string().required(),
+      name: Joi.string().required(),
+    },
+  }),
+  usersController.acceptInvite,
+);
+
 usersRouter.patch(
   '/avatar',
   ensureAuthenticated,

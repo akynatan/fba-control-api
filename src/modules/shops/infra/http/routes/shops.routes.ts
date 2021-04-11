@@ -18,4 +18,6 @@ shopsRouter.post(
   shopsController.create,
 );
 
+shopsRouter.get('/', shopsController.index);
+
 export default shopsRouter;

@@ -3,7 +3,10 @@ import { container } from 'tsyringe';
 import { classToClass } from 'class-transformer';
 
 import CreateUserService from '@modules/users/services/CreateUserService';
+
 import UpdateUserAvatarService from '@modules/users/services/UpdateUserAvatarService';
+import InviteUserService from '@modules/users/services/InviteUserService';
+import AcceptInviteUserService from '@modules/users/services/AcceptEnviteUserService';
 
 export default class UsersController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -14,6 +17,36 @@ export default class UsersController {
     const user = await createUser.execute({
       name,
       email,
+      password,
+    });
+
+    return response.json(classToClass(user));
+  }
+
+  public async invite(request: Request, response: Response): Promise<Response> {
+    const { email, shop_id } = request.body;
+
+    const inviteUser = container.resolve(InviteUserService);
+
+    const user = await inviteUser.execute({
+      email,
+      shop_id,
+    });
+
+    return response.json(classToClass(user));
+  }
+
+  public async acceptInvite(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const { token, name, password } = request.body;
+
+    const acceptInviteUser = container.resolve(AcceptInviteUserService);
+
+    const user = await acceptInviteUser.execute({
+      token,
+      name,
       password,
     });
 

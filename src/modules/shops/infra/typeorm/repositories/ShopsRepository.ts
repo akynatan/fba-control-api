@@ -24,4 +24,9 @@ export default class ShopsRepository implements IShopsRepository {
     await this.ormRepository.save(shop);
     return shop;
   }
+
+  public async listAll(): Promise<Shop[]> {
+    const shops = this.ormRepository.find();
+    return shops;
+  }
 }

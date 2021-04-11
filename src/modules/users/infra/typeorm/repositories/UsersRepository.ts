@@ -5,6 +5,11 @@ import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
 import IFindAllProvidersDTO from '@modules/users/dtos/IFindAllProvidersDTO';
 import User from '../entities/User';
 
+interface inviteUserData {
+  email: string;
+  shop_id: string;
+}
+
 export default class UsersRepository implements IUsersRepository {
   private ormRepository: Repository<User>;
 
@@ -48,6 +53,12 @@ export default class UsersRepository implements IUsersRepository {
   }
 
   public async create(userData: ICreateUserDTO): Promise<User> {
+    const user = this.ormRepository.create(userData);
+    await this.ormRepository.save(user);
+    return user;
+  }
+
+  public async invite(userData: inviteUserData): Promise<User> {
     const user = this.ormRepository.create(userData);
     await this.ormRepository.save(user);
     return user;
