@@ -5,4 +5,5 @@ export default interface ISuppliersRepository {
   create(data: ICreateSupplierDTO): Promise<Supplier>;
   findAll(): Promise<Supplier[]>;
   findByID(id: string): Promise<Supplier | undefined>;
+  save(supplier: Supplier): Promise<Supplier>;
 }

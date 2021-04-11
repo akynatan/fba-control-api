@@ -28,10 +28,12 @@ suppliersRouter.post(
 
 suppliersRouter.get('/', suppliersController.index);
 
-suppliersRouter.post('/sync-hubspot', syncSuppliersController.create);
+suppliersRouter.put('/', suppliersController.update);
 
 suppliersRouter.get('/detail', suppliersController.detailSupplier);
 
 suppliersRouter.get('/products', suppliersController.listProductsSupplier);
+
+suppliersRouter.post('/sync-hubspot', syncSuppliersController.create);
 
 export default suppliersRouter;

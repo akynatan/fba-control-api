@@ -42,4 +42,9 @@ export default class SuppliersRepository implements ISuppliersRepository {
     const supplier = this.ormRepository.findOne(id);
     return supplier;
   }
+
+  public async save(supplier: Supplier): Promise<Supplier> {
+    await this.ormRepository.save(supplier);
+    return supplier;
+  }
 }

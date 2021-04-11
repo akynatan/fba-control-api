@@ -46,7 +46,7 @@ export default class updateProductService {
 
     this.productsRepository.save(product);
 
-    await this.cacheProvider.invalidate('products-list');
+    // await this.cacheProvider.invalidate('products-list');
 
     return product;
   }

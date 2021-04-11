@@ -22,20 +22,26 @@ export default class CreateProductSupplier1616261806279
           {
             name: 'product_id',
             type: 'uuid',
-            isNullable: true,
           },
           {
             name: 'supplier_id',
             type: 'uuid',
-            isNullable: true,
           },
           {
             name: 'note',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'sku_supplier',
             type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'restriction_to_buy',
+            type: 'boolean',
+            isNullable: true,
+            default: false,
           },
           {
             name: 'created_at',

@@ -16,6 +16,7 @@ export default class CreateUsers1604861932264 implements MigrationInterface {
           {
             name: 'name',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'email',
@@ -25,6 +26,7 @@ export default class CreateUsers1604861932264 implements MigrationInterface {
             name: 'password',
             type: 'varchar',
             isUnique: true,
+            isNullable: true,
           },
           {
             name: 'created_at',

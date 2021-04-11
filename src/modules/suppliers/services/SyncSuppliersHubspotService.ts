@@ -37,6 +37,7 @@ export default class CreateSupplierService {
         'region',
         'is_public',
         'country',
+        'name',
       ],
       sorts: [
         JSON.stringify({ propertyName: 'createdate', direction: 'DESCENDING' }),

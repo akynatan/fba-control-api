@@ -16,6 +16,7 @@ export default class CreateProducts1616260957503 implements MigrationInterface {
           {
             name: 'name',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'sku',
@@ -24,14 +25,22 @@ export default class CreateProducts1616260957503 implements MigrationInterface {
           {
             name: 'asin',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'upc',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'note',
             type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'image',
+            type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'created_at',
