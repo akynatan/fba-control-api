@@ -17,7 +17,13 @@ import '@shared/container';
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    allowedHeaders: ['Content-Type'],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    origin: 'https://homologacao.d3k85ql4gcjt4c.amplifyapp.com/',
+  }),
+);
 app.use(express.json());
 app.use('/files', express.static(uploadConfig.uploadsFolder));
 app.use(rateLimiter);
