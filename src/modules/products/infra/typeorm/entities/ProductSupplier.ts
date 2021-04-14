@@ -37,6 +37,9 @@ export default class ProductSupplier {
   @Column()
   note: string;
 
+  @Column()
+  restriction_to_buy: boolean;
+
   @CreateDateColumn()
   created_at: Date;
 

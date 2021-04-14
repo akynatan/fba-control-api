@@ -21,6 +21,7 @@ export default class ProductsRepository implements IProductsRepository {
     productData: Omit<ICreateProductDTO, 'suppliers'>,
   ): Promise<Product> {
     const product = this.ormRepository.create(productData);
+    console.log(product);
     await this.ormRepository.save(product);
     return product;
   }
@@ -33,7 +34,9 @@ export default class ProductsRepository implements IProductsRepository {
   }
 
   public async findByID(id: string): Promise<Product | undefined> {
-    const product = await this.ormRepository.findOne(id);
+    const product = await this.ormRepository.findOne(id, {
+      relations: ['product_suppliers', 'product_suppliers.suppliers'],
+    });
     return product;
   }
 

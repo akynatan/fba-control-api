@@ -63,15 +63,12 @@ export default class SuppliersController {
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
-    const { id, tel, mail, domain, note } = request.body;
+    const { id, note } = request.body;
 
     const updateSupplier = container.resolve(UpdateSupplierService);
 
     const product = await updateSupplier.execute({
       id,
-      tel,
-      mail,
-      domain,
       note,
     });
 

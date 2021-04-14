@@ -30,7 +30,7 @@ export default class Supplier {
   mail?: string;
 
   @Column()
-  domain: string;
+  domain?: string;
 
   @OneToMany(
     () => ProductSupplier,

@@ -1,3 +1,6 @@
+import IGetDataProductAmazonDTO from '../dtos/IGetDataProductAmazonDTO';
+
 export default interface IAmazonSellerProvider {
-  GetMyFeesEstimate(): Promise<void>;
+  getMyFeesEstimate(): Promise<any>;
+  getDataProduct(sku: string): Promise<IGetDataProductAmazonDTO>;
 }

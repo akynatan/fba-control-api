@@ -3,19 +3,15 @@ import { injectable, inject } from 'tsyringe';
 import AppError from '@shared/errors/AppError';
 import IAmazonSellerProvider from '@shared/container/providers/AmazonProvider/models/IAmazonSellerProvider';
 
-interface IRequest {
-  email: string;
-}
-
 @injectable()
-export default class GetMyFeesEstimateService {
+export default class GetDataProductByAmazonService {
   constructor(
     @inject('AmazonSellerProvider')
     private amazonSellerProvider: IAmazonSellerProvider,
   ) {}
 
-  public async execute(): Promise<any> {
-    const fees = await this.amazonSellerProvider.getMyFeesEstimate();
-    return fees;
+  public async execute(sku: string): Promise<any> {
+    const product = await this.amazonSellerProvider.getDataProduct(sku);
+    return product;
   }
 }

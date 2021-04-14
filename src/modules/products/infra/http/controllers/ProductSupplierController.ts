@@ -5,6 +5,7 @@ import { classToClass } from 'class-transformer';
 import UpdateProductSupplierService from '@modules/products/services/UpdateProductSupplierService';
 import CreateProductSupplierService from '@modules/products/services/CreateProductSupplierService';
 import DeleteProductSupplierService from '@modules/products/services/DeleteProductSupplierService';
+import ToggleRestrictionToBuyService from '@modules/products/services/ToggleRestrictionToBuyService';
 
 export default class ProductSupplierController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -56,6 +57,23 @@ export default class ProductSupplierController {
     );
 
     const product_supplier = await deleteProductSupplier.execute({
+      id: product_supplier_id,
+    });
+
+    return response.json(product_supplier);
+  }
+
+  public async toggleRestrictionToBuy(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const { product_supplier_id } = request.body;
+
+    const toggleRestrictionToBuy = container.resolve(
+      ToggleRestrictionToBuyService,
+    );
+
+    const product_supplier = await toggleRestrictionToBuy.execute({
       id: product_supplier_id,
     });
 

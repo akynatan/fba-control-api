@@ -18,12 +18,12 @@ productsRouter.post(
   '/',
   celebrate({
     [Segments.BODY]: {
-      name: Joi.string().required(),
-      asin: Joi.string().required(),
-      sku: Joi.string().required(),
-      upc: Joi.string().required(),
-      note: Joi.string().required(),
-      suppliers: Joi.array().required(),
+      name: Joi.string(),
+      asin: Joi.string(),
+      sku: Joi.string(),
+      upc: Joi.string(),
+      note: Joi.string(),
+      suppliers: Joi.array(),
     },
   }),
   productsController.create,
@@ -42,6 +42,17 @@ productsRouter.put(
     },
   }),
   productsController.update,
+);
+
+productsRouter.put(
+  '/sync',
+  celebrate({
+    [Segments.BODY]: {
+      product_id: Joi.string().uuid().required(),
+      sku: Joi.string().required(),
+    },
+  }),
+  productsController.syncAmazon,
 );
 
 productsRouter.get('/', productsController.index);

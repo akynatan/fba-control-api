@@ -27,6 +27,12 @@ export default class Product {
   upc: string;
 
   @Column()
+  image: string;
+
+  @Column()
+  brand: string;
+
+  @Column()
   note: string;
 
   @OneToMany(

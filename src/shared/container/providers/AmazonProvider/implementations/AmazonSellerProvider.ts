@@ -2,6 +2,7 @@ import { injectable } from 'tsyringe';
 import SellingPartnerAPI from 'amazon-sp-api';
 
 import IAmazonSellerProvider from '../models/IAmazonSellerProvider';
+import IGetDataProductAmazonDTO from '../dtos/IGetDataProductAmazonDTO';
 
 @injectable()
 class AmazonSellerProvider implements IAmazonSellerProvider {
@@ -16,7 +17,7 @@ class AmazonSellerProvider implements IAmazonSellerProvider {
     this.client = sellingPartner;
   }
 
-  public async GetMyFeesEstimate(): Promise<any> {
+  public async getMyFeesEstimate(): Promise<any> {
     const res = await this.client.callAPI({
       operation: 'getMyFeesEstimateForASIN',
       path: {
@@ -34,6 +35,17 @@ class AmazonSellerProvider implements IAmazonSellerProvider {
           },
           Identifier: 2, // identifier
         },
+      },
+    });
+    return res;
+  }
+
+  public async getDataProduct(sku: string): Promise<IGetDataProductAmazonDTO> {
+    const res = await this.client.callAPI({
+      operation: 'listCatalogItems',
+      query: {
+        MarketplaceId: 'ATVPDKIKX0DER',
+        SellerSKU: sku,
       },
     });
     return res;

@@ -8,9 +8,6 @@ import ISuppliersRepository from '../repositories/ISuppliersRepository';
 
 interface IRequest {
   id: string;
-  tel: string;
-  mail: string;
-  domain: string;
   note: string;
 }
 
@@ -24,22 +21,13 @@ export default class UpdateSupplierService {
     private cacheProvider: ICacheProvider,
   ) {}
 
-  public async execute({
-    id,
-    tel,
-    mail,
-    domain,
-    note,
-  }: IRequest): Promise<Supplier> {
+  public async execute({ id, note }: IRequest): Promise<Supplier> {
     const supplier = await this.suppliersRepository.findByID(id);
 
     if (!supplier) {
       throw new AppError('Not found supplier');
     }
 
-    supplier.tel = tel;
-    supplier.mail = mail;
-    supplier.domain = domain;
     supplier.note = note;
 
     this.suppliersRepository.save(supplier);

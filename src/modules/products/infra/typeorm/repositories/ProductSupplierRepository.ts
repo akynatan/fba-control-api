@@ -47,7 +47,9 @@ export default class ProductSupplierRepository
   }
 
   public async findByID(id: string): Promise<ProductSupplier | undefined> {
-    const product_supplier = await this.ormRepository.findOne(id);
+    const product_supplier = await this.ormRepository.findOne(id, {
+      relations: ['suppliers', 'products'],
+    });
     return product_supplier;
   }
 
