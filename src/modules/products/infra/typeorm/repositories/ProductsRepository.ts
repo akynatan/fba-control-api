@@ -21,7 +21,6 @@ export default class ProductsRepository implements IProductsRepository {
     productData: Omit<ICreateProductDTO, 'suppliers'>,
   ): Promise<Product> {
     const product = this.ormRepository.create(productData);
-    console.log(product);
     await this.ormRepository.save(product);
     return product;
   }
