@@ -18,11 +18,11 @@ productsRouter.post(
   '/',
   celebrate({
     [Segments.BODY]: {
-      name: Joi.string(),
-      asin: Joi.string(),
-      sku: Joi.string(),
-      upc: Joi.string(),
-      note: Joi.string(),
+      name: Joi.string().allow(null),
+      asin: Joi.string().allow(null),
+      sku: Joi.string().required(),
+      upc: Joi.string().allow(null),
+      note: Joi.string().allow(null),
       suppliers: Joi.array(),
     },
   }),
@@ -34,11 +34,11 @@ productsRouter.put(
   celebrate({
     [Segments.BODY]: {
       product_id: Joi.string().uuid().required(),
-      name: Joi.string().required(),
-      asin: Joi.string().required(),
+      name: Joi.string().allow(null),
+      asin: Joi.string().allow(null),
       sku: Joi.string().required(),
-      upc: Joi.string().required(),
-      note: Joi.string().required(),
+      upc: Joi.string().allow(null),
+      note: Joi.string().allow(null),
     },
   }),
   productsController.update,
