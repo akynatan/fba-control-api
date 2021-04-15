@@ -17,6 +17,7 @@ export default class CreateSuppliers1615657125158
           {
             name: 'name',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'note',

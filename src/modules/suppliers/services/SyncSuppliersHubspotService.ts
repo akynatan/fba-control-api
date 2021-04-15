@@ -1,11 +1,12 @@
 /* eslint-disable camelcase */
 import { injectable, inject } from 'tsyringe';
 import * as hubspot from '@hubspot/api-client';
+import path from 'path';
+import { isAfter } from 'date-fns';
 // import { Filter } from '@hubspot/api-client/lib/codegen/crm/companies/model/filter.d';
 
 import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
-import { Equal } from 'typeorm';
-import Supplier from '../infra/typeorm/entities/Supplier';
+import fs from 'fs';
 import ISuppliersRepository from '../repositories/ISuppliersRepository';
 
 @injectable()
@@ -26,59 +27,91 @@ export default class CreateSupplierService {
     // const allSuppliers = await hubspotClient.crm.companies.searchApi.doSearch({
     //   after: 0,
     //   limit: 100,
-    //   properties: [
-    //     'city',
-    //     'description',
-    //     'industry',
-    //     'about_us',
-    //     'phone',
-    //     'zip',
-    //     'state',
-    //     'region',
-    //     'is_public',
-    //     'country',
-    //     'name',
-    //     'hs_lead_status',
-    //   ],
+    //   properties: ['domain', 'name', 'hs_lead_status'],
     //   sorts: [
-    //     JSON.stringify({ propertyName: 'createdate', direction: 'DESCENDING' }),
+    //     JSON.stringify({ propertyName: 'createdate', direction: 'DESCENDING' },
     //   ],
     //   filterGroups: [
     //     {
     //       filters: [
-    //         // {
-    //         //   propertyName: 'hs_lead_status',
-    //         //   operator: 'EQ',
-    //         //   value: 'won ina analysis',
-    //         // },
+    //         {
+    //           propertyName: 'hs_lead_status',
+    //           operator: 'EQ',
+    //           value: 'ARCHIVED',
+    //         },
     //       ],
     //     },
     //   ],
     // });
+    // return allSuppliers;
+
+    const lastSincronizedSupplierHubspot = JSON.parse(
+      fs.readFileSync(
+        path.resolve(
+          `${__dirname}/../utils/lastSincronizedSupplierHubspot.json`,
+        ),
+        'utf8',
+      ),
+    );
+
+    console.log(lastSincronizedSupplierHubspot);
 
     const allSuppliers2 = await hubspotClient.crm.companies.getAll(
       undefined,
       undefined,
       ['hs_lead_status', 'name', 'domain'],
     );
-    console.log(allSuppliers2);
 
-    console.log(allSuppliers2);
+    const newSuppliers = allSuppliers2.filter(supplier =>
+      isAfter(
+        new Date(supplier.properties.hs_lastmodifieddate),
+        new Date(lastSincronizedSupplierHubspot.date),
+      ),
+    );
 
-    const suppliers = allSuppliers2.map(async supplier => {
-      const { domain, name, hs_object_id } = supplier.properties;
+    const suppliers = newSuppliers.map(async supplier => {
+      const {
+        domain,
+        name,
+        hs_object_id,
+        hs_lastmodifieddate,
+        createdate,
+      } = supplier.properties;
       const id_hubspot = Number(hs_object_id);
 
-      const supplierInsered = await this.suppliersRepository.create({
-        name,
-        domain,
-        id_hubspot,
-      });
+      const supplier_inserted = await this.suppliersRepository.findByIDHubspot(
+        hs_object_id,
+      );
 
-      return supplierInsered;
+      if (!supplier_inserted) {
+        const supplierInsered = await this.suppliersRepository.create({
+          name,
+          domain,
+          id_hubspot,
+          created_at_hubspot: createdate,
+          updated_at_hubspot: hs_lastmodifieddate,
+        });
+        return supplierInsered;
+      }
+
+      supplier_inserted.name = name;
+      supplier_inserted.domain = name;
+      supplier_inserted.created_at_hubspot = new Date(createdate);
+      supplier_inserted.updated_at_hubspot = new Date(hs_lastmodifieddate);
+      supplier_inserted.id_hubspot = id_hubspot;
+
+      await this.suppliersRepository.save(supplier_inserted);
+
+      return supplier_inserted;
     });
 
-    // return allSuppliers;
+    lastSincronizedSupplierHubspot.date = new Date();
+
+    fs.writeFileSync(
+      path.resolve(`${__dirname}/../utils/lastSincronizedSupplierHubspot.json`),
+      JSON.stringify(lastSincronizedSupplierHubspot),
+    );
+
     return Promise.all(suppliers);
   }
 }

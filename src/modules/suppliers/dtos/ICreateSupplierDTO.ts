@@ -4,5 +4,7 @@ export default interface ICreateSupplierDTO {
   tel?: string;
   mail?: string;
   domain: string;
+  created_at_hubspot?: string;
+  updated_at_hubspot?: string;
   id_hubspot?: number;
 }

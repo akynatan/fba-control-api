@@ -43,6 +43,18 @@ export default class SuppliersRepository implements ISuppliersRepository {
     return supplier;
   }
 
+  public async findByIDHubspot(
+    id_hubspot: string,
+  ): Promise<Supplier | undefined> {
+    const supplier = this.ormRepository.findOne({
+      where: {
+        id_hubspot,
+      },
+    });
+
+    return supplier;
+  }
+
   public async save(supplier: Supplier): Promise<Supplier> {
     await this.ormRepository.save(supplier);
     return supplier;
