@@ -18,7 +18,7 @@ export default class Supplier {
   name?: string;
 
   @Column()
-  note: string;
+  note?: string;
 
   @Column()
   id_hubspot?: number;
@@ -36,10 +36,10 @@ export default class Supplier {
   status_hubspot?: string;
 
   @Column()
-  created_at_hubspot: Date;
+  created_at_hubspot?: Date;
 
   @Column()
-  updated_at_hubspot: Date;
+  updated_at_hubspot?: Date;
 
   @OneToMany(
     () => ProductSupplier,
