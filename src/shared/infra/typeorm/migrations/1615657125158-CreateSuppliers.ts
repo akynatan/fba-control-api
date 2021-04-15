@@ -39,19 +39,33 @@ export default class CreateSuppliers1615657125158
             isNullable: true,
           },
           {
+            name: 'status_hubspot',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
             name: 'domain',
             type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'created_at_hubspot',
+            type: 'timestamp',
+            isNullable: true,
+          },
+          {
+            name: 'created_at_hubspot',
+            type: 'timestamp',
+            isNullable: true,
           },
           {
             name: 'created_at',
             type: 'timestamp',
-            isUnique: true,
             default: 'now()',
           },
           {
             name: 'updated_at',
             type: 'timestamp',
-            isUnique: true,
             default: 'now()',
           },
         ],

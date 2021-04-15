@@ -45,13 +45,11 @@ export default class CreateProducts1616260957503 implements MigrationInterface {
           {
             name: 'created_at',
             type: 'timestamp',
-            isUnique: true,
             default: 'now()',
           },
           {
             name: 'updated_at',
             type: 'timestamp',
-            isUnique: true,
             default: 'now()',
           },
         ],

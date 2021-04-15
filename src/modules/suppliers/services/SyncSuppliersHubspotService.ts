@@ -69,16 +69,13 @@ export default class CreateSupplierService {
       const { domain, name, hs_object_id } = supplier.properties;
       const id_hubspot = Number(hs_object_id);
 
-      if (name !== null && domain !== null) {
-        const supplierInsered = await this.suppliersRepository.create({
-          name,
-          domain,
-          id_hubspot,
-        });
+      const supplierInsered = await this.suppliersRepository.create({
+        name,
+        domain,
+        id_hubspot,
+      });
 
-        return supplierInsered;
-      }
-      return {} as Supplier;
+      return supplierInsered;
     });
 
     // return allSuppliers;

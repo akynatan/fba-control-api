@@ -32,6 +32,15 @@ export default class Supplier {
   @Column()
   domain?: string;
 
+  @Column()
+  status_hubspot?: string;
+
+  @Column()
+  created_at_hubspot: Date;
+
+  @Column()
+  updated_at_hubspot: Date;
+
   @OneToMany(
     () => ProductSupplier,
     product_supplier => product_supplier.suppliers,

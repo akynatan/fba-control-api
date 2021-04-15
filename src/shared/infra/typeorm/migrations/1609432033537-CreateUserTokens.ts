@@ -27,13 +27,11 @@ export default class CreateUserTokens1609432033537
           {
             name: 'created_at',
             type: 'timestamp',
-            isUnique: true,
             default: 'now()',
           },
           {
             name: 'updated_at',
             type: 'timestamp',
-            isUnique: true,
             default: 'now()',
           },
         ],
