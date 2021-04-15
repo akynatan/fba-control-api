@@ -18,30 +18,15 @@ productsRouter.post(
   '/',
   celebrate({
     [Segments.BODY]: {
-      name: Joi.string().allow(null),
-      asin: Joi.string().allow(null),
+      name: Joi.string().allow(null, ''),
+      asin: Joi.string().allow(null, ''),
       sku: Joi.string().required(),
-      upc: Joi.string().allow(null),
-      note: Joi.string().allow(null),
+      upc: Joi.string().allow(null, ''),
+      note: Joi.string().allow(null, ''),
       suppliers: Joi.array(),
     },
   }),
   productsController.create,
-);
-
-productsRouter.put(
-  '/',
-  celebrate({
-    [Segments.BODY]: {
-      product_id: Joi.string().uuid().required(),
-      name: Joi.string().allow(null),
-      asin: Joi.string().allow(null),
-      sku: Joi.string().required(),
-      upc: Joi.string().allow(null),
-      note: Joi.string().allow(null),
-    },
-  }),
-  productsController.update,
 );
 
 productsRouter.put(
@@ -53,6 +38,21 @@ productsRouter.put(
     },
   }),
   productsController.syncAmazon,
+);
+
+productsRouter.put(
+  '/',
+  celebrate({
+    [Segments.BODY]: {
+      product_id: Joi.string().uuid().required(),
+      name: Joi.string().allow(null, ''),
+      asin: Joi.string().allow(null, ''),
+      sku: Joi.string().required(),
+      upc: Joi.string().allow(null, ''),
+      note: Joi.string().allow(null, ''),
+    },
+  }),
+  productsController.update,
 );
 
 productsRouter.get('/', productsController.index);
