@@ -32,13 +32,16 @@ export default class SyncDataProductByAmazonService {
     }
 
     const productAmazon = await this.amazonSellerProvider.getDataProduct(sku);
+    console.log(productAmazon.Items);
 
-    if (productAmazon.Items.length > 0) {
-      product.asin = productAmazon.Items[0].Identifiers.MarketplaceASIN.ASIN;
-      product.name = productAmazon.Items[0].AttributeSets[0].Title;
-      product.image = productAmazon.Items[0].AttributeSets[0].SmallImage.URL;
-      product.brand = productAmazon.Items[0].AttributeSets[0].Brand;
+    if (productAmazon.Items.length <= 0) {
+      throw new AppError('Product not found.', 404);
     }
+
+    product.asin = productAmazon.Items[0].Identifiers.MarketplaceASIN.ASIN;
+    product.name = productAmazon.Items[0].AttributeSets[0].Title;
+    product.image = productAmazon.Items[0].AttributeSets[0].SmallImage.URL;
+    product.brand = productAmazon.Items[0].AttributeSets[0].Brand;
 
     await this.productsRepository.save(product);
 
