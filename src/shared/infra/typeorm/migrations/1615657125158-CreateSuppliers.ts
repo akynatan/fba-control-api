@@ -54,7 +54,7 @@ export default class CreateSuppliers1615657125158
             isNullable: true,
           },
           {
-            name: 'created_at_hubspot',
+            name: 'updated_at_hubspot',
             type: 'timestamp',
             isNullable: true,
           },
