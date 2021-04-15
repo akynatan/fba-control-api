@@ -1,4 +1,4 @@
-import { getRepository, Repository, In } from 'typeorm';
+import { getRepository, Repository } from 'typeorm';
 
 import ISuppliersRepository from '@modules/suppliers/repositories/ISuppliersRepository';
 import ICreateSupplierDTO from '@modules/suppliers/dtos/ICreateSupplierDTO';

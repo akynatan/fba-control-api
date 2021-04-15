@@ -42,7 +42,7 @@ export default class CreateSupplierService {
       id_hubspot,
     });
 
-    await this.cacheProvider.invalidate(`suppliers`);
+    // await this.cacheProvider.invalidate(`suppliers`);
 
     return supplier;
   }
