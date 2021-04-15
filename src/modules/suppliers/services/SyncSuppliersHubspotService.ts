@@ -62,7 +62,13 @@ export default class CreateSupplierService {
       ['hs_lead_status', 'name', 'domain'],
     );
 
-    const newSuppliers = allSuppliers.filter(supplier =>
+    const suppliersInserted = allSuppliers.filter(supplier => {
+      return ['Won - In Analysis', 'CONNECTED', 'Won - In Analysis'].includes(
+        supplier.properties.hs_lead_status,
+      );
+    });
+
+    const newSuppliers = suppliersInserted.filter(supplier =>
       isAfter(
         new Date(supplier.properties.hs_lastmodifieddate),
         new Date(lastSincronizedSupplierHubspot.date),
@@ -75,6 +81,7 @@ export default class CreateSupplierService {
         name,
         hs_object_id,
         hs_lastmodifieddate,
+        hs_lead_status,
         createdate,
       } = supplier.properties;
       const id_hubspot = Number(hs_object_id);
@@ -88,6 +95,7 @@ export default class CreateSupplierService {
           name,
           domain,
           id_hubspot,
+          status_hubspot: hs_lead_status,
           created_at_hubspot: createdate,
           updated_at_hubspot: hs_lastmodifieddate,
         });
@@ -96,6 +104,7 @@ export default class CreateSupplierService {
 
       supplier_inserted.name = name;
       supplier_inserted.domain = domain;
+      supplier_inserted.status_hubspot = hs_lead_status;
       supplier_inserted.created_at_hubspot = new Date(createdate);
       supplier_inserted.updated_at_hubspot = new Date(hs_lastmodifieddate);
       supplier_inserted.id_hubspot = id_hubspot;
@@ -107,10 +116,10 @@ export default class CreateSupplierService {
 
     lastSincronizedSupplierHubspot.date = new Date();
 
-    fs.writeFileSync(
-      path.resolve(`${__dirname}/../utils/lastSincronizedSupplierHubspot.json`),
-      JSON.stringify(lastSincronizedSupplierHubspot),
-    );
+    // fs.writeFileSync(
+    //   path.resolve(`${__dirname}/../utils/lastSincronizedSupplierHubspot.json`),
+    //   JSON.stringify(lastSincronizedSupplierHubspot),
+    // );
 
     return Promise.all(suppliers);
   }

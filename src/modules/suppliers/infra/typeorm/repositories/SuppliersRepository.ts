@@ -1,4 +1,4 @@
-import { getRepository, Repository } from 'typeorm';
+import { getRepository, Repository, In } from 'typeorm';
 
 import ISuppliersRepository from '@modules/suppliers/repositories/ISuppliersRepository';
 import ICreateSupplierDTO from '@modules/suppliers/dtos/ICreateSupplierDTO';
@@ -34,7 +34,15 @@ export default class SuppliersRepository implements ISuppliersRepository {
   }
 
   public async findAll(): Promise<Supplier[]> {
-    const suppliers = this.ormRepository.find();
+    const suppliers = this.ormRepository.find({
+      where: {
+        status_hubspot: In([
+          'Won - In Analysis',
+          'CONNECTED',
+          'Won - In Analysis',
+        ]),
+      },
+    });
     return suppliers;
   }
 
