@@ -46,30 +46,26 @@ export default class CreateSupplierService {
     //   filterGroups: [
     //     {
     //       filters: [
-    //         // { propertyName: 'createdate', operator: 'NOT_HAS_PROPERTY' },
     //         // {
-    //         //   propertyName: 'archived',
+    //         //   propertyName: 'hs_lead_status',
     //         //   operator: 'EQ',
-    //         //   value: 'false',
-    //         // },
-    //         // {
-    //         //   propertyName: 'createdAt',
-    //         //   operator: 'GTE',
-    //         //   value: '2019-02-16T00:26:30.710Z',
+    //         //   value: 'won ina analysis',
     //         // },
     //       ],
     //     },
     //   ],
     // });
 
-    const allSuppliers = await hubspotClient.crm.companies.getAll(
-      100,
-      '5604839009',
+    const allSuppliers2 = await hubspotClient.crm.companies.getAll(
+      undefined,
+      undefined,
+      ['hs_lead_status', 'name', 'domain'],
     );
+    console.log(allSuppliers2);
 
-    console.log(allSuppliers);
+    console.log(allSuppliers2);
 
-    const suppliers = allSuppliers.map(async supplier => {
+    const suppliers = allSuppliers2.map(async supplier => {
       const { domain, name, hs_object_id } = supplier.properties;
       const id_hubspot = Number(hs_object_id);
 
