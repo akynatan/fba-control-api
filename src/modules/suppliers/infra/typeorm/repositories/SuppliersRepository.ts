@@ -34,15 +34,7 @@ export default class SuppliersRepository implements ISuppliersRepository {
   }
 
   public async findAll(): Promise<Supplier[]> {
-    const suppliers = this.ormRepository.find({
-      where: {
-        status_hubspot: In([
-          'Won - In Analysis',
-          'CONNECTED',
-          'Won - In Analysis',
-        ]),
-      },
-    });
+    const suppliers = this.ormRepository.find();
     return suppliers;
   }
 
