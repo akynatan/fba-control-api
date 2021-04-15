@@ -54,8 +54,6 @@ export default class CreateSupplierService {
       ),
     );
 
-    console.log(lastSincronizedSupplierHubspot);
-
     const allSuppliers = await hubspotClient.crm.companies.getAll(
       undefined,
       undefined,
