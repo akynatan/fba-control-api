@@ -40,9 +40,9 @@ app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
 });
 
 app.listen(4444, () => {
-  const syncSuppliersController = new SyncSuppliersController();
-  // cron.schedule('0 0 * * *', syncSuppliersController.create);
-  cron.schedule('* * * * *', syncSuppliersController.create);
+  // const syncSuppliersController = new SyncSuppliersController();
+  // // cron.schedule('0 0 * * *', syncSuppliersController.create);
+  // cron.schedule('* * * * *', syncSuppliersController.create);
 
   console.log('Server started on port 4444!');
 });

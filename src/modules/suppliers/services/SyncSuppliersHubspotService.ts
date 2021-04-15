@@ -56,13 +56,13 @@ export default class CreateSupplierService {
 
     console.log(lastSincronizedSupplierHubspot);
 
-    const allSuppliers2 = await hubspotClient.crm.companies.getAll(
+    const allSuppliers = await hubspotClient.crm.companies.getAll(
       undefined,
       undefined,
       ['hs_lead_status', 'name', 'domain'],
     );
 
-    const newSuppliers = allSuppliers2.filter(supplier =>
+    const newSuppliers = allSuppliers.filter(supplier =>
       isAfter(
         new Date(supplier.properties.hs_lastmodifieddate),
         new Date(lastSincronizedSupplierHubspot.date),
@@ -95,7 +95,7 @@ export default class CreateSupplierService {
       }
 
       supplier_inserted.name = name;
-      supplier_inserted.domain = name;
+      supplier_inserted.domain = domain;
       supplier_inserted.created_at_hubspot = new Date(createdate);
       supplier_inserted.updated_at_hubspot = new Date(hs_lastmodifieddate);
       supplier_inserted.id_hubspot = id_hubspot;
