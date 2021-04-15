@@ -114,10 +114,10 @@ export default class CreateSupplierService {
 
     lastSincronizedSupplierHubspot.date = new Date();
 
-    // fs.writeFileSync(
-    //   path.resolve(`${__dirname}/../utils/lastSincronizedSupplierHubspot.json`),
-    //   JSON.stringify(lastSincronizedSupplierHubspot),
-    // );
+    fs.writeFileSync(
+      path.resolve(`${__dirname}/../utils/lastSincronizedSupplierHubspot.json`),
+      JSON.stringify(lastSincronizedSupplierHubspot),
+    );
 
     return Promise.all(suppliers);
   }
