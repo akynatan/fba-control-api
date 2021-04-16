@@ -44,7 +44,7 @@ export default class SuppliersRepository implements ISuppliersRepository {
   }
 
   public async findByIDHubspot(
-    id_hubspot: string,
+    id_hubspot: number,
   ): Promise<Supplier | undefined> {
     const supplier = this.ormRepository.findOne({
       where: {
