@@ -6,9 +6,10 @@ import ExcelToJson from 'convert-excel-to-json';
 
 import uploadConfig from '@config/upload';
 import AppError from '@shared/errors/AppError';
-import IStorageProvider from '@shared/container/providers/StorageProvider/models/IStorageProvider';
 
+import IStorageProvider from '@shared/container/providers/StorageProvider/models/IStorageProvider';
 import IAmazonSellerProvider from '@shared/container/providers/AmazonProvider/models/IAmazonSellerProvider';
+
 import Product from '../infra/typeorm/entities/Product';
 import IProductsRepository from '../repositories/IProductsRepository';
 
@@ -23,10 +24,7 @@ export default class UploadProductsService {
     private productsRepository: IProductsRepository,
 
     @inject('StorageProvider')
-    private storageProvider: IStorageProvider,
-
-    @inject('AmazonSellerProvider')
-    private amazonSellerProvider: IAmazonSellerProvider,
+    private storageProvider: IStorageProvider, // @inject('AmazonSellerProvider') // private amazonSellerProvider: IAmazonSellerProvider,
   ) {}
 
   public async execute({ avatarFileName }: IRequest): Promise<Product[]> {
