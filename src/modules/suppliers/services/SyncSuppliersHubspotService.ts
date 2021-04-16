@@ -82,10 +82,11 @@ export default class CreateSupplierService {
         hs_lead_status,
         createdate,
       } = supplier.properties;
+
       const id_hubspot = Number(hs_object_id);
 
       const supplier_inserted = await this.suppliersRepository.findByIDHubspot(
-        hs_object_id,
+        id_hubspot,
       );
 
       if (!supplier_inserted) {
