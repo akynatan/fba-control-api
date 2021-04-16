@@ -24,7 +24,10 @@ export default class UploadProductsService {
     private productsRepository: IProductsRepository,
 
     @inject('StorageProvider')
-    private storageProvider: IStorageProvider, // @inject('AmazonSellerProvider') // private amazonSellerProvider: IAmazonSellerProvider,
+    private storageProvider: IStorageProvider,
+
+    @inject('AmazonSellerProvider')
+    private amazonSellerProvider: IAmazonSellerProvider,
   ) {}
 
   public async execute({ avatarFileName }: IRequest): Promise<Product[]> {
@@ -39,25 +42,25 @@ export default class UploadProductsService {
     const products = allProducts.map(async product => {
       const { A, B, C, D, E, F } = product;
 
-      const newName = A;
+      let newName = A;
       const newSKU = B;
-      const newAsin = C;
+      let newAsin = C;
       const newUPC = D;
       const newNote = E;
-      const newBrand = F;
+      let newBrand = F;
       let newImage;
 
       console.log(newSKU);
-      // const productAmazon = await this.amazonSellerProvider.getDataProduct(
-      //   newSKU,
-      // );
+      const productAmazon = await this.amazonSellerProvider.getDataProduct(
+        newSKU,
+      );
 
-      // if (productAmazon.Items.length > 0) {
-      //   newAsin = productAmazon.Items[0].Identifiers.MarketplaceASIN.ASIN;
-      //   newName = productAmazon.Items[0].AttributeSets[0].Title;
-      //   newImage = productAmazon.Items[0].AttributeSets[0].SmallImage.URL;
-      //   newBrand = productAmazon.Items[0].AttributeSets[0].Brand;
-      // }
+      if (productAmazon.Items.length > 0) {
+        newAsin = productAmazon.Items[0].Identifiers.MarketplaceASIN.ASIN;
+        newName = productAmazon.Items[0].AttributeSets[0].Title;
+        newImage = productAmazon.Items[0].AttributeSets[0].SmallImage.URL;
+        newBrand = productAmazon.Items[0].AttributeSets[0].Brand;
+      }
 
       const product_created = await this.productsRepository.create({
         name: newName,
