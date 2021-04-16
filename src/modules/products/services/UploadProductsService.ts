@@ -49,15 +49,19 @@ export default class UploadProductsService {
       let newBrand = F;
       let newImage;
 
-      const productAmazon = await this.amazonSellerProvider.getDataProduct(
-        newSKU,
-      );
+      try {
+        const productAmazon = await this.amazonSellerProvider.getDataProduct(
+          newSKU,
+        );
 
-      if (productAmazon.Items.length > 0) {
-        newAsin = productAmazon.Items[0].Identifiers.MarketplaceASIN.ASIN;
-        newName = productAmazon.Items[0].AttributeSets[0].Title;
-        newImage = productAmazon.Items[0].AttributeSets[0].SmallImage.URL;
-        newBrand = productAmazon.Items[0].AttributeSets[0].Brand;
+        if (productAmazon.Items.length > 0) {
+          newAsin = productAmazon.Items[0].Identifiers.MarketplaceASIN.ASIN;
+          newName = productAmazon.Items[0].AttributeSets[0].Title;
+          newImage = productAmazon.Items[0].AttributeSets[0].SmallImage.URL;
+          newBrand = productAmazon.Items[0].AttributeSets[0].Brand;
+        }
+      } catch (err) {
+        console.log(err);
       }
 
       const product_created = await this.productsRepository.create({
