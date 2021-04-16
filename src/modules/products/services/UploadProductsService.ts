@@ -41,25 +41,25 @@ export default class UploadProductsService {
     const products = allProducts.map(async product => {
       const { A, B, C, D, E, F } = product;
 
-      let newName = A;
+      const newName = A;
       const newSKU = B;
-      let newAsin = C;
+      const newAsin = C;
       const newUPC = D;
       const newNote = E;
-      let newBrand = F;
+      const newBrand = F;
       let newImage;
 
       console.log(newSKU);
-      const productAmazon = await this.amazonSellerProvider.getDataProduct(
-        newSKU,
-      );
+      // const productAmazon = await this.amazonSellerProvider.getDataProduct(
+      //   newSKU,
+      // );
 
-      if (productAmazon.Items.length > 0) {
-        newAsin = productAmazon.Items[0].Identifiers.MarketplaceASIN.ASIN;
-        newName = productAmazon.Items[0].AttributeSets[0].Title;
-        newImage = productAmazon.Items[0].AttributeSets[0].SmallImage.URL;
-        newBrand = productAmazon.Items[0].AttributeSets[0].Brand;
-      }
+      // if (productAmazon.Items.length > 0) {
+      //   newAsin = productAmazon.Items[0].Identifiers.MarketplaceASIN.ASIN;
+      //   newName = productAmazon.Items[0].AttributeSets[0].Title;
+      //   newImage = productAmazon.Items[0].AttributeSets[0].SmallImage.URL;
+      //   newBrand = productAmazon.Items[0].AttributeSets[0].Brand;
+      // }
 
       const product_created = await this.productsRepository.create({
         name: newName,
