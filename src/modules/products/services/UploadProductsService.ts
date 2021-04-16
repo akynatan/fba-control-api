@@ -51,7 +51,7 @@ export default class UploadProductsService {
 
       try {
         const productAmazon = await this.amazonSellerProvider.getDataProduct(
-          newSKU,
+          'UNFI22D66C203923',
         );
 
         if (productAmazon.Items.length > 0) {
