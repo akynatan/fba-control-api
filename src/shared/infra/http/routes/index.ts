@@ -8,6 +8,8 @@ import usersRouter from '@modules/users/infra/http/routes/users.routes';
 import sessionsRouter from '@modules/users/infra/http/routes/sessions.routes';
 import passwordRouter from '@modules/users/infra/http/routes/password.routes';
 import profileRouter from '@modules/users/infra/http/routes/profile.routes';
+import ordersRouter from '@modules/orders/infra/http/routes/orders.routes';
+import productsOrderRouter from '@modules/orders/infra/http/routes/products_order.routes';
 
 const routes = Router();
 routes.use('/suppliers', suppliersRouter);
@@ -18,5 +20,7 @@ routes.use('/sessions', sessionsRouter);
 routes.use('/password', passwordRouter);
 routes.use('/profile', profileRouter);
 routes.use('/product_supplier', productSupplierRouter);
+routes.use('/orders', ordersRouter);
+routes.use('/products_order', productsOrderRouter);
 
 export default routes;

@@ -51,8 +51,26 @@ export default class UploadProductsService {
       let newImage;
 
       console.log(newSKU);
+      console.log(newSKU);
+      console.log(newSKU);
+      console.log(newSKU);
+      console.log(newSKU);
+      console.log(newSKU);
+      console.log(newSKU);
+      console.log(newSKU);
+      console.log(newSKU);
+      console.log(newSKU);
+      console.log(newSKU);
+      console.log(newSKU);
+      console.log(newSKU);
+      console.log(newSKU);
+      console.log(newSKU);
+      console.log(newSKU);
+      console.log(newSKU);
+      console.log(newSKU);
+      console.log(newSKU);
       const productAmazon = await this.amazonSellerProvider.getDataProduct(
-        newSKU,
+        newSKU.trim(),
       );
 
       if (productAmazon.Items.length > 0) {
