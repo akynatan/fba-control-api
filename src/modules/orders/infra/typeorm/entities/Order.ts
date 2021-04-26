@@ -24,7 +24,7 @@ export default class Order {
 
   @OneToOne(() => Supplier)
   @JoinColumn({ name: 'supplier_id' })
-  supplier: Supplier;
+  supplier?: Supplier;
 
   @Column()
   form_payment: string;
@@ -34,6 +34,12 @@ export default class Order {
 
   @Column()
   status: string;
+
+  @Column('decimal', { precision: 5, scale: 2 })
+  shipment_cost: number;
+
+  @Column('decimal', { precision: 5, scale: 2 })
+  other_cost: number;
 
   @Column()
   note: string;

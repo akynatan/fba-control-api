@@ -38,6 +38,18 @@ export default class CreateOrders1619010229640 implements MigrationInterface {
             isNullable: true,
           },
           {
+            name: 'shipment_cost',
+            type: 'real',
+            isNullable: true,
+            default: 0,
+          },
+          {
+            name: 'other_cost',
+            type: 'real',
+            isNullable: true,
+            default: 0,
+          },
+          {
             name: 'note',
             type: 'varchar',
             isNullable: true,

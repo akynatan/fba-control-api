@@ -2,6 +2,7 @@ import { getRepository, Repository } from 'typeorm';
 import IProductsOrderRepository from '@modules/orders/repositories/IProductsOrderRepository';
 
 import ICreateProductsOrderDTO from '@modules/orders/dtos/ICreateProductsOrderDTO';
+import AppError from '@shared/errors/AppError';
 import ProductsOrder from '../entities/ProductsOrder';
 
 export default class ProductsOrderRepository
@@ -46,5 +47,15 @@ export default class ProductsOrderRepository
     });
 
     return products;
+  }
+
+  public async delete(id: string): Promise<void> {
+    try {
+      await await this.ormRepository.delete({
+        id,
+      });
+    } catch (err) {
+      throw new AppError('Erro');
+    }
   }
 }

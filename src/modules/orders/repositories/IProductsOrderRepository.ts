@@ -7,4 +7,5 @@ export default interface IProductsOrderRepository {
   findByID(id: string): Promise<ProductsOrder | undefined>;
   findAll(): Promise<ProductsOrder[]>;
   getProducts(order_id: string): Promise<ProductsOrder[]>;
+  delete(id: string): Promise<void>;
 }

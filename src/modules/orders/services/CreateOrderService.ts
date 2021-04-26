@@ -1,7 +1,6 @@
 import { injectable, inject } from 'tsyringe';
 
 import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
-import IProductSupplierRepository from '@modules/products/repositories/IProductSupplierRepository';
 
 import Order from '../infra/typeorm/entities/Order';
 import ICreateOrderDTO from '../dtos/ICreateOrderDTO';
@@ -13,9 +12,6 @@ export default class CreateOrderService {
     @inject('OrdersRepository')
     private ordersRepository: IOrdersRepository,
 
-    @inject('ProductSupplierRepository')
-    private productSupplierRepository: IProductSupplierRepository,
-
     @inject('CacheProvider')
     private cacheProvider: ICacheProvider,
   ) {}
@@ -25,6 +21,8 @@ export default class CreateOrderService {
     supplier_id,
     form_payment,
     its_paid,
+    shipment_cost,
+    other_cost,
     note,
     status,
   }: ICreateOrderDTO): Promise<Order> {
@@ -32,6 +30,8 @@ export default class CreateOrderService {
       date,
       supplier_id,
       form_payment,
+      shipment_cost,
+      other_cost,
       its_paid,
       note,
       status,

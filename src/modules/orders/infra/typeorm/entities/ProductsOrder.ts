@@ -10,8 +10,11 @@ import {
 } from 'typeorm';
 
 import ProductSupplier from '@modules/products/infra/typeorm/entities/ProductSupplier';
+import { Expose } from 'class-transformer';
+import AmazonSellerProvider from '@shared/container/providers/AmazonProvider/implementations/AmazonSellerProvider';
+import IAmazonSellerProvider from '@shared/container/providers/AmazonProvider/models/IAmazonSellerProvider';
 
-@Entity('product_supplier_order')
+@Entity('product_order')
 export default class ProductsOrder {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -26,11 +29,29 @@ export default class ProductsOrder {
   @Column()
   order_id: string;
 
-  @Column()
+  @Column('decimal', { precision: 5, scale: 2 })
   unit_price: number;
 
   @Column()
   qtd: number;
+
+  @Column()
+  note: string;
+
+  @Column('decimal', { precision: 5, scale: 2 })
+  label: number;
+
+  @Column('decimal', { precision: 5, scale: 2 })
+  prep: number;
+
+  @Column('decimal', { precision: 5, scale: 2 })
+  other_cost: number;
+
+  @Column('decimal', { precision: 5, scale: 2 })
+  buy_box: number;
+
+  @Column('decimal', { precision: 5, scale: 2 })
+  amazon_fee: number;
 
   @CreateDateColumn()
   created_at: Date;

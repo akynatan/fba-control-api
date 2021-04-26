@@ -31,8 +31,11 @@ export default class OrdersRepository implements IOrdersRepository {
   }
 
   public async findByID(id: string): Promise<Order | undefined> {
-    const order = await this.ormRepository.findOne(id, {
+    const order = await this.ormRepository.findOne({
       relations: ['supplier'],
+      where: {
+        id,
+      },
     });
     return order;
   }

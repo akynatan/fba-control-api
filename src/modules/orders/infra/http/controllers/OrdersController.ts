@@ -5,6 +5,7 @@ import CreateOrderService from '@modules/orders/services/CreateOrderService';
 import ListAllOrdersService from '@modules/orders/services/ListAllOrdersService';
 import DetailOrderService from '@modules/orders/services/DetailOrderService';
 import GetProductsByOrderService from '@modules/orders/services/GetProductsByOrderService';
+import UpdateOrderService from '@modules/orders/services/UpdateOrderService';
 
 export default class OrdersController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -12,6 +13,8 @@ export default class OrdersController {
       date,
       supplier_id,
       form_payment,
+      other_cost,
+      shipment_cost,
       its_paid,
       status,
       note,
@@ -24,8 +27,34 @@ export default class OrdersController {
       supplier_id,
       form_payment,
       its_paid,
+      other_cost,
+      shipment_cost,
       status,
       note,
+    });
+
+    return response.json(order);
+  }
+
+  public async update(request: Request, response: Response): Promise<Response> {
+    const {
+      order_id,
+      supplier_id,
+      date,
+      invoice,
+      other_cost,
+      shipment_cost,
+    } = request.body;
+
+    const updateOrder = container.resolve(UpdateOrderService);
+
+    const order = await updateOrder.execute({
+      order_id,
+      supplier_id,
+      date,
+      invoice,
+      other_cost,
+      shipment_cost,
     });
 
     return response.json(order);

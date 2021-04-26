@@ -32,8 +32,6 @@ export default class UploadProductsService {
 
   public async execute({ avatarFileName }: IRequest): Promise<Product[]> {
     const filename = await this.storageProvider.saveFile(avatarFileName);
-    console.log('-------------------------------------------');
-    console.log(uploadConfig.uploadsFolder);
     const { data } = ExcelToJson({
       sourceFile: `${uploadConfig.uploadsFolder}/${filename}`,
     });
@@ -50,25 +48,6 @@ export default class UploadProductsService {
       let newBrand = F;
       let newImage;
 
-      console.log(newSKU);
-      console.log(newSKU);
-      console.log(newSKU);
-      console.log(newSKU);
-      console.log(newSKU);
-      console.log(newSKU);
-      console.log(newSKU);
-      console.log(newSKU);
-      console.log(newSKU);
-      console.log(newSKU);
-      console.log(newSKU);
-      console.log(newSKU);
-      console.log(newSKU);
-      console.log(newSKU);
-      console.log(newSKU);
-      console.log(newSKU);
-      console.log(newSKU);
-      console.log(newSKU);
-      console.log(newSKU);
       const productAmazon = await this.amazonSellerProvider.getDataProduct(
         newSKU.trim(),
       );

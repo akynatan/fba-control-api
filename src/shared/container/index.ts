@@ -27,6 +27,15 @@ import OrdersRepository from '@modules/orders/infra/typeorm/repositories/OrdersR
 import IProductsOrderRepository from '@modules/orders/repositories/IProductsOrderRepository';
 import ProductsOrderRepository from '@modules/orders/infra/typeorm/repositories/ProductsOrderRepository';
 
+import IFilesOrdersRepository from '@modules/orders/repositories/IFilesOrdersRepository';
+import FilesOrdersRepository from '@modules/orders/infra/typeorm/repositories/FilesOrdersRepository';
+
+import IShipmentOrdersRepository from '@modules/orders/repositories/IShipmentOrdersRepository';
+import ShipmentOrdersRepository from '@modules/orders/infra/typeorm/repositories/ShipmentOrdersRepository';
+
+import IItemShipmentOrdersRepository from '@modules/orders/repositories/IItemShipmentOrdersRepository';
+import ItemShipmentOrdersRepository from '@modules/orders/infra/typeorm/repositories/ItemShipmentOrdersRepository';
+
 container.registerSingleton<ISuppliersRepository>(
   'SuppliersRepository',
   SuppliersRepository,
@@ -65,4 +74,19 @@ container.registerSingleton<IOrdersRepository>(
 container.registerSingleton<IProductsOrderRepository>(
   'ProductsOrderRepository',
   ProductsOrderRepository,
+);
+
+container.registerSingleton<IFilesOrdersRepository>(
+  'FilesOrdersRepository',
+  FilesOrdersRepository,
+);
+
+container.registerSingleton<IShipmentOrdersRepository>(
+  'ShipmentOrdersRepository',
+  ShipmentOrdersRepository,
+);
+
+container.registerSingleton<IItemShipmentOrdersRepository>(
+  'ItemShipmentOrdersRepository',
+  ItemShipmentOrdersRepository,
 );
