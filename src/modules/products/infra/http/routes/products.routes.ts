@@ -63,8 +63,6 @@ productsRouter.get('/estimate', productsController.getFeesEstimate);
 
 productsRouter.get('/suppliers', productsController.listSupplierProducts);
 
-productsRouter.get('/xxx', productsController.listSupplierProducts);
-
 productsRouter.delete(
   '/',
   celebrate({
