@@ -56,6 +56,7 @@ jobs:
         region: sa-east-1
         application_name: aky-freela
         environment_name: Akyfreela-env
+        version_label: 2
         deployment_package: deploy.zip
 
     - name: Deployed!
