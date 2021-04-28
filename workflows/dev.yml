@@ -1,10 +1,10 @@
-name: Dev CI   // Any name of your choice
+name: CI   // Any name of your choice
 
 on: 
   push:
-    branches: [ dev ]
+    branches: [ master, dev ]
   pull_request:
-    branches: [ dev ]
+    branches: [ master, dev ]
 
 jobs:
   build:
@@ -13,17 +13,6 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     
-    - name: Beanstalk Deploy - Dev Branch
-      uses: einaregilsson/beanstalk-deploy@v4
-      with:
-        aws_access_key: ${{secrets.AWS_ACCESS_KEY}}
-        aws_secret_key: ${{secrets.AWS_SECRET_KEY}}
-        region: sa-east-1
-        application_name: aky-freela
-        environment_name: Akyfreela-env
-        version_label: 1
-        deployment_package: deploy.zip
-
     - name: Cache node modules
       uses: actions/cache@v1
       with:
@@ -58,3 +47,17 @@ jobs:
         string: "${{ steps.current-time.outputs.time }}"
         replace-with: '-'
         flags: 'g'
+
+    - name: Beanstalk Deploy - Dev Branch
+      uses: einaregilsson/beanstalk-deploy@v4
+      with:
+        aws_access_key: ${{secrets.AWS_ACCESS_KEY}}
+        aws_secret_key: ${{secrets.AWS_SECRET_KEY}}
+        region: sa-east-1
+        application_name: aky-freela
+        environment_name: Akyfreela-env
+        version_label: 1
+        deployment_package: deploy.zip
+
+    - name: Deployed!
+      run: echo App deployed to ELB
