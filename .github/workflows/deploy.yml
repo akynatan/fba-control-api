@@ -51,8 +51,8 @@ jobs:
     - name: Beanstalk Deploy - Dev Branch
       uses: einaregilsson/beanstalk-deploy@v4
       with:
-        aws_access_key: ${{secrets.AWS_ACCESS_KEY}}
-        aws_secret_key: ${{secrets.AWS_SECRET_KEY}}
+        aws_access_key: AKIAQHOSJ4NE2NI63SMH
+        aws_secret_key: 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
         region: sa-east-1
         application_name: aky-freela
         environment_name: Akyfreela-env
