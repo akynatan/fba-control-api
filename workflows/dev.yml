@@ -37,14 +37,14 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: Installing NPM
+    - name: Installing
       run: yarn
 
     - name: Building application
       run: yarn build
 
     - name: Generate deployment package
-      run: zip -r deploy.zip * -x "**node_modules**"
+      run: zip -r deploy.zip dist
     
     - name: Get timestamp
       uses: gerred/actions/current-time@master
