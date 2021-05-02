@@ -21,6 +21,7 @@ ordersRouter.post(
       status: Joi.string(),
       other_cost: Joi.number(),
       shipment_cost: Joi.number(),
+      invoice: Joi.string(),
       note: Joi.string(),
     },
   }),
@@ -37,10 +38,15 @@ ordersRouter.put(
       invoice: Joi.string(),
       other_cost: Joi.number(),
       shipment_cost: Joi.number(),
+      form_payment: Joi.string(),
+      its_paid: Joi.boolean(),
+      status: Joi.string(),
     },
   }),
   ordersController.update,
 );
+
+ordersRouter.delete('/', ordersController.delete);
 
 ordersRouter.get('/', ordersController.index);
 

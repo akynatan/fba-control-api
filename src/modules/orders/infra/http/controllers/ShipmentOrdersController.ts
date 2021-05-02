@@ -5,6 +5,7 @@ import CreateShipmentOrdersService from '@modules/orders/services/CreateShipment
 import DeleteShipmentOrderService from '@modules/orders/services/DeleteShipmentOrderService';
 import ListShipmentFromOrderService from '@modules/orders/services/ListShipmentFromOrderService';
 import UpdateShipmentOrdersService from '@modules/orders/services/UpdateShipmentOrdersService';
+import SyncManyShipmentOrderService from '@modules/orders/services/SyncManyShipmentOrderService';
 
 export default class ShipmentOrdersController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -45,6 +46,23 @@ export default class ShipmentOrdersController {
     });
 
     return response.json({});
+  }
+
+  public async syncMany(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const { shipments_order_id } = request.body;
+
+    const syncManyShipmentOrder = container.resolve(
+      SyncManyShipmentOrderService,
+    );
+
+    const shipments = await syncManyShipmentOrder.execute({
+      shipments_order_id,
+    });
+
+    return response.json(shipments);
   }
 
   public async index(request: Request, response: Response): Promise<Response> {

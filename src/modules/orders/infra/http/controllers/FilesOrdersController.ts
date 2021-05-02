@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
+import { classToClass } from 'class-transformer';
 
 import CreateFilesOrdersService from '@modules/orders/services/CreateFilesOrdersService';
 import DeleteFilesOrderService from '@modules/orders/services/DeleteFilesOrderService';
@@ -18,7 +19,9 @@ export default class FilesOrdersController {
       originalname,
     });
 
-    return response.json(file_order);
+    const file_order_returned = classToClass(file_order);
+
+    return response.json(file_order_returned);
   }
 
   public async delete(request: Request, response: Response): Promise<Response> {
@@ -42,6 +45,8 @@ export default class FilesOrdersController {
       order_id: String(order_id),
     });
 
-    return response.json(files_order);
+    const files_order_response = classToClass(files_order);
+
+    return response.json(files_order_response);
   }
 }

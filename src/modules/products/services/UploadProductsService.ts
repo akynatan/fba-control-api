@@ -14,7 +14,7 @@ import Product from '../infra/typeorm/entities/Product';
 import IProductsRepository from '../repositories/IProductsRepository';
 
 interface IRequest {
-  avatarFileName: string;
+  file_name: string;
 }
 
 @injectable()
@@ -30,10 +30,11 @@ export default class UploadProductsService {
     private amazonSellerProvider: IAmazonSellerProvider,
   ) {}
 
-  public async execute({ avatarFileName }: IRequest): Promise<Product[]> {
-    const filename = await this.storageProvider.saveFile(avatarFileName);
+  public async execute({ file_name }: IRequest): Promise<Product[]> {
+    const filename = await this.storageProvider.saveFile(file_name);
+    const originalPath = `${uploadConfig.tmpFolder}/${filename}`;
     const { data } = ExcelToJson({
-      sourceFile: `${uploadConfig.uploadsFolder}/${filename}`,
+      sourceFile: originalPath,
     });
     const allProducts = data.slice(1, data.length);
 
@@ -71,6 +72,9 @@ export default class UploadProductsService {
 
       return product_created;
     });
+
+    await fs.promises.unlink(originalPath);
+    await this.storageProvider.deleteFile(file_name);
 
     return Promise.all(products);
   }

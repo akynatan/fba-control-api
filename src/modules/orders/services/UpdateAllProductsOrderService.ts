@@ -5,7 +5,7 @@ import ProductsOrder from '../infra/typeorm/entities/ProductsOrder';
 import IProductsOrderRepository from '../repositories/IProductsOrderRepository';
 
 interface ICreateProductsOrderServiceDTO {
-  product_order_id: string;
+  id: string;
   qtd: number;
   unit_price: number;
   label: number;
@@ -30,7 +30,7 @@ export default class UpdateAllProductsOrderService {
   ): Promise<ProductsOrder[]> {
     const allProducts = data.map(async product_order => {
       const product_order_mapped = await this.productsOrderRepository.findByID(
-        product_order.product_order_id,
+        product_order.id,
       );
 
       if (!product_order_mapped) {

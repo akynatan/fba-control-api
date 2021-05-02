@@ -31,4 +31,15 @@ export default class ItemShipmentOrdersRepository
     });
     return shipment_order;
   }
+
+  public async deleteByShipmentID(shipment_id: string): Promise<boolean> {
+    try {
+      await this.ormRepository.delete({
+        shipment_order_id: shipment_id,
+      });
+      return true;
+    } catch {
+      return false;
+    }
+  }
 }
