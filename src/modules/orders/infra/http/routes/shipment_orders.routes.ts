@@ -34,6 +34,16 @@ shipmentOrdersRouter.put(
   shipmentOrdersController.update,
 );
 
+shipmentOrdersRouter.put(
+  '/sync_many',
+  celebrate({
+    [Segments.BODY]: {
+      shipments_order_id: Joi.array().required(),
+    },
+  }),
+  shipmentOrdersController.syncMany,
+);
+
 shipmentOrdersRouter.delete('/', shipmentOrdersController.delete);
 
 shipmentOrdersRouter.get('/', shipmentOrdersController.index);

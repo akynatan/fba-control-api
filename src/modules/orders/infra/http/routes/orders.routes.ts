@@ -21,6 +21,7 @@ ordersRouter.post(
       status: Joi.string(),
       other_cost: Joi.number(),
       shipment_cost: Joi.number(),
+      invoice: Joi.string(),
       note: Joi.string(),
     },
   }),

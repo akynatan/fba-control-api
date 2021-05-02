@@ -17,6 +17,7 @@ export default class OrdersController {
       other_cost,
       shipment_cost,
       its_paid,
+      invoice,
       status,
       note,
     } = request.body;
@@ -29,6 +30,7 @@ export default class OrdersController {
       form_payment,
       its_paid,
       other_cost,
+      invoice,
       shipment_cost,
       status,
       note,

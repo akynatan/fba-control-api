@@ -28,6 +28,7 @@ export default class CreateOrderService {
     its_paid,
     shipment_cost,
     other_cost,
+    invoice,
     note,
     status,
   }: ICreateOrderDTO): Promise<Order> {
@@ -44,6 +45,7 @@ export default class CreateOrderService {
       shipment_cost,
       other_cost,
       its_paid,
+      invoice,
       note,
       status,
     });
