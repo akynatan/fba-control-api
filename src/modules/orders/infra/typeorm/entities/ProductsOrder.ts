@@ -10,9 +10,6 @@ import {
 } from 'typeorm';
 
 import ProductSupplier from '@modules/products/infra/typeorm/entities/ProductSupplier';
-import { Expose } from 'class-transformer';
-import AmazonSellerProvider from '@shared/container/providers/AmazonProvider/implementations/AmazonSellerProvider';
-import IAmazonSellerProvider from '@shared/container/providers/AmazonProvider/models/IAmazonSellerProvider';
 
 @Entity('product_order')
 export default class ProductsOrder {

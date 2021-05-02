@@ -7,6 +7,7 @@ import DetailProductsOrderService from '@modules/orders/services/DetailProductsO
 import DeleteProductsOrderService from '@modules/orders/services/DeleteProductsOrderService';
 import UpdateFeesEstimateService from '@modules/orders/services/UpdateFeesEstimateService';
 import UpdateAllProductsOrderService from '@modules/orders/services/UpdateAllProductsOrderService';
+import UploadProductsOrderService from '@modules/orders/services/UploadProductsOrderService';
 
 export default class ProductsOrderController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -98,5 +99,21 @@ export default class ProductsOrderController {
     });
 
     return response.json(product_order);
+  }
+
+  public async uploadProducts(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const { order_id, supplier_id } = request.body;
+
+    const uploadProductsOrder = container.resolve(UploadProductsOrderService);
+    const products = await uploadProductsOrder.execute({
+      file_name: request.file.filename,
+      order_id,
+      supplier_id,
+    });
+
+    return response.json(products);
   }
 }

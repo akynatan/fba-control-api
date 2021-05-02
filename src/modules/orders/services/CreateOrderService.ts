@@ -2,6 +2,8 @@ import { injectable, inject } from 'tsyringe';
 
 import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 
+import AppError from '@shared/errors/AppError';
+import ISuppliersRepository from '@modules/suppliers/repositories/ISuppliersRepository';
 import Order from '../infra/typeorm/entities/Order';
 import ICreateOrderDTO from '../dtos/ICreateOrderDTO';
 import IOrdersRepository from '../repositories/IOrdersRepository';
@@ -14,6 +16,9 @@ export default class CreateOrderService {
 
     @inject('CacheProvider')
     private cacheProvider: ICacheProvider,
+
+    @inject('SuppliersRepository')
+    private suppliersRepository: ISuppliersRepository,
   ) {}
 
   public async execute({
@@ -26,6 +31,12 @@ export default class CreateOrderService {
     note,
     status,
   }: ICreateOrderDTO): Promise<Order> {
+    const supplier = await this.suppliersRepository.findByID(supplier_id);
+
+    if (!supplier) {
+      throw new AppError('Supplier not found');
+    }
+
     const order = await this.ordersRepository.create({
       date,
       supplier_id,

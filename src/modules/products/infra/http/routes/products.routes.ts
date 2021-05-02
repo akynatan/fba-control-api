@@ -5,7 +5,6 @@ import multer from 'multer';
 import uploadConfig from '@config/upload';
 
 import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
-
 import ProductsController from '../controllers/ProductsController';
 
 const upload = multer(uploadConfig.multer);

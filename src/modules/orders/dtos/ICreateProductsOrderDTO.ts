@@ -8,5 +8,5 @@ export default interface ICreateProductsOrderDTO {
   other_cost?: number;
   buy_box?: number;
   amazon_fee?: number;
-  note: string;
+  note?: string;
 }

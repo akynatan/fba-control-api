@@ -30,6 +30,9 @@ export default class Order {
   form_payment: string;
 
   @Column()
+  invoice: string;
+
+  @Column()
   its_paid: boolean;
 
   @Column()
