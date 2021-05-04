@@ -39,10 +39,10 @@ app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
   });
 });
 
-app.listen(4444, () => {
+app.listen(process.env.PORT || 4444, () => {
   // const syncSuppliersController = new SyncSuppliersController();
   // // cron.schedule('0 0 * * *', syncSuppliersController.create);
   // cron.schedule('* * * * *', syncSuppliersController.create);
 
-  console.log('Server started on port 4444!');
+  console.log(`Server started on port ${process.env.BUCKET_S3 || 4444}`);
 });
