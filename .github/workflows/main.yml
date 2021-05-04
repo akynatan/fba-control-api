@@ -20,29 +20,29 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v2.1.4
-        with:
-          node-version: 12.x
+      #- name: Setup Node.js environment
+      #  uses: actions/setup-node@v2.1.4
+      #  with:
+      #    node-version: 12.x
       
       # Instalar as dependencias do NPM/Yarn
-      - name: Install dependencies
-        run: yarn
+      #- name: Install dependencies
+      #  run: yarn
       
       # Executar a build
-      - name: Run build
-        run: yarn build
+      #- name: Run build
+      #  run: yarn build
       
       # Copiar pasta dist pra dentro da digital ocean
-      - name: Copy code to Digital OCean
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          port: ${{ secrets.SSH_PORT }}
-          key: ${{ secrets.SSH_KEY }}
-          source: ".,!node_modules"
-          target: "~/app/fba-control-api"
+#       - name: Copy code to Digital OCean
+#         uses: appleboy/ssh-action@master
+#         with:
+#           host: ${{ secrets.SSH_HOST }}
+#           username: ${{ secrets.SSH_USER }}
+#           port: ${{ secrets.SSH_PORT }}
+#           key: ${{ secrets.SSH_KEY }}
+#           source: ".,!node_modules"
+#           target: "~/app/fba-control-api"
 
       # Executar yarn na Digital Ocean
       # Executar as migrations do TypeOrm
@@ -56,6 +56,8 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: | 
             cd ~/app/fba-control-api
+            git pull -f origindeploy master
             yarn
-            ./node_modules/.bin/typeorm migrations:run
+            yarn build            
+            ./node_modules/.bin/typeorm migration:run
             pm2 restart fbacontroll-api
