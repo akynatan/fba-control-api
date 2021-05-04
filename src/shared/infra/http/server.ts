@@ -35,7 +35,7 @@ app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
   console.error(err);
   return response.status(500).json({
     status: 'error',
-    error: 'Internal server error.',
+    error: 'Internal server error..',
   });
 });
 
@@ -44,5 +44,5 @@ app.listen(process.env.PORT || 4444, () => {
   // // cron.schedule('0 0 * * *', syncSuppliersController.create);
   // cron.schedule('* * * * *', syncSuppliersController.create);
 
-  console.log(`Server started on port ${process.env.PORT || 4444}`);
+  console.log(`Server started on portt ${process.env.PORT || 4444}`);
 });
