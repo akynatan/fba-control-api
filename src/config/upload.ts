@@ -41,7 +41,7 @@ export default {
 
   config: {
     aws: {
-      bucket: 'fbacontroll',
+      bucket: process.env.BUCKET_S3,
     },
   },
 } as IUploadConfig;
