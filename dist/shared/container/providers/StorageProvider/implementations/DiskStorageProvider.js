@@ -22,8 +22,6 @@ class DiskStorageProvider {
   async deleteFile(file) {
     const filePath = _path.default.resolve(_upload.default.uploadsFolder, file);
 
-    console.log(filePath);
-
     try {
       await _fs.default.promises.stat(filePath);
     } catch {

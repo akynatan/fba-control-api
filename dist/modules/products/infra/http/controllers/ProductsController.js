@@ -152,7 +152,7 @@ class ProductsController {
     const uploadProducts = _tsyringe.container.resolve(_UploadProductsService.default);
 
     const products = await uploadProducts.execute({
-      avatarFileName: request.file.filename
+      file_name: request.file.filename
     });
     return response.json(products);
   }

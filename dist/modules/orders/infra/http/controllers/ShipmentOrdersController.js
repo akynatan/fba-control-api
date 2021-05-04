@@ -15,6 +15,8 @@ var _ListShipmentFromOrderService = _interopRequireDefault(require("../../../ser
 
 var _UpdateShipmentOrdersService = _interopRequireDefault(require("../../../services/UpdateShipmentOrdersService"));
 
+var _SyncManyShipmentOrderService = _interopRequireDefault(require("../../../services/SyncManyShipmentOrderService"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 class ShipmentOrdersController {
@@ -63,6 +65,19 @@ class ShipmentOrdersController {
       id
     });
     return response.json({});
+  }
+
+  async syncMany(request, response) {
+    const {
+      shipments_order_id
+    } = request.body;
+
+    const syncManyShipmentOrder = _tsyringe.container.resolve(_SyncManyShipmentOrderService.default);
+
+    const shipments = await syncManyShipmentOrder.execute({
+      shipments_order_id
+    });
+    return response.json(shipments);
   }
 
   async index(request, response) {

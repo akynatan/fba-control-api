@@ -34,7 +34,7 @@ var _default = {
   },
   config: {
     aws: {
-      bucket: 'app-gobarber-akynatan'
+      bucket: 'fbacontroll'
     }
   }
 };

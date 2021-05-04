@@ -32,6 +32,11 @@ shipmentOrdersRouter.put('/', (0, _celebrate.celebrate)({
     note: _celebrate.Joi.string()
   }
 }), shipmentOrdersController.update);
+shipmentOrdersRouter.put('/sync_many', (0, _celebrate.celebrate)({
+  [_celebrate.Segments.BODY]: {
+    shipments_order_id: _celebrate.Joi.array().required()
+  }
+}), shipmentOrdersController.syncMany);
 shipmentOrdersRouter.delete('/', shipmentOrdersController.delete);
 shipmentOrdersRouter.get('/', shipmentOrdersController.index);
 var _default = shipmentOrdersRouter;

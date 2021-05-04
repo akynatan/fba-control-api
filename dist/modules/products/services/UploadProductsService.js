@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var _fs = _interopRequireDefault(require("fs"));
+
 var _tsyringe = require("tsyringe");
 
 var _convertExcelToJson = _interopRequireDefault(require("convert-excel-to-json"));
@@ -35,13 +37,14 @@ let UploadProductsService = (_dec = (0, _tsyringe.injectable)(), _dec2 = functio
   }
 
   async execute({
-    avatarFileName
+    file_name
   }) {
-    const filename = await this.storageProvider.saveFile(avatarFileName);
+    const filename = await this.storageProvider.saveFile(file_name);
+    const originalPath = `${_upload.default.tmpFolder}/${filename}`;
     const {
       data
     } = (0, _convertExcelToJson.default)({
-      sourceFile: `${_upload.default.uploadsFolder}/${filename}`
+      sourceFile: originalPath
     });
     const allProducts = data.slice(1, data.length);
     const products = allProducts.map(async product => {
@@ -80,6 +83,8 @@ let UploadProductsService = (_dec = (0, _tsyringe.injectable)(), _dec2 = functio
       });
       return product_created;
     });
+    await _fs.default.promises.unlink(originalPath);
+    await this.storageProvider.deleteFile(file_name);
     return Promise.all(products);
   }
 

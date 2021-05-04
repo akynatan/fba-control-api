@@ -7,9 +7,13 @@ exports.default = void 0;
 
 var _typeorm = require("typeorm");
 
+var _classTransformer = require("class-transformer");
+
+var _upload = _interopRequireDefault(require("../../../../../config/upload"));
+
 var _Order = _interopRequireDefault(require("./Order"));
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _dec16, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _temp;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _dec16, _dec17, _dec18, _dec19, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _temp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21,7 +25,9 @@ function _initializerWarningHelper(descriptor, context) { throw new Error('Decor
 
 let FilesOrders = (_dec = (0, _typeorm.Entity)('files_orders'), _dec2 = (0, _typeorm.PrimaryGeneratedColumn)('uuid'), _dec3 = Reflect.metadata("design:type", String), _dec4 = (0, _typeorm.Column)(), _dec5 = Reflect.metadata("design:type", String), _dec6 = (0, _typeorm.OneToOne)(() => _Order.default), _dec7 = (0, _typeorm.JoinColumn)({
   name: 'order_id'
-}), _dec8 = Reflect.metadata("design:type", typeof _Order.default === "undefined" ? Object : _Order.default), _dec9 = (0, _typeorm.Column)(), _dec10 = Reflect.metadata("design:type", String), _dec11 = (0, _typeorm.Column)(), _dec12 = Reflect.metadata("design:type", String), _dec13 = (0, _typeorm.CreateDateColumn)(), _dec14 = Reflect.metadata("design:type", typeof Date === "undefined" ? Object : Date), _dec15 = (0, _typeorm.UpdateDateColumn)(), _dec16 = Reflect.metadata("design:type", typeof Date === "undefined" ? Object : Date), _dec(_class = (_class2 = (_temp = class FilesOrders {
+}), _dec8 = Reflect.metadata("design:type", typeof _Order.default === "undefined" ? Object : _Order.default), _dec9 = (0, _typeorm.Column)(), _dec10 = Reflect.metadata("design:type", String), _dec11 = (0, _typeorm.Column)(), _dec12 = Reflect.metadata("design:type", String), _dec13 = (0, _typeorm.CreateDateColumn)(), _dec14 = Reflect.metadata("design:type", typeof Date === "undefined" ? Object : Date), _dec15 = (0, _typeorm.UpdateDateColumn)(), _dec16 = Reflect.metadata("design:type", typeof Date === "undefined" ? Object : Date), _dec17 = (0, _classTransformer.Expose)({
+  name: 'name_file_url'
+}), _dec18 = Reflect.metadata("design:type", Function), _dec19 = Reflect.metadata("design:paramtypes", []), _dec(_class = (_class2 = (_temp = class FilesOrders {
   constructor() {
     _initializerDefineProperty(this, "id", _descriptor, this);
 
@@ -36,6 +42,23 @@ let FilesOrders = (_dec = (0, _typeorm.Entity)('files_orders'), _dec2 = (0, _typ
     _initializerDefineProperty(this, "created_at", _descriptor6, this);
 
     _initializerDefineProperty(this, "updated_at", _descriptor7, this);
+  }
+
+  getNameFileURL() {
+    if (!this.name_file) {
+      return null;
+    }
+
+    switch (_upload.default.driver) {
+      case 'disk':
+        return `${process.env.APP_API_URL}/files/${this.name_file}`;
+
+      case 's3':
+        return `https://${_upload.default.config.aws.bucket}.s3.us-east-1.amazonaws.com/${this.name_file}`;
+
+      default:
+        return null;
+    }
   }
 
 }, _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "id", [_dec2, _dec3], {
@@ -73,5 +96,5 @@ let FilesOrders = (_dec = (0, _typeorm.Entity)('files_orders'), _dec2 = (0, _typ
   enumerable: true,
   writable: true,
   initializer: null
-})), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "getNameFileURL", [_dec17, _dec18, _dec19], Object.getOwnPropertyDescriptor(_class2.prototype, "getNameFileURL"), _class2.prototype)), _class2)) || _class);
 exports.default = FilesOrders;

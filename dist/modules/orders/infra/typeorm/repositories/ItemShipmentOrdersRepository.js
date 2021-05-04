@@ -35,6 +35,17 @@ class ItemShipmentOrdersRepository {
     return shipment_order;
   }
 
+  async deleteByShipmentID(shipment_id) {
+    try {
+      await this.ormRepository.delete({
+        shipment_order_id: shipment_id
+      });
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
 }
 
 exports.default = ItemShipmentOrdersRepository;

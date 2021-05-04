@@ -21,7 +21,7 @@ class S3StorageProvider {
   constructor() {
     this.client = void 0;
     this.client = new _awsSdk.default.S3({
-      region: 'us-east-2'
+      region: 'us-east-1'
     });
   }
 
@@ -42,7 +42,6 @@ class S3StorageProvider {
       Body: fileContent,
       ContentType
     }).promise();
-    await _fs.default.promises.unlink(originalPath);
     return file;
   }
 

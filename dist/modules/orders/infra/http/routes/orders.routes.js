@@ -27,6 +27,7 @@ ordersRouter.post('/', (0, _celebrate.celebrate)({
     status: _celebrate.Joi.string(),
     other_cost: _celebrate.Joi.number(),
     shipment_cost: _celebrate.Joi.number(),
+    invoice: _celebrate.Joi.string(),
     note: _celebrate.Joi.string()
   }
 }), ordersController.create);
@@ -37,9 +38,13 @@ ordersRouter.put('/', (0, _celebrate.celebrate)({
     date: _celebrate.Joi.date(),
     invoice: _celebrate.Joi.string(),
     other_cost: _celebrate.Joi.number(),
-    shipment_cost: _celebrate.Joi.number()
+    shipment_cost: _celebrate.Joi.number(),
+    form_payment: _celebrate.Joi.string(),
+    its_paid: _celebrate.Joi.boolean(),
+    status: _celebrate.Joi.string()
   }
 }), ordersController.update);
+ordersRouter.delete('/', ordersController.delete);
 ordersRouter.get('/', ordersController.index);
 ordersRouter.get('/detail', ordersController.detail);
 ordersRouter.get('/products', ordersController.products);

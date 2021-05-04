@@ -27,7 +27,7 @@ let UpdateAllProductsOrderService = (_dec = (0, _tsyringe.injectable)(), _dec2 =
 
   async execute(data) {
     const allProducts = data.map(async product_order => {
-      const product_order_mapped = await this.productsOrderRepository.findByID(product_order.product_order_id);
+      const product_order_mapped = await this.productsOrderRepository.findByID(product_order.id);
 
       if (!product_order_mapped) {
         return product_order;

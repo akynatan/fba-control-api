@@ -19,6 +19,8 @@ var _UpdateFeesEstimateService = _interopRequireDefault(require("../../../servic
 
 var _UpdateAllProductsOrderService = _interopRequireDefault(require("../../../services/UpdateAllProductsOrderService"));
 
+var _UploadProductsOrderService = _interopRequireDefault(require("../../../services/UploadProductsOrderService"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 class ProductsOrderController {
@@ -110,6 +112,22 @@ class ProductsOrderController {
       product_order_id: String(product_order_id)
     });
     return response.json(product_order);
+  }
+
+  async uploadProducts(request, response) {
+    const {
+      order_id,
+      supplier_id
+    } = request.body;
+
+    const uploadProductsOrder = _tsyringe.container.resolve(_UploadProductsOrderService.default);
+
+    const products = await uploadProductsOrder.execute({
+      file_name: request.file.filename,
+      order_id,
+      supplier_id
+    });
+    return response.json(products);
   }
 
 }

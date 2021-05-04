@@ -17,6 +17,8 @@ var _GetProductsByOrderService = _interopRequireDefault(require("../../../servic
 
 var _UpdateOrderService = _interopRequireDefault(require("../../../services/UpdateOrderService"));
 
+var _DeleteOrderService = _interopRequireDefault(require("../../../services/DeleteOrderService"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 class OrdersController {
@@ -28,6 +30,7 @@ class OrdersController {
       other_cost,
       shipment_cost,
       its_paid,
+      invoice,
       status,
       note
     } = request.body;
@@ -40,6 +43,7 @@ class OrdersController {
       form_payment,
       its_paid,
       other_cost,
+      invoice,
       shipment_cost,
       status,
       note
@@ -54,7 +58,10 @@ class OrdersController {
       date,
       invoice,
       other_cost,
-      shipment_cost
+      shipment_cost,
+      form_payment,
+      its_paid,
+      status
     } = request.body;
 
     const updateOrder = _tsyringe.container.resolve(_UpdateOrderService.default);
@@ -65,9 +72,25 @@ class OrdersController {
       date,
       invoice,
       other_cost,
-      shipment_cost
+      shipment_cost,
+      form_payment,
+      its_paid,
+      status
     });
     return response.json(order);
+  }
+
+  async delete(request, response) {
+    const {
+      order_id
+    } = request.body;
+
+    const deleteOrder = _tsyringe.container.resolve(_DeleteOrderService.default);
+
+    await deleteOrder.execute({
+      id: order_id
+    });
+    return response.json({});
   }
 
   async index(_, response) {

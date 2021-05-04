@@ -7,6 +7,8 @@ exports.default = void 0;
 
 var _tsyringe = require("tsyringe");
 
+var _classTransformer = require("class-transformer");
+
 var _CreateFilesOrdersService = _interopRequireDefault(require("../../../services/CreateFilesOrdersService"));
 
 var _DeleteFilesOrderService = _interopRequireDefault(require("../../../services/DeleteFilesOrderService"));
@@ -32,7 +34,8 @@ class FilesOrdersController {
       fileName: filename,
       originalname
     });
-    return response.json(file_order);
+    const file_order_returned = (0, _classTransformer.classToClass)(file_order);
+    return response.json(file_order_returned);
   }
 
   async delete(request, response) {
@@ -58,7 +61,8 @@ class FilesOrdersController {
     const files_order = await listFilesFromOrder.execute({
       order_id: String(order_id)
     });
-    return response.json(files_order);
+    const files_order_response = (0, _classTransformer.classToClass)(files_order);
+    return response.json(files_order_response);
   }
 
 }

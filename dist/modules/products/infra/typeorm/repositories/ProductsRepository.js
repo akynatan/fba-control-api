@@ -37,6 +37,16 @@ class ProductsRepository {
     return products;
   }
 
+  async findByASIN(asin) {
+    const products = await this.ormRepository.find({
+      where: {
+        asin
+      },
+      relations: ['product_suppliers']
+    });
+    return products;
+  }
+
   async findByID(id) {
     const product = await this.ormRepository.findOne(id, {
       relations: ['product_suppliers', 'product_suppliers.suppliers']
