@@ -44,5 +44,5 @@ app.listen(process.env.PORT || 4444, () => {
   // // cron.schedule('0 0 * * *', syncSuppliersController.create);
   // cron.schedule('* * * * *', syncSuppliersController.create);
 
-  console.log(`Server started on port ${process.env.BUCKET_S3 || 4444}`);
+  console.log(`Server started on port ${process.env.PORT || 4444}`);
 });
