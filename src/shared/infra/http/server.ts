@@ -11,7 +11,8 @@ import { errors } from 'celebrate';
 import routes from '@shared/infra/http/routes';
 import uploadConfig from '@config/upload';
 import AppError from '@shared/errors/AppError';
-import SyncSuppliersController from '@modules/suppliers/infra/http/controllers/SyncSuppliersController';
+
+import UpdateShipmentsCron from '@modules/orders/crons/UpdateShipmentsCron';
 
 import rateLimiter from './middlewares/RateLimiter';
 
@@ -40,9 +41,10 @@ app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
 });
 
 app.listen(process.env.PORT || 4444, () => {
+  const updateShipmentsCron = new UpdateShipmentsCron();
   // const syncSuppliersController = new SyncSuppliersController();
   // // cron.schedule('0 0 * * *', syncSuppliersController.create);
-  // cron.schedule('* * * * *', syncSuppliersController.create);
+  cron.schedule('0 0 * * *', updateShipmentsCron.execute);
 
   console.log(`Server started on portt ${process.env.PORT || 4444}`);
 });

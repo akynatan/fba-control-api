@@ -6,5 +6,6 @@ export default interface IShipmentOrdersRepository {
   save(shipment_order: ShipmentOrder): Promise<ShipmentOrder>;
   findByID(id: string): Promise<ShipmentOrder | undefined>;
   findByOrder(order_id: string): Promise<ShipmentOrder[]>;
+  findAll(): Promise<ShipmentOrder[]>;
   delete(id: string): Promise<void>;
 }
