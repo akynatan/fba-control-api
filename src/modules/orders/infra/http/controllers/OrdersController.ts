@@ -18,6 +18,7 @@ export default class OrdersController {
       other_cost,
       shipment_cost,
       its_paid,
+      total_charged,
       invoice,
       status,
       note,
@@ -30,6 +31,7 @@ export default class OrdersController {
       supplier_id,
       form_payment,
       its_paid,
+      total_charged,
       other_cost,
       invoice,
       shipment_cost,
@@ -50,6 +52,7 @@ export default class OrdersController {
       shipment_cost,
       form_payment,
       its_paid,
+      total_charged,
       status,
       sub_total,
     } = request.body;
@@ -65,6 +68,7 @@ export default class OrdersController {
       shipment_cost,
       form_payment,
       its_paid,
+      total_charged,
       status,
       sub_total,
     });

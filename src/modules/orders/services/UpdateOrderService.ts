@@ -12,6 +12,7 @@ interface IRequest {
   supplier_id: string;
   form_payment: string;
   its_paid: boolean;
+  total_charged: number;
   status: string;
   date: Date;
   invoice: string;
@@ -39,6 +40,7 @@ export default class UpdateOrderService {
     shipment_cost,
     form_payment,
     its_paid,
+    total_charged,
     status,
     sub_total,
   }: IRequest): Promise<Order> {
@@ -59,6 +61,7 @@ export default class UpdateOrderService {
     order.its_paid = its_paid;
     order.status = status;
     order.sub_total = sub_total;
+    order.total_charged = total_charged;
 
     await this.ordersRepository.save(order);
 

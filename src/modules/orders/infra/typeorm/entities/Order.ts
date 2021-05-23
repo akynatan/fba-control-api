@@ -47,6 +47,9 @@ export default class Order {
   @Column('decimal', { precision: 5, scale: 2 })
   sub_total: number;
 
+  @Column('decimal', { precision: 5, scale: 2 })
+  total_charged: number;
+
   @Column()
   note: string;
 

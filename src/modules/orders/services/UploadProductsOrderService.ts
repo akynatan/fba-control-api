@@ -49,7 +49,7 @@ export default class UploadProductsOrderService {
     const filename = await this.storageProvider.saveFile(file_name);
 
     const { data } = ExcelToJson({
-      sourceFile: `${uploadConfig.uploadsFolder}/${filename}`,
+      sourceFile: `${uploadConfig.tmpFolder}/${filename}`,
     });
 
     const allProducts = data.slice(1, data.length);
@@ -108,15 +108,21 @@ export default class UploadProductsOrderService {
 
     const products_returned = await Promise.all(products_row);
 
-    const xx: ProductsOrder[] = [];
+    const all_products_orders_return: ProductsOrder[] = [];
     products_returned.forEach(pp =>
       pp.forEach(ppp => {
-        if (ppp) xx.push(ppp);
+        if (ppp) all_products_orders_return.push(ppp);
       }),
     );
 
+    try {
+      await fs.promises.stat(`${uploadConfig.tmpFolder}/${filename}`);
+    } catch (err) {
+      console.log(err);
+    }
+
     return {
-      products_order: xx,
+      products_order: all_products_orders_return,
       products_without_asin,
       products_with_asin_duplicated,
     };
