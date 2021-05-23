@@ -46,10 +46,8 @@ export default class UploadProductsOrderService {
     supplier_id,
     order_id,
   }: IRequest): Promise<IResponse> {
-    const filename = await this.storageProvider.saveFile(file_name);
-
     const { data } = ExcelToJson({
-      sourceFile: `${uploadConfig.tmpFolder}/${filename}`,
+      sourceFile: `${uploadConfig.tmpFolder}/${file_name}`,
     });
 
     const allProducts = data.slice(1, data.length);
@@ -116,7 +114,7 @@ export default class UploadProductsOrderService {
     );
 
     try {
-      await fs.promises.stat(`${uploadConfig.tmpFolder}/${filename}`);
+      await fs.promises.stat(`${uploadConfig.tmpFolder}/${file_name}`);
     } catch (err) {
       console.log(err);
     }
