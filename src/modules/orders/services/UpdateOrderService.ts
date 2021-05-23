@@ -17,6 +17,7 @@ interface IRequest {
   invoice: string;
   other_cost: number;
   shipment_cost: number;
+  sub_total: number;
 }
 
 @injectable()
@@ -39,6 +40,7 @@ export default class UpdateOrderService {
     form_payment,
     its_paid,
     status,
+    sub_total,
   }: IRequest): Promise<Order> {
     const order = await this.ordersRepository.findByID(order_id);
 
@@ -56,6 +58,7 @@ export default class UpdateOrderService {
     order.form_payment = form_payment;
     order.its_paid = its_paid;
     order.status = status;
+    order.sub_total = sub_total;
 
     await this.ordersRepository.save(order);
 

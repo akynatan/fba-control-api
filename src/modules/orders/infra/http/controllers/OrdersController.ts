@@ -7,6 +7,7 @@ import DetailOrderService from '@modules/orders/services/DetailOrderService';
 import GetProductsByOrderService from '@modules/orders/services/GetProductsByOrderService';
 import UpdateOrderService from '@modules/orders/services/UpdateOrderService';
 import DeleteOrderService from '@modules/orders/services/DeleteOrderService';
+import ListOrdersBySupplierService from '@modules/orders/services/ListOrdersBySupplierService';
 
 export default class OrdersController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -50,6 +51,7 @@ export default class OrdersController {
       form_payment,
       its_paid,
       status,
+      sub_total,
     } = request.body;
 
     const updateOrder = container.resolve(UpdateOrderService);
@@ -64,6 +66,7 @@ export default class OrdersController {
       form_payment,
       its_paid,
       status,
+      sub_total,
     });
 
     return response.json(order);
@@ -85,6 +88,21 @@ export default class OrdersController {
     const listAllOrders = container.resolve(ListAllOrdersService);
 
     const orders = await listAllOrders.execute();
+
+    return response.json(orders);
+  }
+
+  public async ordersBySupplier(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const { supplier_id } = request.query;
+
+    const listOrdersBySupplier = container.resolve(ListOrdersBySupplierService);
+
+    const orders = await listOrdersBySupplier.execute({
+      supplier_id: String(supplier_id),
+    });
 
     return response.json(orders);
   }

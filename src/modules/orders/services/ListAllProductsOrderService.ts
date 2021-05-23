@@ -4,6 +4,10 @@ import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICa
 import ProductsOrder from '../infra/typeorm/entities/ProductsOrder';
 import IProductsOrderRepository from '../repositories/IProductsOrderRepository';
 
+interface IRequest {
+  product_id?: string;
+}
+
 @injectable()
 export default class ListAllProductsOrderService {
   constructor(
@@ -14,14 +18,20 @@ export default class ListAllProductsOrderService {
     private cacheProvider: ICacheProvider,
   ) {}
 
-  public async execute(): Promise<ProductsOrder[]> {
+  public async execute({ product_id }: IRequest): Promise<ProductsOrder[]> {
     const cacheKey = `products-list`;
 
     // let products = await this.cacheProvider.recover<Product[]>(cacheKey);
     let products_order;
 
     if (!products_order) {
-      products_order = await this.productsOrderRepository.findAll();
+      if (product_id && product_id !== 'undefined') {
+        products_order = await this.productsOrderRepository.findByProduct(
+          product_id,
+        );
+      } else {
+        products_order = await this.productsOrderRepository.findAll();
+      }
 
       await this.cacheProvider.save(cacheKey, products_order);
     }

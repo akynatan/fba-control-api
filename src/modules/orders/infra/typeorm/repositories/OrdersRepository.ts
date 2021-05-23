@@ -40,6 +40,16 @@ export default class OrdersRepository implements IOrdersRepository {
     return order;
   }
 
+  public async findBySupplier(supplier_id: string): Promise<Order[]> {
+    const orders = await this.ormRepository.find({
+      where: {
+        supplier_id,
+      },
+    });
+
+    return orders;
+  }
+
   public async delete(id: string): Promise<void> {
     try {
       await await this.ormRepository.delete({

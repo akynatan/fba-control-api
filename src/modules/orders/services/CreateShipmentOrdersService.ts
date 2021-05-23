@@ -45,17 +45,26 @@ export default class CreateShipmentOrdersService {
     const { TransportContent } = shipment;
     if (TransportContent) {
       const { IsPartnered, ShipmentType } = TransportContent.TransportHeader;
-
+      // console.log(TransportContent);
       if (IsPartnered) {
         if (ShipmentType === 'SP') {
-          cost =
+          if (
             TransportContent.TransportDetails.PartneredSmallParcelData
-              .PartneredEstimate.Amount.Value;
+              .PartneredEstimate
+          ) {
+            cost =
+              TransportContent.TransportDetails.PartneredSmallParcelData
+                .PartneredEstimate.Amount.Value;
+          }
         }
         if (ShipmentType === 'LTL') {
-          cost =
+          if (
             TransportContent.TransportDetails.PartneredLtlData.PartneredEstimate
-              .Amount.Value;
+          ) {
+            cost =
+              TransportContent.TransportDetails.PartneredLtlData
+                .PartneredEstimate.Amount.Value;
+          }
         }
       }
     }

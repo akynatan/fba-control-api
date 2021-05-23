@@ -41,6 +41,7 @@ ordersRouter.put(
       form_payment: Joi.string(),
       its_paid: Joi.boolean(),
       status: Joi.string(),
+      sub_total: Joi.number(),
     },
   }),
   ordersController.update,
@@ -53,5 +54,7 @@ ordersRouter.get('/', ordersController.index);
 ordersRouter.get('/detail', ordersController.detail);
 
 ordersRouter.get('/products', ordersController.products);
+
+ordersRouter.get('/by_supplier', ordersController.ordersBySupplier);
 
 export default ordersRouter;
