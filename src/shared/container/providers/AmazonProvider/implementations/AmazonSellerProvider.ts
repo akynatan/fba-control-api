@@ -8,6 +8,7 @@ import IShipmentByShipmentID from '../dtos/IShipmentByShipmentID';
 import IItemsByShipment from '../dtos/IItemsByShipment';
 import IStatusShipment from '../dtos/IStatusShipment';
 import IGetMyFees from '../dtos/IGetMyFees';
+import IPrepInstructionsList from '../dtos/IPrepInstructionsList';
 
 @injectable()
 class AmazonSellerProvider implements IAmazonSellerProvider {
@@ -108,6 +109,24 @@ class AmazonSellerProvider implements IAmazonSellerProvider {
         },
         query: {
           MarketplaceId: 'ATVPDKIKX0DER',
+        },
+      });
+      return res;
+    } catch (err) {
+      console.log(err);
+      return {} as IItemsByShipment;
+    }
+  }
+
+  public async getPrepInstructions(
+    asin_list: string[],
+  ): Promise<IPrepInstructionsList> {
+    try {
+      const res = await this.client.callAPI({
+        operation: 'getPrepInstructions',
+        query: {
+          ShipToCountryCode: 'US',
+          ASINList: asin_list,
         },
       });
       return res;

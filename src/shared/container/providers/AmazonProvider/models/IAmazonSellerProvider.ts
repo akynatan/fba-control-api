@@ -4,6 +4,7 @@ import IShipmentByShipmentID from '../dtos/IShipmentByShipmentID';
 import IItemsByShipment from '../dtos/IItemsByShipment';
 import IStatusShipment from '../dtos/IStatusShipment';
 import IGetMyFees from '../dtos/IGetMyFees';
+import IPrepInstructionsList from '../dtos/IPrepInstructionsList';
 
 export default interface IAmazonSellerProvider {
   getMyFeesEstimate({
@@ -14,4 +15,5 @@ export default interface IAmazonSellerProvider {
   getShipment(shipment_id: string): Promise<IShipmentByShipmentID>;
   getItemsByShipment(shipment_id: string): Promise<IItemsByShipment>;
   getStatusByShipment(shipment_id: string): Promise<IStatusShipment>;
+  getPrepInstructions(asin_list: string[]): Promise<IPrepInstructionsList>;
 }

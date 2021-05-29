@@ -1,5 +1,5 @@
 interface IMailConfig {
-  driver: 'ethereal' | 'ses';
+  driver: 'ethereal' | 'ses' | 'nodemailer';
   defaults: {
     from: {
       email: string;
@@ -12,8 +12,8 @@ export default {
   driver: process.env.MAIL_DRIVER || 'ethereal',
   defaults: {
     from: {
-      email: 'akynatan@akynatan.dev',
-      name: 'Equipe GoBarber',
+      email: 'noreply@excelsior2u.com',
+      name: 'Team Excelsior',
     },
   },
 } as IMailConfig;
