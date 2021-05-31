@@ -9,4 +9,5 @@ export default interface IProductsOrderRepository {
   findByProduct(product_id: string): Promise<ProductsOrder[]>;
   getProducts(order_id: string): Promise<ProductsOrder[]>;
   delete(id: string): Promise<void>;
+  findPriceInLastOrder(product_id: string): Promise<ProductsOrder | undefined>;
 }

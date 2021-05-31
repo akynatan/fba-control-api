@@ -7,9 +7,11 @@ import {
   UpdateDateColumn,
   OneToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 
 import Supplier from '@modules/suppliers/infra/typeorm/entities/Supplier';
+import ShipmentOrder from './ShipmentOrder';
 
 @Entity('orders')
 export default class Order {
@@ -25,6 +27,9 @@ export default class Order {
   @OneToOne(() => Supplier)
   @JoinColumn({ name: 'supplier_id' })
   supplier?: Supplier;
+
+  @OneToMany(() => ShipmentOrder, shipments => shipments.order)
+  shipments: ShipmentOrder[];
 
   @Column()
   form_payment: string;

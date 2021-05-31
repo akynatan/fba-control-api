@@ -12,5 +12,7 @@ export default interface ICreateProductDTO {
   sku: string;
   upc?: string;
   note?: string;
+  label?: string;
+  prep?: string;
   suppliers: supplierProduct[];
 }

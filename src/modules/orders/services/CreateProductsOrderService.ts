@@ -22,6 +22,10 @@ interface ICreateProductsOrderServiceDTO {
   note: string;
 }
 
+interface IResponse extends ProductsOrder {
+  price_in_last_order: number;
+}
+
 @injectable()
 export default class CreateProductsOrderService {
   constructor(
@@ -54,7 +58,7 @@ export default class CreateProductsOrderService {
     other_cost,
     buy_box,
     note,
-  }: ICreateProductsOrderServiceDTO): Promise<ProductsOrder | undefined> {
+  }: ICreateProductsOrderServiceDTO): Promise<IResponse | undefined> {
     const order = await this.ordersRepository.findByID(order_id);
 
     if (!order) {
@@ -73,6 +77,15 @@ export default class CreateProductsOrderService {
         product_id,
         supplier_id: order.supplier_id,
       });
+    }
+
+    const priceInLastOrder = await this.productsOrderRepository.findPriceInLastOrder(
+      product_id,
+    );
+
+    let priceInLastOrderReturned = 0;
+    if (priceInLastOrder) {
+      priceInLastOrderReturned = priceInLastOrder.unit_price;
     }
 
     let amazon_fee;
@@ -104,6 +117,8 @@ export default class CreateProductsOrderService {
       product_order.id,
     );
 
-    return product_order_response;
+    return Object.assign(product_order_response, {
+      price_in_last_order: priceInLastOrderReturned,
+    });
   }
 }

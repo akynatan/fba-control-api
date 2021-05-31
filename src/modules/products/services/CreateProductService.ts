@@ -48,6 +48,21 @@ export default class createProductService {
       newBrand = productAmazon.Items[0].AttributeSets[0].Brand;
     }
 
+    newAsin = newAsin || asin;
+
+    let preps_string;
+    let label;
+    if (newAsin) {
+      const preps = await this.amazonSellerProvider.getPrepInstructions([
+        newAsin,
+      ]);
+
+      preps_string = preps.ASINPrepInstructionsList[0].PrepInstructionList.join(
+        ', ',
+      );
+      label = preps.ASINPrepInstructionsList[0].BarcodeInstruction;
+    }
+
     const product = await this.productsRepository.create({
       asin: newAsin || asin,
       name: newName || name,
@@ -56,6 +71,8 @@ export default class createProductService {
       sku,
       note,
       upc,
+      prep: preps_string,
+      label,
     });
 
     suppliers.forEach(async supplier => {

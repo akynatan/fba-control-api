@@ -37,6 +37,7 @@ ordersRouter.put(
       supplier_id: Joi.string().uuid().required(),
       date: Joi.date(),
       invoice: Joi.string().allow(null, ''),
+      note: Joi.string().allow(null, ''),
       other_cost: Joi.number(),
       shipment_cost: Joi.number(),
       form_payment: Joi.string(),

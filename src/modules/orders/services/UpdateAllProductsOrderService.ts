@@ -50,6 +50,7 @@ export default class UpdateAllProductsOrderService {
       product_order_mapped.cog = product_order.cog;
       product_order_mapped.gross_profit = product_order.gross_profit;
       product_order_mapped.shipment_amazon = product_order.shipment_amazon;
+      product_order_mapped.note = product_order.note;
 
       return this.productsOrderRepository.save(product_order_mapped);
     });

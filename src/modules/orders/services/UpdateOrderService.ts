@@ -16,6 +16,7 @@ interface IRequest {
   status: string;
   date: Date;
   invoice: string;
+  note: string;
   other_cost: number;
   shipment_cost: number;
   sub_total: number;
@@ -36,6 +37,7 @@ export default class UpdateOrderService {
     supplier_id,
     date,
     invoice,
+    note,
     other_cost,
     shipment_cost,
     form_payment,
@@ -55,6 +57,7 @@ export default class UpdateOrderService {
     order.supplier_id = supplier_id;
     order.date = date;
     order.invoice = invoice;
+    order.note = note;
     order.other_cost = other_cost;
     order.shipment_cost = shipment_cost;
     order.form_payment = form_payment;

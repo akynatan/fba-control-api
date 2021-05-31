@@ -12,6 +12,7 @@ import DeleteProductService from '@modules/products/services/DeleteProductServic
 import UploadProductsService from '@modules/products/services/UploadProductsService';
 import SyncDataProductByAmazonService from '@modules/products/services/SyncDataProductByAmazonService';
 import GetPrepInstructionsByAsinsService from '@modules/products/services/GetPrepInstructionsByAsinsService';
+import ListShipmentFromProductService from '@modules/products/services/ListShipmentFromProductService';
 
 export default class ProductsController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -48,6 +49,22 @@ export default class ProductsController {
     const products = await listAllProducts.execute();
 
     return response.json(classToClass(products));
+  }
+
+  public async shipmentsForProducts(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const { product_id } = request.query;
+    const listShipmentFromProduct = container.resolve(
+      ListShipmentFromProductService,
+    );
+
+    const shipments = await listShipmentFromProduct.execute({
+      product_id: String(product_id),
+    });
+
+    return response.json(shipments);
   }
 
   public async getPrepInstructions(

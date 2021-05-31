@@ -75,4 +75,21 @@ export default class ProductsOrderRepository
       throw new AppError('Erro');
     }
   }
+
+  public async findPriceInLastOrder(
+    product_id: string,
+  ): Promise<ProductsOrder | undefined> {
+    const last_price = await this.ormRepository
+      .createQueryBuilder('product_order')
+      .leftJoinAndSelect(
+        'product_supplier',
+        'ps',
+        'ps.id = product_order.product_supplier_id',
+      )
+      .where('ps.product_id = :product_id', { product_id })
+      .orderBy('product_order.created_at', 'DESC')
+      .getOne();
+
+    return last_price;
+  }
 }

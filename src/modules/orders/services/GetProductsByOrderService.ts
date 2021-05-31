@@ -32,8 +32,25 @@ export default class GetProductsByOrderService {
 
     const products = await this.productsOrderRepository.getProducts(order_id);
 
+    const products_returned = await Promise.all(
+      products.map(async product => {
+        const priceInLastOrder = await this.productsOrderRepository.findPriceInLastOrder(
+          product.product_supplier.product_id,
+        );
+
+        let priceInLastOrderReturned = 0;
+        if (priceInLastOrder) {
+          priceInLastOrderReturned = priceInLastOrder.unit_price;
+        }
+
+        return Object.assign(product, {
+          price_in_last_order: priceInLastOrderReturned,
+        });
+      }),
+    );
+
     // await this.cacheProvider.invalidate('products-list');
 
-    return products;
+    return products_returned;
   }
 }

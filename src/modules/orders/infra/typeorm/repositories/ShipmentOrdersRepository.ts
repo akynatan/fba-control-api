@@ -1,4 +1,4 @@
-import { getRepository, Repository } from 'typeorm';
+import { getRepository, In, Repository } from 'typeorm';
 import IShipmentOrdersRepository from '@modules/orders/repositories/IShipmentOrdersRepository';
 
 import AppError from '@shared/errors/AppError';
@@ -46,6 +46,16 @@ export default class ShipmentOrdersRepository
         order_id,
       },
       relations: ['items_shipment'],
+    });
+    return shipment_order;
+  }
+
+  public async findByOrders(orders: string[]): Promise<ShipmentOrder[]> {
+    const shipment_order = await this.ormRepository.find({
+      where: {
+        order_id: In(orders),
+      },
+      relations: ['items_shipment', 'order', 'order.supplier'],
     });
     return shipment_order;
   }
