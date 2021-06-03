@@ -7,6 +7,7 @@ import {
   UpdateDateColumn,
   OneToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 
 import Supplier from '@modules/suppliers/infra/typeorm/entities/Supplier';
@@ -31,6 +32,9 @@ export default class Order {
 
   @Column()
   invoice: string;
+
+  @OneToMany(() => ProductsOrder, product_order => product_order.order)
+  products_order: ProductsOrder[];
 
   @Column()
   its_paid: boolean;

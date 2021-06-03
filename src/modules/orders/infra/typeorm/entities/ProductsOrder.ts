@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 
 import ProductSupplier from '@modules/products/infra/typeorm/entities/ProductSupplier';
+import Order from './Order';
 
 @Entity('product_order')
 export default class ProductsOrder {
@@ -49,6 +50,10 @@ export default class ProductsOrder {
 
   @Column('decimal', { precision: 5, scale: 2 })
   amazon_fee: number;
+
+  @OneToOne(() => Order)
+  @JoinColumn({ name: 'order_id' })
+  order: Order;
 
   @CreateDateColumn()
   created_at: Date;
