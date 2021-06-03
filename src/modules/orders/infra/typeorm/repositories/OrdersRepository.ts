@@ -29,7 +29,8 @@ export default class OrdersRepository implements IOrdersRepository {
         'supplier',
         'shipments',
         'products_order',
-        'products_order.product_supplier'
+        'products_order.product_supplier',
+        'products_order.product_supplier.products'
       ],
       order: {
         date: 'DESC',
