@@ -18,6 +18,7 @@ ordersRouter.post(
       supplier_id: Joi.string().uuid().required(),
       form_payment: Joi.string(),
       its_paid: Joi.boolean(),
+      total_charged: Joi.number(),
       status: Joi.string(),
       other_cost: Joi.number(),
       shipment_cost: Joi.number(),
@@ -35,12 +36,15 @@ ordersRouter.put(
       order_id: Joi.string().uuid().required(),
       supplier_id: Joi.string().uuid().required(),
       date: Joi.date(),
-      invoice: Joi.string(),
+      invoice: Joi.string().allow(null, ''),
+      note: Joi.string().allow(null, ''),
       other_cost: Joi.number(),
       shipment_cost: Joi.number(),
       form_payment: Joi.string(),
       its_paid: Joi.boolean(),
+      total_charged: Joi.number(),
       status: Joi.string(),
+      sub_total: Joi.number(),
     },
   }),
   ordersController.update,
@@ -53,5 +57,7 @@ ordersRouter.get('/', ordersController.index);
 ordersRouter.get('/detail', ordersController.detail);
 
 ordersRouter.get('/products', ordersController.products);
+
+ordersRouter.get('/by_supplier', ordersController.ordersBySupplier);
 
 export default ordersRouter;

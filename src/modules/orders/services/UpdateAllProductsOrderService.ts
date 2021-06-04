@@ -13,6 +13,9 @@ interface ICreateProductsOrderServiceDTO {
   other_cost: number;
   buy_box: number;
   note: string;
+  cog: number;
+  gross_profit: number;
+  shipment_amazon: number;
 }
 
 @injectable()
@@ -43,6 +46,10 @@ export default class UpdateAllProductsOrderService {
       product_order_mapped.prep = product_order.prep;
       product_order_mapped.other_cost = product_order.other_cost;
       product_order_mapped.buy_box = product_order.buy_box;
+      product_order_mapped.note = product_order.note;
+      product_order_mapped.cog = product_order.cog;
+      product_order_mapped.gross_profit = product_order.gross_profit;
+      product_order_mapped.shipment_amazon = product_order.shipment_amazon;
       product_order_mapped.note = product_order.note;
 
       return this.productsOrderRepository.save(product_order_mapped);

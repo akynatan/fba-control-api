@@ -49,6 +49,23 @@ export default class ProductsOrderRepository
     return products;
   }
 
+  public async findByProduct(product_id: string): Promise<ProductsOrder[]> {
+    const all_products = await this.ormRepository.find({
+      relations: [
+        'product_supplier',
+        'product_supplier.products',
+        'order',
+        'product_supplier.suppliers',
+      ],
+    });
+
+    const products = all_products.filter(
+      p => p.product_supplier.product_id === product_id,
+    );
+
+    return products;
+  }
+
   public async delete(id: string): Promise<void> {
     try {
       await await this.ormRepository.delete({
@@ -57,5 +74,22 @@ export default class ProductsOrderRepository
     } catch (err) {
       throw new AppError('Erro');
     }
+  }
+
+  public async findPriceInLastOrder(
+    product_id: string,
+  ): Promise<ProductsOrder | undefined> {
+    const last_price = await this.ormRepository
+      .createQueryBuilder('product_order')
+      .leftJoinAndSelect(
+        'product_supplier',
+        'ps',
+        'ps.id = product_order.product_supplier_id',
+      )
+      .where('ps.product_id = :product_id', { product_id })
+      .orderBy('product_order.created_at', 'DESC')
+      .getOne();
+
+    return last_price;
   }
 }

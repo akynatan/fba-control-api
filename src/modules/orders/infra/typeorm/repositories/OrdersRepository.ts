@@ -25,7 +25,16 @@ export default class OrdersRepository implements IOrdersRepository {
 
   public async findAll(): Promise<Order[]> {
     const orders = await this.ormRepository.find({
-      relations: ['supplier', 'products_order'],
+      relations: [
+        'supplier',
+        'shipments',
+        'products_order',
+        'products_order.product_supplier',
+        'products_order.product_supplier.products'
+      ],
+      order: {
+        date: 'DESC',
+      },
     });
     return orders;
   }
@@ -38,6 +47,16 @@ export default class OrdersRepository implements IOrdersRepository {
       },
     });
     return order;
+  }
+
+  public async findBySupplier(supplier_id: string): Promise<Order[]> {
+    const orders = await this.ormRepository.find({
+      where: {
+        supplier_id,
+      },
+    });
+
+    return orders;
   }
 
   public async delete(id: string): Promise<void> {

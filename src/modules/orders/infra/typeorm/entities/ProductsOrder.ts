@@ -27,6 +27,10 @@ export default class ProductsOrder {
   @Column()
   order_id: string;
 
+  @OneToOne(() => Order)
+  @JoinColumn({ name: 'order_id' })
+  order: Order;
+
   @Column('decimal', { precision: 5, scale: 2 })
   unit_price: number;
 
@@ -51,9 +55,14 @@ export default class ProductsOrder {
   @Column('decimal', { precision: 5, scale: 2 })
   amazon_fee: number;
 
-  @OneToOne(() => Order)
-  @JoinColumn({ name: 'order_id' })
-  order: Order;
+  @Column('decimal', { precision: 5, scale: 2 })
+  cog: number;
+
+  @Column('decimal', { precision: 5, scale: 2 })
+  gross_profit: number;
+
+  @Column('decimal', { precision: 5, scale: 2 })
+  shipment_amazon: number;
 
   @CreateDateColumn()
   created_at: Date;

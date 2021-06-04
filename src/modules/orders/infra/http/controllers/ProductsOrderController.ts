@@ -82,9 +82,13 @@ export default class ProductsOrderController {
   }
 
   public async index(request: Request, response: Response): Promise<Response> {
+    const { product_id } = request.query;
+
     const listAllProductsOrder = container.resolve(ListAllProductsOrderService);
 
-    const products_order = await listAllProductsOrder.execute();
+    const products_order = await listAllProductsOrder.execute({
+      product_id: String(product_id),
+    });
 
     return response.json(products_order);
   }

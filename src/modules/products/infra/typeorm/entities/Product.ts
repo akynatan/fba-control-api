@@ -35,6 +35,12 @@ export default class Product {
   @Column()
   note: string;
 
+  @Column()
+  label: string;
+
+  @Column()
+  prep: string;
+
   @OneToMany(
     () => ProductSupplier,
     product_supplier => product_supplier.products,

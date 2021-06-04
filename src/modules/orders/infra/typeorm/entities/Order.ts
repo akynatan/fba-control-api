@@ -11,6 +11,8 @@ import {
 } from 'typeorm';
 
 import Supplier from '@modules/suppliers/infra/typeorm/entities/Supplier';
+import ShipmentOrder from './ShipmentOrder';
+import ProductsOrder from './ProductsOrder';
 
 @Entity('orders')
 export default class Order {
@@ -26,6 +28,9 @@ export default class Order {
   @OneToOne(() => Supplier)
   @JoinColumn({ name: 'supplier_id' })
   supplier?: Supplier;
+
+  @OneToMany(() => ShipmentOrder, shipments => shipments.order)
+  shipments: ShipmentOrder[];
 
   @Column()
   form_payment: string;
@@ -47,6 +52,15 @@ export default class Order {
 
   @Column('decimal', { precision: 5, scale: 2 })
   other_cost: number;
+
+  @Column('decimal', { precision: 5, scale: 2 })
+  sub_total: number;
+
+  @Column('decimal', { precision: 5, scale: 2 })
+  total_charged: number;
+
+  @OneToMany(() => ProductsOrder, product_order => product_order.order)
+  products_order: ProductsOrder[];
 
   @Column()
   note: string;

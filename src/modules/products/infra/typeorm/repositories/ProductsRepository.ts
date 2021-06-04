@@ -49,6 +49,13 @@ export default class ProductsRepository implements IProductsRepository {
     return product;
   }
 
+  public async findShipmept(id: string): Promise<Product | undefined> {
+    const product = await this.ormRepository.findOne(id, {
+      relations: [],
+    });
+    return product;
+  }
+
   public async delete(id: string): Promise<void> {
     try {
       await await this.ormRepository.delete({

@@ -50,14 +50,24 @@ export default class SyncManyShipmentOrderService {
 
         if (IsPartnered) {
           if (ShipmentType === 'SP') {
-            cost =
+            if (
               TransportContent.TransportDetails.PartneredSmallParcelData
-                .PartneredEstimate.Amount.Value;
+                .PartneredEstimate
+            ) {
+              cost =
+                TransportContent.TransportDetails.PartneredSmallParcelData
+                  .PartneredEstimate.Amount.Value;
+            }
           }
           if (ShipmentType === 'LTL') {
-            cost =
+            if (
               TransportContent.TransportDetails.PartneredLtlData
-                .PartneredEstimate.Amount.Value;
+                .PartneredEstimate
+            ) {
+              cost =
+                TransportContent.TransportDetails.PartneredLtlData
+                  .PartneredEstimate.Amount.Value;
+            }
           }
         }
       }
