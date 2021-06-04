@@ -41,7 +41,7 @@ export default {
 
   config: {
     aws: {
-      bucket: 'app-gobarber-akynatan',
+      bucket: 'fbacontroll',
     },
   },
 } as IUploadConfig;

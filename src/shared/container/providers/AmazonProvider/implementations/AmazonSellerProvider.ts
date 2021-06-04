@@ -2,6 +2,12 @@ import { injectable } from 'tsyringe';
 import SellingPartnerAPI from 'amazon-sp-api';
 
 import IAmazonSellerProvider from '../models/IAmazonSellerProvider';
+import IFeesEstimateProductByAsinAndBuyBox from '../dtos/IFeesEstimateProductByAsinAndBuyBox';
+import IGetDataProductAmazonDTO from '../dtos/IGetDataProductAmazonDTO';
+import IShipmentByShipmentID from '../dtos/IShipmentByShipmentID';
+import IItemsByShipment from '../dtos/IItemsByShipment';
+import IStatusShipment from '../dtos/IStatusShipment';
+import IGetMyFees from '../dtos/IGetMyFees';
 
 @injectable()
 class AmazonSellerProvider implements IAmazonSellerProvider {
@@ -16,11 +22,15 @@ class AmazonSellerProvider implements IAmazonSellerProvider {
     this.client = sellingPartner;
   }
 
-  public async GetMyFeesEstimate(): Promise<any> {
+  public async getMyFeesEstimate({
+    buy_box,
+    asin,
+  }: IGetMyFees): Promise<IFeesEstimateProductByAsinAndBuyBox> {
     const res = await this.client.callAPI({
       operation: 'getMyFeesEstimateForASIN',
       path: {
-        Asin: 'B07FFB647Q', // asin
+        // Asin: 'B07FFB647Q', // asin
+        Asin: asin, // asin
       },
       body: {
         FeesEstimateRequest: {
@@ -28,7 +38,8 @@ class AmazonSellerProvider implements IAmazonSellerProvider {
           MarketplaceId: 'ATVPDKIKX0DER',
           PriceToEstimateFees: {
             ListingPrice: {
-              Amount: 100.0, // amazon by box
+              // Amount: 100.0, // amazon by box
+              Amount: buy_box, // amazon by box
               CurrencyCode: 'USD',
             },
           },
@@ -37,6 +48,73 @@ class AmazonSellerProvider implements IAmazonSellerProvider {
       },
     });
     return res;
+  }
+
+  public async getDataProduct(sku: string): Promise<IGetDataProductAmazonDTO> {
+    const res = await this.client.callAPI({
+      operation: 'listCatalogItems',
+      query: {
+        MarketplaceId: 'ATVPDKIKX0DER',
+        SellerSKU: sku,
+      },
+    });
+    return res;
+  }
+
+  public async getShipment(
+    shipment_id: string,
+  ): Promise<IShipmentByShipmentID> {
+    try {
+      const res = await this.client.callAPI({
+        operation: 'getTransportDetails',
+        path: {
+          shipmentId: shipment_id,
+        },
+      });
+      return res;
+    } catch (err) {
+      console.log(err);
+      return {} as IShipmentByShipmentID;
+    }
+  }
+
+  public async getStatusByShipment(
+    shipment_id: string,
+  ): Promise<IStatusShipment> {
+    try {
+      const res = await this.client.callAPI({
+        operation: 'getShipments',
+        query: {
+          MarketplaceId: 'ATVPDKIKX0DER',
+          QueryType: 'SHIPMENT',
+          ShipmentIdList: [shipment_id],
+        },
+      });
+      return res;
+    } catch (err) {
+      console.log(err);
+      return {} as IStatusShipment;
+    }
+  }
+
+  public async getItemsByShipment(
+    shipment_id: string,
+  ): Promise<IItemsByShipment> {
+    try {
+      const res = await this.client.callAPI({
+        operation: 'getShipmentItemsByShipmentId',
+        path: {
+          shipmentId: shipment_id,
+        },
+        query: {
+          MarketplaceId: 'ATVPDKIKX0DER',
+        },
+      });
+      return res;
+    } catch (err) {
+      console.log(err);
+      return {} as IItemsByShipment;
+    }
   }
 }
 

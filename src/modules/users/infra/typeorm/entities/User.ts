@@ -54,7 +54,7 @@ export default class User {
       case 'disk':
         return `${process.env.APP_API_URL}/files/${this.avatar}`;
       case 's3':
-        return `https://${uploaConfig.config.aws.bucket}.s3.us-east-2.amazonaws.com/${this.avatar}`;
+        return `https://${uploaConfig.config.aws.bucket}.s3.us-east-1.amazonaws.com/${this.avatar}`;
       default:
         return null;
     }

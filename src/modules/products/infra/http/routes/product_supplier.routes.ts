@@ -27,6 +27,7 @@ productSupplierRouter.post(
     [Segments.BODY]: {
       supplier_id: Joi.string().required(),
       product_id: Joi.string().required(),
+      restriction_to_buy: Joi.boolean(),
       sku_supplier: Joi.string(),
       note: Joi.string(),
     },
@@ -41,11 +42,21 @@ productSupplierRouter.put(
       product_supplier_id: Joi.string().required(),
       supplier_id: Joi.string().required(),
       product_id: Joi.string().required(),
-      sku_supplier: Joi.string().required(),
-      note: Joi.string().required(),
+      sku_supplier: Joi.string().allow(null, ''),
+      note: Joi.string().allow(null, ''),
     },
   }),
   productSupplierController.update,
+);
+
+productSupplierRouter.patch(
+  '/toggle_restriction_buy',
+  celebrate({
+    [Segments.BODY]: {
+      product_supplier_id: Joi.string().required(),
+    },
+  }),
+  productSupplierController.toggleRestrictionToBuy,
 );
 
 productSupplierRouter.delete(

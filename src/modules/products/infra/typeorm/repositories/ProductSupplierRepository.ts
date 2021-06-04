@@ -1,6 +1,8 @@
 import { getRepository, Repository } from 'typeorm';
 import IProductSupplierRepository from '@modules/products/repositories/IProductSupplierRepository';
+
 import ICreateProductSupplierDTO from '@modules/products/dtos/ICreateProductSupplierDTO';
+import IGetByProductSupplierDTO from '@modules/products/dtos/IGetByProductSupplierDTO';
 
 import ProductSupplier from '../entities/ProductSupplier';
 
@@ -47,7 +49,9 @@ export default class ProductSupplierRepository
   }
 
   public async findByID(id: string): Promise<ProductSupplier | undefined> {
-    const product_supplier = await this.ormRepository.findOne(id);
+    const product_supplier = await this.ormRepository.findOne(id, {
+      relations: ['suppliers', 'products'],
+    });
     return product_supplier;
   }
 
@@ -55,5 +59,18 @@ export default class ProductSupplierRepository
     await await this.ormRepository.delete({
       id,
     });
+  }
+
+  public async findBySupplierProduct({
+    product_id,
+    supplier_id,
+  }: IGetByProductSupplierDTO): Promise<ProductSupplier | undefined> {
+    const product_supplier = await this.ormRepository.findOne({
+      where: {
+        product_id,
+        supplier_id,
+      },
+    });
+    return product_supplier;
   }
 }

@@ -10,7 +10,7 @@ class S3StorageProvider implements IStorageProvider {
   private client: S3;
 
   constructor() {
-    this.client = new aws.S3({ region: 'us-east-2' });
+    this.client = new aws.S3({ region: 'us-east-1' });
   }
 
   public async saveFile(file: string): Promise<string> {
@@ -33,8 +33,6 @@ class S3StorageProvider implements IStorageProvider {
         ContentType,
       })
       .promise();
-
-    await fs.promises.unlink(originalPath);
 
     return file;
   }

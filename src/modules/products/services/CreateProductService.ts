@@ -1,6 +1,7 @@
 import { injectable, inject } from 'tsyringe';
 
 import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
+import IAmazonSellerProvider from '@shared/container/providers/AmazonProvider/models/IAmazonSellerProvider';
 import Product from '../infra/typeorm/entities/Product';
 
 import IProductsRepository from '../repositories/IProductsRepository';
@@ -18,21 +19,42 @@ export default class createProductService {
 
     @inject('CacheProvider')
     private cacheProvider: ICacheProvider,
+
+    @inject('AmazonSellerProvider')
+    private amazonSellerProvider: IAmazonSellerProvider,
   ) {}
 
   public async execute({
-    name,
     asin,
+    name,
+    image,
+    brand,
     sku,
     upc,
     note,
     suppliers,
   }: ICreateProductDTO): Promise<Product> {
+    const productAmazon = await this.amazonSellerProvider.getDataProduct(sku);
+
+    let newAsin;
+    let newName;
+    let newImage;
+    let newBrand;
+
+    if (productAmazon.Items.length > 0) {
+      newAsin = productAmazon.Items[0].Identifiers.MarketplaceASIN.ASIN;
+      newName = productAmazon.Items[0].AttributeSets[0].Title;
+      newImage = productAmazon.Items[0].AttributeSets[0].SmallImage.URL;
+      newBrand = productAmazon.Items[0].AttributeSets[0].Brand;
+    }
+
     const product = await this.productsRepository.create({
-      name,
-      asin,
-      note,
+      asin: newAsin || asin,
+      name: newName || name,
+      image: newImage || image,
+      brand: newBrand || brand,
       sku,
+      note,
       upc,
     });
 

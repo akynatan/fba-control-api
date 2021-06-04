@@ -46,13 +46,11 @@ export default class CreateProductSupplier1616261806279
           {
             name: 'created_at',
             type: 'timestamp',
-            isUnique: true,
             default: 'now()',
           },
           {
             name: 'updated_at',
             type: 'timestamp',
-            isUnique: true,
             default: 'now()',
           },
         ],

@@ -5,10 +5,12 @@ interface supplierProduct {
 }
 
 export default interface ICreateProductDTO {
-  name: string;
+  asin?: string;
+  name?: string;
+  image?: string;
+  brand?: string;
   sku: string;
-  asin: string;
-  upc: string;
-  note: string;
+  upc?: string;
+  note?: string;
   suppliers: supplierProduct[];
 }

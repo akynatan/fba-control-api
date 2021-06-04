@@ -10,16 +10,28 @@ import ListSupplierProductsService from '@modules/products/services/ListSupplier
 import DetailProductService from '@modules/products/services/DetailProductService';
 import DeleteProductService from '@modules/products/services/DeleteProductService';
 import UploadProductsService from '@modules/products/services/UploadProductsService';
+import SyncDataProductByAmazonService from '@modules/products/services/SyncDataProductByAmazonService';
 
 export default class ProductsController {
   public async create(request: Request, response: Response): Promise<Response> {
-    const { name, asin, note, sku, upc, suppliers } = request.body;
+    const {
+      name,
+      asin,
+      note,
+      sku,
+      image,
+      brand,
+      upc,
+      suppliers,
+    } = request.body;
 
     const createProduct = container.resolve(CreateProductService);
 
     const product = await createProduct.execute({
-      name,
       asin,
+      name,
+      image,
+      brand,
       note,
       sku,
       upc,
@@ -49,6 +61,24 @@ export default class ProductsController {
       note,
       sku,
       upc,
+    });
+
+    return response.json(product);
+  }
+
+  public async syncAmazon(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const { product_id, sku } = request.body;
+
+    const syncDataProductByAmazon = container.resolve(
+      SyncDataProductByAmazonService,
+    );
+
+    const product = await syncDataProductByAmazon.execute({
+      product_id,
+      sku,
     });
 
     return response.json(product);
@@ -113,7 +143,7 @@ export default class ProductsController {
   ): Promise<Response> {
     const uploadProducts = container.resolve(UploadProductsService);
     const products = await uploadProducts.execute({
-      avatarFileName: request.file.filename,
+      file_name: request.file.filename,
     });
 
     return response.json(products);

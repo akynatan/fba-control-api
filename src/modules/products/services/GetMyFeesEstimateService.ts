@@ -4,7 +4,8 @@ import AppError from '@shared/errors/AppError';
 import IAmazonSellerProvider from '@shared/container/providers/AmazonProvider/models/IAmazonSellerProvider';
 
 interface IRequest {
-  email: string;
+  asin: string;
+  buy_box: number;
 }
 
 @injectable()
@@ -15,7 +16,11 @@ export default class GetMyFeesEstimateService {
   ) {}
 
   public async execute(): Promise<any> {
-    const fees = await this.amazonSellerProvider.GetMyFeesEstimate();
+    const fees = await this.amazonSellerProvider.getMyFeesEstimate(
+      100,
+      'B07N973KFM',
+    );
+
     return fees;
   }
 }
