@@ -38,6 +38,9 @@ export default class Order {
   @Column()
   invoice: string;
 
+  @OneToMany(() => ProductsOrder, product_order => product_order.order)
+  products_order: ProductsOrder[];
+
   @Column()
   its_paid: boolean;
 
