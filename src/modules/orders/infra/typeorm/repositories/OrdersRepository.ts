@@ -25,7 +25,13 @@ export default class OrdersRepository implements IOrdersRepository {
 
   public async findAll(): Promise<Order[]> {
     const orders = await this.ormRepository.find({
-      relations: ['supplier', 'shipments'],
+      relations: [
+        'supplier',
+        'shipments',
+        'products_order',
+        'products_order.product_supplier',
+        'products_order.product_supplier.products'
+      ],
       order: {
         date: 'DESC',
       },
