@@ -36,4 +36,6 @@ suppliersRouter.get('/products', suppliersController.listProductsSupplier);
 
 suppliersRouter.post('/sync-hubspot', syncSuppliersController.create);
 
+suppliersRouter.get('/shipments', suppliersController.shipmentsForSuppliers);
+
 export default suppliersRouter;
