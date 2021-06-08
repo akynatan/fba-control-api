@@ -6,6 +6,7 @@ import ListAllSuppliersService from '@modules/suppliers/services/ListAllSupplier
 import DetailSupplierService from '@modules/suppliers/services/DetailSupplierService';
 import ListProductsSupplierService from '@modules/suppliers/services/ListProductsSupplierService';
 import UpdateSupplierService from '@modules/suppliers/services/UpdateSupplierService';
+import ListShipmentFromSupplierService from '@modules/suppliers/services/ListShipmentFromSupplierService';
 
 export default class SuppliersController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -45,6 +46,22 @@ export default class SuppliersController {
     });
 
     return response.json(supplier);
+  }
+
+  public async shipmentsForSuppliers(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const { supplier_id } = request.query;
+    const ListShipmentFromSupplier = container.resolve(
+      ListShipmentFromSupplierService,
+    );
+
+    const shipments = await ListShipmentFromSupplier.execute({
+      supplier_id: String(supplier_id),
+    });
+
+    return response.json(shipments);
   }
 
   public async listProductsSupplier(
