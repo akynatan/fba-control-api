@@ -16,10 +16,10 @@ export default class DeleteOrderService {
   ) {}
 
   public async execute({ id }: IRequest): Promise<void> {
-    const product = await this.ordersRepository.findByID(id);
+    const order = await this.ordersRepository.findByID(id);
 
-    if (!product) {
-      throw new AppError('Shipment not found');
+    if (!order) {
+      throw new AppError('Order not found');
     }
 
     await this.ordersRepository.delete(id);

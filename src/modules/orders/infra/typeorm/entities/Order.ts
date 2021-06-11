@@ -59,9 +59,6 @@ export default class Order {
   @Column('decimal', { precision: 5, scale: 2 })
   total_charged: number;
 
-  @OneToMany(() => ProductsOrder, product_order => product_order.order)
-  products_order: ProductsOrder[];
-
   @Column()
   note: string;
 

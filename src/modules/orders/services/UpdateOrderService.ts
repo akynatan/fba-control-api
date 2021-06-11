@@ -3,8 +3,9 @@ import { injectable, inject } from 'tsyringe';
 import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 
 import AppError from '@shared/errors/AppError';
+import IProductSupplierRepository from '@modules/products/repositories/IProductSupplierRepository';
 import Order from '../infra/typeorm/entities/Order';
-import ICreateOrderDTO from '../dtos/ICreateOrderDTO';
+
 import IOrdersRepository from '../repositories/IOrdersRepository';
 
 interface IRequest {
@@ -20,6 +21,7 @@ interface IRequest {
   other_cost: number;
   shipment_cost: number;
   sub_total: number;
+  products: string[];
 }
 
 @injectable()
@@ -27,6 +29,9 @@ export default class UpdateOrderService {
   constructor(
     @inject('OrdersRepository')
     private ordersRepository: IOrdersRepository,
+
+    @inject('ProductSupplierRepository')
+    private productSupplierRepository: IProductSupplierRepository,
 
     @inject('CacheProvider')
     private cacheProvider: ICacheProvider,
@@ -45,6 +50,7 @@ export default class UpdateOrderService {
     total_charged,
     status,
     sub_total,
+    products,
   }: IRequest): Promise<Order> {
     const order = await this.ordersRepository.findByID(order_id);
 
@@ -52,9 +58,29 @@ export default class UpdateOrderService {
       throw new AppError('Order not found');
     }
 
-    delete order.supplier;
+    if (order.supplier_id !== supplier_id) {
+      delete order.supplier;
+      order.supplier_id = supplier_id;
 
-    order.supplier_id = supplier_id;
+      await Promise.all(
+        products.map(async product => {
+          let product_supplier = await this.productSupplierRepository.findBySupplierProduct(
+            {
+              product_id: product,
+              supplier_id: order.supplier_id,
+            },
+          );
+
+          if (!product_supplier) {
+            product_supplier = await this.productSupplierRepository.create({
+              product_id: product,
+              supplier_id: order.supplier_id,
+            });
+          }
+        }),
+      );
+    }
+
     order.date = date;
     order.invoice = invoice;
     order.note = note;
