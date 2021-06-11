@@ -45,6 +45,7 @@ ordersRouter.put(
       total_charged: Joi.number(),
       status: Joi.string(),
       sub_total: Joi.number(),
+      products: Joi.array(),
     },
   }),
   ordersController.update,

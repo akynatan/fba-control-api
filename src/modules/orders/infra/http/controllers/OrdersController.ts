@@ -56,6 +56,7 @@ export default class OrdersController {
       total_charged,
       status,
       sub_total,
+      products,
     } = request.body;
 
     const updateOrder = container.resolve(UpdateOrderService);
@@ -73,6 +74,7 @@ export default class OrdersController {
       total_charged,
       status,
       sub_total,
+      products,
     });
 
     return response.json(order);
