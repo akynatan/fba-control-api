@@ -24,9 +24,11 @@ export default class ListShipmentFromProductService {
 
     const orders_for = orders.map(order => order.order_id);
 
-    const shipments = await this.shipmentOrdersRepository.findByOrders(
-      orders_for,
-    );
+    let shipments: ShipmentOrder[] = [];
+
+    if (orders.length > 0) {
+      shipments = await this.shipmentOrdersRepository.findByOrders(orders_for);
+    }
 
     return shipments;
   }
