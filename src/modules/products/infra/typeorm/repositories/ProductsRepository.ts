@@ -42,6 +42,15 @@ export default class ProductsRepository implements IProductsRepository {
     return products;
   }
 
+  public async findBySKU(sku: string): Promise<Product[]> {
+    const products = await this.ormRepository.find({
+      where: {
+        sku,
+      },
+    });
+    return products;
+  }
+
   public async findByID(id: string): Promise<Product | undefined> {
     const product = await this.ormRepository.findOne(id, {
       relations: ['product_suppliers', 'product_suppliers.suppliers'],
