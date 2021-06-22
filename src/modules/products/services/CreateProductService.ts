@@ -1,5 +1,6 @@
 import { injectable, inject } from 'tsyringe';
 
+import AppError from '@shared/errors/AppError';
 import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 import IAmazonSellerProvider from '@shared/container/providers/AmazonProvider/models/IAmazonSellerProvider';
 import Product from '../infra/typeorm/entities/Product';
@@ -34,6 +35,15 @@ export default class createProductService {
     note,
     suppliers,
   }: ICreateProductDTO): Promise<Product> {
+    const products = await this.productsRepository.findBySKU(sku);
+
+    if (products.length > 0) {
+      throw new AppError(
+        'there is already a product registered with this sku',
+        303,
+      );
+    }
+
     const productAmazon = await this.amazonSellerProvider.getDataProduct(sku);
 
     let newAsin;
