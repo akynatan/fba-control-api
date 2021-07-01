@@ -7,7 +7,6 @@ import IProductsRepository from '../repositories/IProductsRepository';
 
 interface IRequest {
   product_id: string;
-  name: string;
   sku: string;
   asin: string;
   upc: string;
@@ -26,7 +25,6 @@ export default class updateProductService {
 
   public async execute({
     product_id,
-    name,
     asin,
     sku,
     upc,
@@ -38,13 +36,12 @@ export default class updateProductService {
       throw new AppError('Product not found.');
     }
 
-    product.name = name;
     product.asin = asin;
     product.sku = sku;
     product.upc = upc;
     product.note = note;
 
-    this.productsRepository.save(product);
+    await this.productsRepository.save(product);
 
     // await this.cacheProvider.invalidate('products-list');
 
