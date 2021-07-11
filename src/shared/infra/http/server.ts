@@ -5,7 +5,6 @@ import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import cron from 'node-cron';
 import 'express-async-errors';
-import { container } from 'tsyringe';
 import { errors } from 'celebrate';
 
 import routes from '@shared/infra/http/routes';
@@ -13,6 +12,7 @@ import uploadConfig from '@config/upload';
 import AppError from '@shared/errors/AppError';
 
 import UpdateShipmentsCron from '@modules/orders/crons/UpdateShipmentsCron';
+import SyncSuppliersCron from '@modules/suppliers/crons/SyncSuppliersCron';
 
 import rateLimiter from './middlewares/RateLimiter';
 
@@ -42,9 +42,10 @@ app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
 
 app.listen(process.env.PORT || 4444, () => {
   const updateShipmentsCron = new UpdateShipmentsCron();
-  // const syncSuppliersController = new SyncSuppliersController();
-  // // cron.schedule('0 0 * * *', syncSuppliersController.create);
+  const syncSuppliersCron = new SyncSuppliersCron();
+
   cron.schedule('0 0 * * *', updateShipmentsCron.execute);
+  cron.schedule('0 0 * * *', syncSuppliersCron.execute);
 
   console.log(`Server started on portt ${process.env.PORT || 4444}`);
 });

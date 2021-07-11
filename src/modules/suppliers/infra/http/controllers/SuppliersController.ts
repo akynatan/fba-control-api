@@ -7,6 +7,7 @@ import DetailSupplierService from '@modules/suppliers/services/DetailSupplierSer
 import ListProductsSupplierService from '@modules/suppliers/services/ListProductsSupplierService';
 import UpdateSupplierService from '@modules/suppliers/services/UpdateSupplierService';
 import ListShipmentFromSupplierService from '@modules/suppliers/services/ListShipmentFromSupplierService';
+import SyncSuppliersHubspotService from '@modules/suppliers/services/SyncSuppliersHubspotService';
 
 export default class SuppliersController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -90,5 +91,16 @@ export default class SuppliersController {
     });
 
     return response.json(product);
+  }
+
+  public async syncHubspot(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const SyncSuppliersHubspot = container.resolve(SyncSuppliersHubspotService);
+
+    const suppliers = await SyncSuppliersHubspot.execute();
+
+    return response.json(suppliers);
   }
 }

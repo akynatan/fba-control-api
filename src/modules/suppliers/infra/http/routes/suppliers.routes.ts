@@ -4,11 +4,9 @@ import { celebrate, Segments, Joi } from 'celebrate';
 
 import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
 import SuppliersController from '../controllers/SuppliersController';
-import SyncSuppliersController from '../controllers/SyncSuppliersController';
 
 const suppliersRouter = Router();
 const suppliersController = new SuppliersController();
-const syncSuppliersController = new SyncSuppliersController();
 
 suppliersRouter.use(ensureAuthenticated);
 
@@ -34,7 +32,7 @@ suppliersRouter.get('/detail', suppliersController.detailSupplier);
 
 suppliersRouter.get('/products', suppliersController.listProductsSupplier);
 
-suppliersRouter.post('/sync-hubspot', syncSuppliersController.create);
+suppliersRouter.post('/sync-hubspot', suppliersController.syncHubspot);
 
 suppliersRouter.get('/shipments', suppliersController.shipmentsForSuppliers);
 

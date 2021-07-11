@@ -1,25 +1,29 @@
 /* eslint-disable camelcase */
 import { injectable, inject } from 'tsyringe';
 import * as hubspot from '@hubspot/api-client';
-import path from 'path';
-import { isAfter } from 'date-fns';
+import { isAfter, addHours } from 'date-fns';
 // import { Filter } from '@hubspot/api-client/lib/codegen/crm/companies/model/filter.d';
 
 import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
-import fs from 'fs';
+import ILogRoutineRepository from '@modules/routines/repositories/ILogRoutineRepository';
+import Supplier from '@modules/suppliers/infra/typeorm/entities/Supplier';
+
 import ISuppliersRepository from '../repositories/ISuppliersRepository';
 
 @injectable()
-export default class CreateSupplierService {
+export default class SyncSuppliersHubspotService {
   constructor(
     @inject('SuppliersRepository')
     private suppliersRepository: ISuppliersRepository,
+
+    @inject('LogRoutineRepository')
+    private logRoutineRepository: ILogRoutineRepository,
 
     @inject('CacheProvider')
     private cacheProvider: ICacheProvider,
   ) {}
 
-  public async execute(): Promise<any> {
+  public async execute(): Promise<Supplier[]> {
     const hubspotClient = new hubspot.Client({
       apiKey: process.env.API_KEY_HUBSPOT,
     });
@@ -45,14 +49,15 @@ export default class CreateSupplierService {
     // });
     // return allSuppliers;
 
-    const lastSincronizedSupplierHubspot = JSON.parse(
-      fs.readFileSync(
-        path.resolve(
-          `${__dirname}/../utils/lastSincronizedSupplierHubspot.json`,
-        ),
-        'utf8',
-      ),
+    const lastLogRoutine = await this.logRoutineRepository.lastSyncByNameRoutine(
+      'hubspot_supplier',
     );
+
+    let lastSincronized = new Date('2021-01-01T21:36:37.105Z');
+
+    if (lastLogRoutine) {
+      lastSincronized = new Date(lastLogRoutine.created_at);
+    }
 
     const allSuppliers = await hubspotClient.crm.companies.getAll(
       undefined,
@@ -66,12 +71,14 @@ export default class CreateSupplierService {
       );
     });
 
-    const newSuppliers = suppliersInserted.filter(supplier =>
-      isAfter(
+    const newSuppliers = suppliersInserted.filter(supplier => {
+      const dateUtc = addHours(
         new Date(supplier.properties.hs_lastmodifieddate),
-        new Date(lastSincronizedSupplierHubspot.date),
-      ),
-    );
+        3,
+      );
+
+      return isAfter(dateUtc, lastSincronized);
+    });
 
     const suppliers = newSuppliers.map(async supplier => {
       const {
@@ -113,12 +120,9 @@ export default class CreateSupplierService {
       return supplier_inserted;
     });
 
-    lastSincronizedSupplierHubspot.date = new Date();
-
-    fs.writeFileSync(
-      path.resolve(`${__dirname}/../utils/lastSincronizedSupplierHubspot.json`),
-      JSON.stringify(lastSincronizedSupplierHubspot),
-    );
+    await this.logRoutineRepository.create({
+      name_routine: 'hubspot_supplier',
+    });
 
     return Promise.all(suppliers);
   }
