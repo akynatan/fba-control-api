@@ -11,7 +11,7 @@ import {
 } from 'typeorm';
 
 import Supplier from '@modules/suppliers/infra/typeorm/entities/Supplier';
-import ShipmentOrder from './ShipmentOrder';
+import ShipmentOrder from '../../../../shipments/infra/typeorm/entities/ShipmentOrder';
 import ProductsOrder from './ProductsOrder';
 
 @Entity('orders')

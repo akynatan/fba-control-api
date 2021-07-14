@@ -2,8 +2,8 @@
 import { injectable, inject } from 'tsyringe';
 
 import IProductsOrderRepository from '@modules/orders/repositories/IProductsOrderRepository';
-import IShipmentOrdersRepository from '@modules/orders/repositories/IShipmentOrdersRepository';
-import ShipmentOrder from '@modules/orders/infra/typeorm/entities/ShipmentOrder';
+import IShipmentOrdersRepository from '@modules/shipments/repositories/IShipmentOrdersRepository';
+import ShipmentOrder from '@modules/shipments/infra/typeorm/entities/ShipmentOrder';
 
 interface IRequest {
   product_id: string;

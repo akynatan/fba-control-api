@@ -44,6 +44,8 @@ shipmentOrdersRouter.put(
   shipmentOrdersController.syncMany,
 );
 
+shipmentOrdersRouter.post('/sync_all', shipmentOrdersController.syncAll);
+
 shipmentOrdersRouter.delete('/', shipmentOrdersController.delete);
 
 shipmentOrdersRouter.get('/', shipmentOrdersController.index);

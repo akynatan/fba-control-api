@@ -9,6 +9,7 @@ import IItemsByShipment from '../dtos/IItemsByShipment';
 import IStatusShipment from '../dtos/IStatusShipment';
 import IGetMyFees from '../dtos/IGetMyFees';
 import IPrepInstructionsList from '../dtos/IPrepInstructionsList';
+import IAllShipments from '../dtos/IAllShipments';
 
 @injectable()
 class AmazonSellerProvider implements IAmazonSellerProvider {
@@ -79,6 +80,34 @@ class AmazonSellerProvider implements IAmazonSellerProvider {
     }
   }
 
+  public async getAllShipments(): Promise<IAllShipments> {
+    try {
+      const res = await this.client.callAPI({
+        operation: 'getShipments',
+        query: {
+          MarketplaceId: 'ATVPDKIKX0DER',
+          QueryType: 'SHIPMENT',
+          ShipmentStatusList: [
+            'WORKING',
+            'SHIPPED',
+            'RECEIVING',
+            'CANCELLED',
+            'DELETED',
+            'CLOSED',
+            'ERROR',
+            'IN_TRANSIT',
+            'DELIVERED',
+            'CHECKED_IN',
+          ],
+        },
+      });
+      return res;
+    } catch (err) {
+      console.log(err);
+      return [];
+    }
+  }
+
   public async getStatusByShipment(
     shipment_id: string,
   ): Promise<IStatusShipment> {
@@ -132,7 +161,7 @@ class AmazonSellerProvider implements IAmazonSellerProvider {
       return res;
     } catch (err) {
       console.log(err);
-      return {} as IItemsByShipment;
+      return {} as IPrepInstructionsList;
     }
   }
 }

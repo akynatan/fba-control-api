@@ -24,6 +24,7 @@ export default class SyncSuppliersHubspotService {
   ) {}
 
   public async execute(): Promise<Supplier[]> {
+    console.log('iniciou');
     const hubspotClient = new hubspot.Client({
       apiKey: process.env.API_KEY_HUBSPOT,
     });
@@ -124,6 +125,7 @@ export default class SyncSuppliersHubspotService {
       name_routine: 'hubspot_supplier',
     });
 
+    console.log('finalizou');
     return Promise.all(suppliers);
   }
 }

@@ -11,8 +11,8 @@ import routes from '@shared/infra/http/routes';
 import uploadConfig from '@config/upload';
 import AppError from '@shared/errors/AppError';
 
-import UpdateShipmentsCron from '@modules/orders/crons/UpdateShipmentsCron';
-import SyncSuppliersCron from '@modules/suppliers/crons/SyncSuppliersCron';
+import ShipmentsCron from '@modules/shipments/crons';
+import CronsSuppliers from '@modules/suppliers/crons';
 
 import rateLimiter from './middlewares/RateLimiter';
 
@@ -40,12 +40,9 @@ app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
   });
 });
 
-app.listen(process.env.PORT || 4444, () => {
-  const updateShipmentsCron = new UpdateShipmentsCron();
-  const syncSuppliersCron = new SyncSuppliersCron();
-
-  cron.schedule('0 0 * * *', updateShipmentsCron.execute);
-  cron.schedule('0 0 * * *', syncSuppliersCron.execute);
+app.listen(process.env.PORT || 4444, async () => {
+  new ShipmentsCron().execute();
+  new CronsSuppliers().execute();
 
   console.log(`Server started on portt ${process.env.PORT || 4444}`);
 });

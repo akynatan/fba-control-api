@@ -1,7 +1,7 @@
 import { getRepository, Repository } from 'typeorm';
 import IItemShipmentOrdersRepository from '@modules/orders/repositories/IItemShipmentOrdersRepository';
 
-import ICreateItemShipmentOrderDTO from '@modules/orders/dtos/ICreateItemShipmentOrderDTO';
+import ICreateItemShipmentOrderDTO from '@modules/shipments/dtos/ICreateItemShipmentOrderDTO';
 import ItemShipmentOrder from '../entities/ItemShipmentOrder';
 
 export default class ItemShipmentOrdersRepository
