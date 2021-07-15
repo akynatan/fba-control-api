@@ -1,18 +1,26 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable camelcase */
 import { injectable, inject } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
 import IAmazonSellerProvider from '@shared/container/providers/AmazonProvider/models/IAmazonSellerProvider';
+import IItemsByShipment from '@shared/container/providers/AmazonProvider/dtos/IItemsByShipment';
+import IParamsGetAllShipments from '@shared/container/providers/AmazonProvider/dtos/IParamsGetAllShipments';
 import ShipmentOrder from '../infra/typeorm/entities/ShipmentOrder';
 import IShipmentOrdersRepository from '../repositories/IShipmentOrdersRepository';
 import IItemShipmentOrdersRepository from '../repositories/IItemShipmentOrdersRepository';
-import IItemsByShipment from '@shared/container/providers/AmazonProvider/dtos/IItemsByShipment';
+import ItemShipmentOrder from '../infra/typeorm/entities/ItemShipmentOrder';
 
-interface IRequestUpdate {
-  shipments: ShipmentOrder[],
-  cost: number,
-  status: string,
-  items_shipment: IItemsByShipment
+interface IUpdateShipmentOrder {
+  shipments: ShipmentOrder[];
+  cost: number;
+  status: string;
+  items_shipment: IItemsByShipment;
+}
+
+interface ICreateItemsShipment {
+  items_shipment: IItemsByShipment;
+  shipment_order_id: string;
 }
 
 @injectable()
@@ -28,8 +36,15 @@ export default class SyncAllShipmentsService {
     private amazonSellerProvider: IAmazonSellerProvider,
   ) {}
 
-  public async execute(): Promise<ShipmentOrder[]> {
-    const all_shipments = await this.amazonSellerProvider.getAllShipments();
+  public async execute({
+    date_init,
+    date_finally,
+  }: IParamsGetAllShipments): Promise<any> {
+    console.log('init');
+    const all_shipments = await this.amazonSellerProvider.getAllShipments({
+      date_init,
+      date_finally,
+    });
 
     const shipments_updated = all_shipments.ShipmentData.map(async shipment => {
       const shipment_amazon = await this.amazonSellerProvider.getShipment(
@@ -81,16 +96,46 @@ export default class SyncAllShipmentsService {
       );
 
       const shipments_inserted = await this.shipmentOrdersRepository.findByShipmentId(
-        shipment.ShipmentId
-      )
+        shipment.ShipmentId,
+      );
 
-      if(shipments_inserted.length > 0) {
-        await this.updateShipmentsExistents({shipments: shipments_inserted, cost, status, items_shipment})
+      if (shipments_inserted.length > 0) {
+        const shipments_updated_response = await Promise.resolve(
+          this.updateShipmentsExistents({
+            shipments: shipments_inserted,
+            cost,
+            status,
+            items_shipment,
+          }),
+        );
+
+        return shipments_updated_response;
       }
 
+      const shipment_created = await this.shipmentOrdersRepository.create({
+        shipment_id: shipment.ShipmentId,
+        cost,
+        status,
+      });
+
+      const items_shipment_created = await this.createItemsShipment({
+        items_shipment,
+        shipment_order_id: shipment_created.id,
+      });
+
+      shipment_created.items_shipment = items_shipment_created;
+
+      return [shipment_created];
     });
 
-    return Promise.all(shipments_updated);
+    const shipments_response: ShipmentOrder[] = [];
+
+    const shipments_map = await Promise.all(shipments_updated);
+
+    shipments_map.forEach(shipment => shipments_response.push(...shipment));
+    console.log('finally');
+
+    return shipments_response;
   }
 
   private async updateShipmentsExistents({
@@ -98,48 +143,45 @@ export default class SyncAllShipmentsService {
     cost,
     status,
     items_shipment,
-  }: IRequestUpdate) {
-    shipments.map(async shipment => {
+  }: IUpdateShipmentOrder): Promise<ShipmentOrder[]> {
+    const shipments_updated = shipments.map(async shipment => {
       shipment.status = status;
       shipment.cost = cost;
 
-      shipment.items_shipment = [];
       if (items_shipment.ItemData) {
-        await this.createItemsShipment(items_shipment.ItemData, shipment_order.id);
+        await this.itemShipmentOrdersRepository.deleteByShipmentID(shipment.id);
+
+        shipment.items_shipment = [];
+        const new_items_shipment_inserted = await this.createItemsShipment({
+          items_shipment,
+          shipment_order_id: shipment.id,
+        });
+        shipment.items_shipment = new_items_shipment_inserted;
       }
 
-
-      await this.shipmentOrdersRepository.save(shipment);
+      return this.shipmentOrdersRepository.save(shipment);
     });
 
-    await this.itemShipmentOrdersRepository.deleteByShipmentID(shipment_id);
-    if (items_shipment.ItemData) {
-      shipment.items_shipment = [];
-      const new_items_shipment_inserted = await this.createItemsShipment(items_shipment.ItemData, shipment_order.id);
-      shipment.items_shipment = new_items_shipment_inserted;
-    }
+    return Promise.all(shipments_updated);
   }
 
-  private async createItemsShipment(items_shipment, shipment_order_id) {
-    await this.itemShipmentOrdersRepository.deleteByShipmentID(shipment_order_id);
-
-    const all_items_shipments = items_shipment.map(async item => {
+  private async createItemsShipment({
+    items_shipment,
+    shipment_order_id,
+  }: ICreateItemsShipment): Promise<ItemShipmentOrder[]> {
+    const all_items_shipments = items_shipment.ItemData.map(async item => {
       const item_shipment_created = await this.itemShipmentOrdersRepository.create(
         {
           qtd_received: item.QuantityReceived,
           qtd_shipped: item.QuantityShipped,
           sku: item.SellerSKU,
-          shipment_order_id: shipment_order_id,
+          shipment_order_id,
         },
       );
+
       return item_shipment_created;
     });
 
-    const all_items_shipments_response = await Promise.all(
-      all_items_shipments,
-    );
-
-
-    }
+    return Promise.all(all_items_shipments);
   }
 }

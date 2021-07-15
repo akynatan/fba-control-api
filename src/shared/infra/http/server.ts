@@ -3,9 +3,10 @@ import 'dotenv/config';
 
 import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
-import cron from 'node-cron';
 import 'express-async-errors';
 import { errors } from 'celebrate';
+
+import cron from 'node-cron';
 
 import routes from '@shared/infra/http/routes';
 import uploadConfig from '@config/upload';
@@ -13,6 +14,8 @@ import AppError from '@shared/errors/AppError';
 
 import ShipmentsCron from '@modules/shipments/crons';
 import CronsSuppliers from '@modules/suppliers/crons';
+
+import InsertedShipmentRetroactive from '@modules/shipments/scripts/InsertedShipmentRetroactive';
 
 import rateLimiter from './middlewares/RateLimiter';
 

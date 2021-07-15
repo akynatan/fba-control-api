@@ -1,26 +1,34 @@
 import { container } from 'tsyringe';
+import { format, subDays } from 'date-fns';
 
-import ListAllShipmentsService from '@modules/shipments/services/ListAllShipmentsService';
-import SyncManyShipmentOrderService from '@modules/shipments/services/SyncManyShipmentOrderService';
+import GetLastSyncByNameRoutineService from '@modules/routines/services/GetLastSyncByNameRoutineService';
+import SyncAllShipmentsService from '@modules/shipments/services/SyncAllShipmentsService';
 
 export default class InsertedShipmentsCron {
   public async execute(): Promise<void> {
-    const listAllShipments = container.resolve(ListAllShipmentsService);
-    const syncManyShipmentOrder = container.resolve(
-      SyncManyShipmentOrderService,
+    const getLastSyncByNameRoutine = container.resolve(
+      GetLastSyncByNameRoutineService,
     );
+    const syncAllShipments = container.resolve(SyncAllShipmentsService);
 
-    const all_shipments = await listAllShipments.execute();
+    const date_last_updated = await getLastSyncByNameRoutine.execute({
+      name_routine: 'get_shipments',
+    });
 
-    const shipments_order_id = all_shipments
-      .filter(
-        shipment =>
-          shipment.status !== 'CLOSED' && shipment.status !== 'DELETED',
-      )
-      .map(shipment => shipment.id);
+    let today;
+    let yesterday;
 
-    await syncManyShipmentOrder.execute({
-      shipments_order_id,
+    if (!date_last_updated) {
+      today = new Date();
+      yesterday = subDays(today, 1);
+    } else {
+      today = date_last_updated.created_at;
+      yesterday = subDays(today, 1);
+    }
+
+    await syncAllShipments.execute({
+      date_init: `${format(today, 'yyyy-MM-dd')}T00:00:00-07:00`,
+      date_finally: `${format(yesterday, 'yyyy-MM-dd')}T00:00:00-07:00`,
     });
   }
 }

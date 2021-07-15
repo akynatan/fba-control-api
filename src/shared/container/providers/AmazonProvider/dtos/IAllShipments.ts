@@ -3,4 +3,5 @@ export default interface IAllShipments {
     ShipmentStatus: string;
     ShipmentId: string;
   }[];
+  NextToken: string;
 }

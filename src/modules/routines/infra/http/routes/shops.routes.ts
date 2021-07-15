@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { celebrate, Segments, Joi } from 'celebrate';
 
-import ShopsController from '../controllers/ShopsController';
+import ShopsController from '../controllers/LogRoutinesController';
 
 const shopsRouter = Router();
 const shopsController = new ShopsController();

@@ -55,6 +55,7 @@ export default class ShipmentOrdersRepository
       where: {
         shipment_id,
       },
+      relations: ['items_shipment'],
     });
     return shipment_order;
   }
