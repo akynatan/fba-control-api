@@ -1,7 +1,7 @@
 import { container } from 'tsyringe';
 
-import ListAllShipmentsService from '@modules/orders/services/ListAllShipmentsService';
-import SyncManyShipmentOrderService from '@modules/orders/services/SyncManyShipmentOrderService';
+import ListAllShipmentsService from '@modules/shipments/services/ListAllShipmentsService';
+import SyncManyShipmentOrderService from '@modules/shipments/services/SyncManyShipmentOrderService';
 
 export default class UpdateShipmentsCron {
   public async execute(): Promise<void> {

@@ -33,7 +33,6 @@ export default class AlterSupplierForProductSupplierService {
     product_supplier.supplier_id = new_supplier_id;
 
     const x = await this.productSupplierRepository.save(product_supplier);
-    console.log(x);
 
     // await this.cacheProvider.invalidate('products-list');
 

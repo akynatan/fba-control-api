@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
 import { injectable, inject } from 'tsyringe';
 
-import IShipmentOrdersRepository from '@modules/orders/repositories/IShipmentOrdersRepository';
-import ShipmentOrder from '@modules/orders/infra/typeorm/entities/ShipmentOrder';
+import IShipmentOrdersRepository from '@modules/shipments/repositories/IShipmentOrdersRepository';
+import ShipmentOrder from '@modules/shipments/infra/typeorm/entities/ShipmentOrder';
 import IOrdersRepository from '@modules/orders/repositories/IOrdersRepository';
 
 interface IRequest {
@@ -22,10 +22,10 @@ export default class ListShipmentFromSupplierService {
   public async execute({ supplier_id }: IRequest): Promise<ShipmentOrder[]> {
     const orders = await this.ordersRepository.findBySupplier(supplier_id);
 
-    const orders_for = orders.map(order => order.id);
+    const orders_id = orders.map(order => order.id);
 
     const shipments = await this.shipmentOrdersRepository.findByOrders(
-      orders_for,
+      orders_id,
     );
 
     return shipments;

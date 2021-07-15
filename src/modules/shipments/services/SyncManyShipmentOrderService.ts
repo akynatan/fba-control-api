@@ -4,7 +4,7 @@ import { injectable, inject } from 'tsyringe';
 import AppError from '@shared/errors/AppError';
 import IAmazonSellerProvider from '@shared/container/providers/AmazonProvider/models/IAmazonSellerProvider';
 import ShipmentOrder from '../infra/typeorm/entities/ShipmentOrder';
-import IOrdersRepository from '../repositories/IOrdersRepository';
+import IOrdersRepository from '../../orders/repositories/IOrdersRepository';
 import IShipmentOrdersRepository from '../repositories/IShipmentOrdersRepository';
 import IItemShipmentOrdersRepository from '../repositories/IItemShipmentOrdersRepository';
 
@@ -14,9 +14,6 @@ interface IRequest {
 @injectable()
 export default class SyncManyShipmentOrderService {
   constructor(
-    @inject('OrdersRepository')
-    private ordersRepository: IOrdersRepository,
-
     @inject('ShipmentOrdersRepository')
     private shipmentOrdersRepository: IShipmentOrdersRepository,
 

@@ -2,7 +2,7 @@
 import { injectable, inject } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
-import IOrdersRepository from '../repositories/IOrdersRepository';
+import IOrdersRepository from '../../orders/repositories/IOrdersRepository';
 import IShipmentOrdersRepository from '../repositories/IShipmentOrdersRepository';
 import ShipmentOrder from '../infra/typeorm/entities/ShipmentOrder';
 

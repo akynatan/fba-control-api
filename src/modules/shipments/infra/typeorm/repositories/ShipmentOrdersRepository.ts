@@ -1,8 +1,8 @@
 import { getRepository, In, Repository } from 'typeorm';
-import IShipmentOrdersRepository from '@modules/orders/repositories/IShipmentOrdersRepository';
+import IShipmentOrdersRepository from '@modules/shipments/repositories/IShipmentOrdersRepository';
 
 import AppError from '@shared/errors/AppError';
-import ICreateShipmentOrderDTO from '@modules/orders/dtos/ICreateShipmentOrderDTO';
+import ICreateShipmentOrderDTO from '@modules/shipments/dtos/ICreateShipmentOrderDTO';
 import ShipmentOrder from '../entities/ShipmentOrder';
 
 export default class ShipmentOrdersRepository
@@ -44,6 +44,16 @@ export default class ShipmentOrdersRepository
     const shipment_order = await this.ormRepository.find({
       where: {
         order_id,
+      },
+      relations: ['items_shipment'],
+    });
+    return shipment_order;
+  }
+
+  public async findByShipmentId(shipment_id: string): Promise<ShipmentOrder[]> {
+    const shipment_order = await this.ormRepository.find({
+      where: {
+        shipment_id,
       },
       relations: ['items_shipment'],
     });

@@ -1,11 +1,12 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
-import CreateShipmentOrdersService from '@modules/orders/services/CreateShipmentOrdersService';
-import DeleteShipmentOrderService from '@modules/orders/services/DeleteShipmentOrderService';
-import ListShipmentFromOrderService from '@modules/orders/services/ListShipmentFromOrderService';
-import UpdateShipmentOrdersService from '@modules/orders/services/UpdateShipmentOrdersService';
-import SyncManyShipmentOrderService from '@modules/orders/services/SyncManyShipmentOrderService';
+import CreateShipmentOrdersService from '@modules/shipments/services/CreateShipmentOrdersService';
+import DeleteShipmentOrderService from '@modules/shipments/services/DeleteShipmentOrderService';
+import ListShipmentFromOrderService from '@modules/shipments/services/ListShipmentFromOrderService';
+import UpdateShipmentOrdersService from '@modules/shipments/services/UpdateShipmentOrdersService';
+import SyncManyShipmentOrderService from '@modules/shipments/services/SyncManyShipmentOrderService';
+import SyncAllShipmentsService from '@modules/shipments/services/SyncAllShipmentsService';
 
 export default class ShipmentOrdersController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -61,6 +62,17 @@ export default class ShipmentOrdersController {
     const shipments = await syncManyShipmentOrder.execute({
       shipments_order_id,
     });
+
+    return response.json(shipments);
+  }
+
+  public async syncAll(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const syncAllShipments = container.resolve(SyncAllShipmentsService);
+
+    const shipments = await syncAllShipments.execute();
 
     return response.json(shipments);
   }

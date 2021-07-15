@@ -11,7 +11,7 @@ import profileRouter from '@modules/users/infra/http/routes/profile.routes';
 import ordersRouter from '@modules/orders/infra/http/routes/orders.routes';
 import productsOrderRouter from '@modules/orders/infra/http/routes/products_order.routes';
 import filesOrdersRouter from '@modules/orders/infra/http/routes/files_orders.routes';
-import shipmentsOrdersRouter from '@modules/orders/infra/http/routes/shipment_orders.routes';
+import shipmentsOrdersRouter from '@modules/shipments/infra/http/routes/shipment_orders.routes';
 
 const routes = Router();
 routes.use('/suppliers', suppliersRouter);

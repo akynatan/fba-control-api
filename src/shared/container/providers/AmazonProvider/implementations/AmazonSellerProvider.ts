@@ -9,6 +9,8 @@ import IItemsByShipment from '../dtos/IItemsByShipment';
 import IStatusShipment from '../dtos/IStatusShipment';
 import IGetMyFees from '../dtos/IGetMyFees';
 import IPrepInstructionsList from '../dtos/IPrepInstructionsList';
+import IAllShipments from '../dtos/IAllShipments';
+import IParamsGetAllShipments from '../dtos/IParamsGetAllShipments';
 
 @injectable()
 class AmazonSellerProvider implements IAmazonSellerProvider {
@@ -79,6 +81,56 @@ class AmazonSellerProvider implements IAmazonSellerProvider {
     }
   }
 
+  public async getAllShipments({
+    date_init,
+    date_finally,
+  }: IParamsGetAllShipments): Promise<IAllShipments> {
+    try {
+      const res = await this.client.callAPI({
+        operation: 'getShipments',
+        query: {
+          MarketplaceId: 'ATVPDKIKX0DER',
+          QueryType: 'DATE_RANGE',
+          ShipmentStatusList: [
+            'WORKING',
+            'SHIPPED',
+            'RECEIVING',
+            'CANCELLED',
+            'DELETED',
+            'CLOSED',
+            'ERROR',
+            'IN_TRANSIT',
+            'DELIVERED',
+            'CHECKED_IN',
+          ],
+          LastUpdatedBefore: date_init,
+          LastUpdatedAfter: date_finally,
+        },
+      });
+      return res;
+    } catch (err) {
+      console.log(err);
+      return {} as IAllShipments;
+    }
+  }
+
+  public async getAllShipments2(nextToken: string): Promise<IAllShipments> {
+    try {
+      const res = await this.client.callAPI({
+        operation: 'getShipments',
+        query: {
+          MarketplaceId: 'ATVPDKIKX0DER',
+          QueryType: 'NEXT_TOKEN',
+          NextToken: nextToken,
+        },
+      });
+      return res;
+    } catch (err) {
+      console.log(err);
+      return {} as IAllShipments;
+    }
+  }
+
   public async getStatusByShipment(
     shipment_id: string,
   ): Promise<IStatusShipment> {
@@ -132,7 +184,7 @@ class AmazonSellerProvider implements IAmazonSellerProvider {
       return res;
     } catch (err) {
       console.log(err);
-      return {} as IItemsByShipment;
+      return {} as IPrepInstructionsList;
     }
   }
 }

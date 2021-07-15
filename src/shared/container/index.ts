@@ -30,11 +30,14 @@ import ProductsOrderRepository from '@modules/orders/infra/typeorm/repositories/
 import IFilesOrdersRepository from '@modules/orders/repositories/IFilesOrdersRepository';
 import FilesOrdersRepository from '@modules/orders/infra/typeorm/repositories/FilesOrdersRepository';
 
-import IShipmentOrdersRepository from '@modules/orders/repositories/IShipmentOrdersRepository';
-import ShipmentOrdersRepository from '@modules/orders/infra/typeorm/repositories/ShipmentOrdersRepository';
+import IShipmentOrdersRepository from '@modules/shipments/repositories/IShipmentOrdersRepository';
+import ShipmentOrdersRepository from '@modules/shipments/infra/typeorm/repositories/ShipmentOrdersRepository';
 
-import IItemShipmentOrdersRepository from '@modules/orders/repositories/IItemShipmentOrdersRepository';
-import ItemShipmentOrdersRepository from '@modules/orders/infra/typeorm/repositories/ItemShipmentOrdersRepository';
+import IItemShipmentOrdersRepository from '@modules/shipments/repositories/IItemShipmentOrdersRepository';
+import ItemShipmentOrdersRepository from '@modules/shipments/infra/typeorm/repositories/ItemShipmentOrdersRepository';
+
+import ILogRoutineRepository from '@modules/routines/repositories/ILogRoutineRepository';
+import LogRoutineRepository from '@modules/routines/infra/typeorm/repositories/LogRoutineRepository';
 
 container.registerSingleton<ISuppliersRepository>(
   'SuppliersRepository',
@@ -89,4 +92,9 @@ container.registerSingleton<IShipmentOrdersRepository>(
 container.registerSingleton<IItemShipmentOrdersRepository>(
   'ItemShipmentOrdersRepository',
   ItemShipmentOrdersRepository,
+);
+
+container.registerSingleton<ILogRoutineRepository>(
+  'LogRoutineRepository',
+  LogRoutineRepository,
 );

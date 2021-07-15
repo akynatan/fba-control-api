@@ -3,16 +3,19 @@ import 'dotenv/config';
 
 import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
-import cron from 'node-cron';
 import 'express-async-errors';
-import { container } from 'tsyringe';
 import { errors } from 'celebrate';
+
+import cron from 'node-cron';
 
 import routes from '@shared/infra/http/routes';
 import uploadConfig from '@config/upload';
 import AppError from '@shared/errors/AppError';
 
-import UpdateShipmentsCron from '@modules/orders/crons/UpdateShipmentsCron';
+import ShipmentsCron from '@modules/shipments/crons';
+import CronsSuppliers from '@modules/suppliers/crons';
+
+import InsertedShipmentRetroactive from '@modules/shipments/scripts/InsertedShipmentRetroactive';
 
 import rateLimiter from './middlewares/RateLimiter';
 
@@ -40,11 +43,9 @@ app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
   });
 });
 
-app.listen(process.env.PORT || 4444, () => {
-  const updateShipmentsCron = new UpdateShipmentsCron();
-  // const syncSuppliersController = new SyncSuppliersController();
-  // // cron.schedule('0 0 * * *', syncSuppliersController.create);
-  cron.schedule('0 0 * * *', updateShipmentsCron.execute);
+app.listen(process.env.PORT || 4444, async () => {
+  new ShipmentsCron().execute();
+  new CronsSuppliers().execute();
 
   console.log(`Server started on portt ${process.env.PORT || 4444}`);
 });

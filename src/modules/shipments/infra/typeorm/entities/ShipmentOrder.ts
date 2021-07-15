@@ -11,7 +11,7 @@ import {
 } from 'typeorm';
 import ItemShipmentOrder from './ItemShipmentOrder';
 
-import Order from './Order';
+import Order from '../../../../orders/infra/typeorm/entities/Order';
 
 @Entity('shipment_order')
 export default class ShipmentOrder {
