@@ -1,4 +1,4 @@
-import { container, injectable } from 'tsyringe';
+import { container } from 'tsyringe';
 import { format, subDays, formatDistanceToNowStrict, addDays } from 'date-fns';
 
 import GetLastSyncByNameRoutineService from '@modules/routines/services/GetLastSyncByNameRoutineService';

@@ -13,6 +13,7 @@ import UploadProductsService from '@modules/products/services/UploadProductsServ
 import SyncDataProductByAmazonService from '@modules/products/services/SyncDataProductByAmazonService';
 import GetPrepInstructionsByAsinsService from '@modules/products/services/GetPrepInstructionsByAsinsService';
 import ListShipmentFromProductService from '@modules/products/services/ListShipmentFromProductService';
+import GetReportProductsUpdatedInAmazon from '@modules/products/services/GetReportProductsUpdatedInAmazon';
 
 export default class ProductsController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -127,6 +128,19 @@ export default class ProductsController {
     const fees = await getMyFeesEstimate.execute();
 
     return response.json(fees);
+  }
+
+  public async getProductsUpdatedAmazon(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const getReportProductsUpdatedInAmazon = container.resolve(
+      GetReportProductsUpdatedInAmazon,
+    );
+
+    const products_updated = await getReportProductsUpdatedInAmazon.execute();
+
+    return response.json(products_updated);
   }
 
   public async listSupplierProducts(

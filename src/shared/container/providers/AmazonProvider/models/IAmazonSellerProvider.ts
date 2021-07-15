@@ -7,6 +7,8 @@ import IGetMyFees from '../dtos/IGetMyFees';
 import IPrepInstructionsList from '../dtos/IPrepInstructionsList';
 import IAllShipments from '../dtos/IAllShipments';
 import IParamsGetAllShipments from '../dtos/IParamsGetAllShipments';
+import IGetProductsUpdated from '../dtos/IGetProductsUpdated';
+import IResponseGetProductsUpdated from '../dtos/IResponseGetProductsUpdated';
 
 export default interface IAmazonSellerProvider {
   getMyFeesEstimate({
@@ -19,7 +21,9 @@ export default interface IAmazonSellerProvider {
     date_init,
     date_finally,
   }: IParamsGetAllShipments): Promise<IAllShipments>;
-  getAllShipments2(next_token: string): Promise<IAllShipments>;
+  getProductsUpdated({
+    start_date,
+  }: IGetProductsUpdated): Promise<IResponseGetProductsUpdated>;
   getItemsByShipment(shipment_id: string): Promise<IItemsByShipment>;
   getStatusByShipment(shipment_id: string): Promise<IStatusShipment>;
   getPrepInstructions(asin_list: string[]): Promise<IPrepInstructionsList>;

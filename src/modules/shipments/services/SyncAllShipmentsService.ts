@@ -40,7 +40,6 @@ export default class SyncAllShipmentsService {
     date_init,
     date_finally,
   }: IParamsGetAllShipments): Promise<any> {
-    console.log('init');
     const all_shipments = await this.amazonSellerProvider.getAllShipments({
       date_init,
       date_finally,
@@ -133,7 +132,6 @@ export default class SyncAllShipmentsService {
     const shipments_map = await Promise.all(shipments_updated);
 
     shipments_map.forEach(shipment => shipments_response.push(...shipment));
-    console.log('finally');
 
     return shipments_response;
   }

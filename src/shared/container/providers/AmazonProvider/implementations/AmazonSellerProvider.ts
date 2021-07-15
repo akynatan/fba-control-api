@@ -11,6 +11,8 @@ import IGetMyFees from '../dtos/IGetMyFees';
 import IPrepInstructionsList from '../dtos/IPrepInstructionsList';
 import IAllShipments from '../dtos/IAllShipments';
 import IParamsGetAllShipments from '../dtos/IParamsGetAllShipments';
+import IGetProductsUpdated from '../dtos/IGetProductsUpdated';
+import IResponseGetProductsUpdated from '../dtos/IResponseGetProductsUpdated';
 
 @injectable()
 class AmazonSellerProvider implements IAmazonSellerProvider {
@@ -95,10 +97,7 @@ class AmazonSellerProvider implements IAmazonSellerProvider {
             'WORKING',
             'SHIPPED',
             'RECEIVING',
-            'CANCELLED',
-            'DELETED',
             'CLOSED',
-            'ERROR',
             'IN_TRANSIT',
             'DELIVERED',
             'CHECKED_IN',
@@ -114,20 +113,24 @@ class AmazonSellerProvider implements IAmazonSellerProvider {
     }
   }
 
-  public async getAllShipments2(nextToken: string): Promise<IAllShipments> {
+  public async getProductsUpdated({
+    start_date,
+  }: IGetProductsUpdated): Promise<IResponseGetProductsUpdated> {
     try {
       const res = await this.client.callAPI({
-        operation: 'getShipments',
+        operation: 'getInventorySummaries',
         query: {
-          MarketplaceId: 'ATVPDKIKX0DER',
-          QueryType: 'NEXT_TOKEN',
-          NextToken: nextToken,
+          marketplaceIds: ['ATVPDKIKX0DER'],
+          startDateTime: start_date,
+          granularityType: 'Marketplace',
+          granularityId: 'ATVPDKIKX0DER',
+          details: true,
         },
       });
       return res;
     } catch (err) {
       console.log(err);
-      return {} as IAllShipments;
+      return {} as IResponseGetProductsUpdated;
     }
   }
 

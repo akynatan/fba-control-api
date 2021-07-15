@@ -9,8 +9,8 @@ export default class ShipmentsCron {
     // cron.schedule('0 0 * * *', new UpdateShipmentsCron().execute);
     cron.schedule('0 0 * * *', new InsertedShipmentsCron().execute);
 
-    setTimeout(() => {
-      new InsertedShipmentRetroactive().execute();
-    }, 10000);
+    // setTimeout(() => {
+    //   new InsertedShipmentRetroactive().execute();
+    // }, 10000);
   }
 }

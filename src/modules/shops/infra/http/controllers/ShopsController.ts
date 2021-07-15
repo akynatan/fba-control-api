@@ -5,7 +5,7 @@ import { classToClass } from 'class-transformer';
 import CreateShopService from '@modules/shops/services/CreateShopService';
 import ListAllShopsService from '@modules/shops/services/ListAllShopsService';
 
-export default class UsersController {
+export default class ShopsController {
   public async create(request: Request, response: Response): Promise<Response> {
     const { name, token_hubspot, token_amazon } = request.body;
 
