@@ -13,6 +13,8 @@ import IAllShipments from '../dtos/IAllShipments';
 import IParamsGetAllShipments from '../dtos/IParamsGetAllShipments';
 import IGetProductsUpdated from '../dtos/IGetProductsUpdated';
 import IResponseGetProductsUpdated from '../dtos/IResponseGetProductsUpdated';
+import IParamsCreateReportInAmazon from '../dtos/IParamsCreateReportInAmazon';
+import IResponseGetStatusReport from '../dtos/IResponseGetStatusReport';
 
 @injectable()
 class AmazonSellerProvider implements IAmazonSellerProvider {
@@ -66,6 +68,19 @@ class AmazonSellerProvider implements IAmazonSellerProvider {
     return res;
   }
 
+  public async createReport({
+    name_report,
+  }: IParamsCreateReportInAmazon): Promise<any> {
+    const res = await this.client.callAPI({
+      operation: 'createReport',
+      body: {
+        marketplaceIds: ['ATVPDKIKX0DER'],
+        reportType: name_report,
+      },
+    });
+    return res;
+  }
+
   public async getShipment(
     shipment_id: string,
   ): Promise<IShipmentByShipmentID> {
@@ -80,6 +95,44 @@ class AmazonSellerProvider implements IAmazonSellerProvider {
     } catch (err) {
       console.log(err);
       return {} as IShipmentByShipmentID;
+    }
+  }
+
+  public async downloadReport(report_document_id: string): Promise<any> {
+    try {
+      const report_document = await this.client.callAPI({
+        operation: 'getReportDocument',
+        path: {
+          reportDocumentId: report_document_id,
+        },
+      });
+
+      const report = await this.client.download(report_document, {
+        json: true,
+        file: './report-storage-fee.json',
+      });
+
+      return report;
+    } catch (err) {
+      console.log(err);
+      return err as any;
+    }
+  }
+
+  public async getStatusReport(
+    report_id: string,
+  ): Promise<IResponseGetStatusReport> {
+    try {
+      const res = await this.client.callAPI({
+        operation: 'getReport',
+        path: {
+          reportId: report_id,
+        },
+      });
+
+      return res;
+    } catch (err) {
+      return {} as IResponseGetStatusReport;
     }
   }
 
@@ -113,7 +166,7 @@ class AmazonSellerProvider implements IAmazonSellerProvider {
     }
   }
 
-  public async getProductsUpdated({
+  public async getInventorySummaries({
     start_date,
   }: IGetProductsUpdated): Promise<IResponseGetProductsUpdated> {
     try {

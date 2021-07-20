@@ -9,6 +9,8 @@ import IAllShipments from '../dtos/IAllShipments';
 import IParamsGetAllShipments from '../dtos/IParamsGetAllShipments';
 import IGetProductsUpdated from '../dtos/IGetProductsUpdated';
 import IResponseGetProductsUpdated from '../dtos/IResponseGetProductsUpdated';
+import IParamsCreateReportInAmazon from '../dtos/IParamsCreateReportInAmazon';
+import IResponseGetStatusReport from '../dtos/IResponseGetStatusReport';
 
 export default interface IAmazonSellerProvider {
   getMyFeesEstimate({
@@ -21,7 +23,10 @@ export default interface IAmazonSellerProvider {
     date_init,
     date_finally,
   }: IParamsGetAllShipments): Promise<IAllShipments>;
-  getProductsUpdated({
+  createReport({ name_report }: IParamsCreateReportInAmazon): Promise<any>;
+  downloadReport(report_id: string): Promise<any>;
+  getStatusReport(report_id: string): Promise<IResponseGetStatusReport>;
+  getInventorySummaries({
     start_date,
   }: IGetProductsUpdated): Promise<IResponseGetProductsUpdated>;
   getItemsByShipment(shipment_id: string): Promise<IItemsByShipment>;

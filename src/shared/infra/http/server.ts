@@ -12,6 +12,7 @@ import AppError from '@shared/errors/AppError';
 
 import ShipmentsCron from '@modules/shipments/crons';
 import CronsSuppliers from '@modules/suppliers/crons';
+import ReportAmazonCron from '@modules/report_amazon/crons';
 
 import rateLimiter from './middlewares/RateLimiter';
 
@@ -40,8 +41,9 @@ app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
 });
 
 app.listen(process.env.PORT || 4444, async () => {
-  new ShipmentsCron().execute();
-  new CronsSuppliers().execute();
+  // new ShipmentsCron().execute();
+  // new CronsSuppliers().execute();
+  new ReportAmazonCron().execute();
 
   console.log(`Server started on portt ${process.env.PORT || 4444}`);
 });

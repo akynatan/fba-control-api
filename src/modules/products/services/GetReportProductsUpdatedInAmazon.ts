@@ -28,9 +28,11 @@ export default class GetReportProductsUpdatedInAmazon {
   public async execute(): Promise<any> {
     const yesterday = subDays(new Date(), 1);
 
-    const productAmazon = await this.amazonSellerProvider.getProductsUpdated({
-      start_date: `${format(yesterday, 'yyyy-MM-dd')}T00:00:00-07:00`,
-    });
+    const productAmazon = await this.amazonSellerProvider.getInventorySummaries(
+      {
+        start_date: `${format(yesterday, 'yyyy-MM-dd')}T00:00:00-07:00`,
+      },
+    );
 
     return productAmazon;
 
