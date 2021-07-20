@@ -8,7 +8,7 @@ import IShopsRepository from '../repositories/IShopsRepository';
 import ICreateShopDTO from '../dtos/ICreateShopDTO';
 
 @injectable()
-export default class createShopService {
+export default class CreateShopService {
   constructor(
     @inject('ShopsRepository')
     private shopsRepository: IShopsRepository,

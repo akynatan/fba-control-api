@@ -64,6 +64,13 @@ productsRouter.get('/suppliers', productsController.listSupplierProducts);
 
 productsRouter.get('/shipments', productsController.shipmentsForProducts);
 
+productsRouter.get('/testes', productsController.testes);
+
+productsRouter.get(
+  '/get_products_updated_amazon',
+  productsController.getProductsUpdatedAmazon,
+);
+
 productsRouter.get(
   '/prep_instructions',
   productsController.getPrepInstructions,

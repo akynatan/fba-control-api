@@ -11,6 +11,10 @@ import IGetMyFees from '../dtos/IGetMyFees';
 import IPrepInstructionsList from '../dtos/IPrepInstructionsList';
 import IAllShipments from '../dtos/IAllShipments';
 import IParamsGetAllShipments from '../dtos/IParamsGetAllShipments';
+import IGetProductsUpdated from '../dtos/IGetProductsUpdated';
+import IResponseGetProductsUpdated from '../dtos/IResponseGetProductsUpdated';
+import IParamsCreateReportInAmazon from '../dtos/IParamsCreateReportInAmazon';
+import IResponseGetStatusReport from '../dtos/IResponseGetStatusReport';
 
 @injectable()
 class AmazonSellerProvider implements IAmazonSellerProvider {
@@ -64,6 +68,19 @@ class AmazonSellerProvider implements IAmazonSellerProvider {
     return res;
   }
 
+  public async createReport({
+    name_report,
+  }: IParamsCreateReportInAmazon): Promise<any> {
+    const res = await this.client.callAPI({
+      operation: 'createReport',
+      body: {
+        marketplaceIds: ['ATVPDKIKX0DER'],
+        reportType: name_report,
+      },
+    });
+    return res;
+  }
+
   public async getShipment(
     shipment_id: string,
   ): Promise<IShipmentByShipmentID> {
@@ -81,6 +98,44 @@ class AmazonSellerProvider implements IAmazonSellerProvider {
     }
   }
 
+  public async downloadReport(report_document_id: string): Promise<any> {
+    try {
+      const report_document = await this.client.callAPI({
+        operation: 'getReportDocument',
+        path: {
+          reportDocumentId: report_document_id,
+        },
+      });
+
+      const report = await this.client.download(report_document, {
+        json: true,
+        file: './report-storage-fee.json',
+      });
+
+      return report;
+    } catch (err) {
+      console.log(err);
+      return err as any;
+    }
+  }
+
+  public async getStatusReport(
+    report_id: string,
+  ): Promise<IResponseGetStatusReport> {
+    try {
+      const res = await this.client.callAPI({
+        operation: 'getReport',
+        path: {
+          reportId: report_id,
+        },
+      });
+
+      return res;
+    } catch (err) {
+      return {} as IResponseGetStatusReport;
+    }
+  }
+
   public async getAllShipments({
     date_init,
     date_finally,
@@ -95,10 +150,7 @@ class AmazonSellerProvider implements IAmazonSellerProvider {
             'WORKING',
             'SHIPPED',
             'RECEIVING',
-            'CANCELLED',
-            'DELETED',
             'CLOSED',
-            'ERROR',
             'IN_TRANSIT',
             'DELIVERED',
             'CHECKED_IN',
@@ -114,20 +166,24 @@ class AmazonSellerProvider implements IAmazonSellerProvider {
     }
   }
 
-  public async getAllShipments2(nextToken: string): Promise<IAllShipments> {
+  public async getInventorySummaries({
+    start_date,
+  }: IGetProductsUpdated): Promise<IResponseGetProductsUpdated> {
     try {
       const res = await this.client.callAPI({
-        operation: 'getShipments',
+        operation: 'getInventorySummaries',
         query: {
-          MarketplaceId: 'ATVPDKIKX0DER',
-          QueryType: 'NEXT_TOKEN',
-          NextToken: nextToken,
+          marketplaceIds: ['ATVPDKIKX0DER'],
+          startDateTime: start_date,
+          granularityType: 'Marketplace',
+          granularityId: 'ATVPDKIKX0DER',
+          details: true,
         },
       });
       return res;
     } catch (err) {
       console.log(err);
-      return {} as IAllShipments;
+      return {} as IResponseGetProductsUpdated;
     }
   }
 

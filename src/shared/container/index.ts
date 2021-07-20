@@ -39,6 +39,9 @@ import ItemShipmentOrdersRepository from '@modules/shipments/infra/typeorm/repos
 import ILogRoutineRepository from '@modules/routines/repositories/ILogRoutineRepository';
 import LogRoutineRepository from '@modules/routines/infra/typeorm/repositories/LogRoutineRepository';
 
+import IReportAmazonRepository from '@modules/report_amazon/repositories/IReportAmazonRepository';
+import ReportAmazonRepository from '@modules/report_amazon/infra/typeorm/repositories/ReportAmazonRepository';
+
 container.registerSingleton<ISuppliersRepository>(
   'SuppliersRepository',
   SuppliersRepository,
@@ -97,4 +100,9 @@ container.registerSingleton<IItemShipmentOrdersRepository>(
 container.registerSingleton<ILogRoutineRepository>(
   'LogRoutineRepository',
   LogRoutineRepository,
+);
+
+container.registerSingleton<IReportAmazonRepository>(
+  'ReportAmazonRepository',
+  ReportAmazonRepository,
 );

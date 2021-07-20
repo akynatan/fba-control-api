@@ -10,7 +10,7 @@ import IProductSupplierRepository from '../repositories/IProductSupplierReposito
 import ICreateProductDTO from '../dtos/ICreateProductDTO';
 
 @injectable()
-export default class createProductService {
+export default class CreateProductService {
   constructor(
     @inject('ProductsRepository')
     private productsRepository: IProductsRepository,
