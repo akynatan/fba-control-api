@@ -12,6 +12,7 @@ import ordersRouter from '@modules/orders/infra/http/routes/orders.routes';
 import productsOrderRouter from '@modules/orders/infra/http/routes/products_order.routes';
 import filesOrdersRouter from '@modules/orders/infra/http/routes/files_orders.routes';
 import shipmentsOrdersRouter from '@modules/shipments/infra/http/routes/shipment_orders.routes';
+import storageFeeRouter from '@modules/storage_fee/infra/http/routes/storage_fee.routes';
 
 const routes = Router();
 routes.use('/suppliers', suppliersRouter);
@@ -26,5 +27,6 @@ routes.use('/orders', ordersRouter);
 routes.use('/products_order', productsOrderRouter);
 routes.use('/files_order', filesOrdersRouter);
 routes.use('/shipments_order', shipmentsOrdersRouter);
+routes.use('/storage_fee', storageFeeRouter);
 
 export default routes;

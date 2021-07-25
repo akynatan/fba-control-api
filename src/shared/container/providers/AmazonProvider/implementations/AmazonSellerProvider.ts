@@ -14,6 +14,7 @@ import IParamsGetAllShipments from '../dtos/IParamsGetAllShipments';
 import IGetProductsUpdated from '../dtos/IGetProductsUpdated';
 import IResponseGetProductsUpdated from '../dtos/IResponseGetProductsUpdated';
 import IParamsCreateReportInAmazon from '../dtos/IParamsCreateReportInAmazon';
+import IResponseCreateReportInAmazon from '../dtos/IResponseCreateReportInAmazon';
 import IResponseGetStatusReport from '../dtos/IResponseGetStatusReport';
 
 @injectable()
@@ -36,8 +37,7 @@ class AmazonSellerProvider implements IAmazonSellerProvider {
     const res = await this.client.callAPI({
       operation: 'getMyFeesEstimateForASIN',
       path: {
-        // Asin: 'B07FFB647Q', // asin
-        Asin: asin, // asin
+        Asin: asin,
       },
       body: {
         FeesEstimateRequest: {
@@ -45,12 +45,11 @@ class AmazonSellerProvider implements IAmazonSellerProvider {
           MarketplaceId: 'ATVPDKIKX0DER',
           PriceToEstimateFees: {
             ListingPrice: {
-              // Amount: 100.0, // amazon by box
-              Amount: buy_box, // amazon by box
+              Amount: buy_box,
               CurrencyCode: 'USD',
             },
           },
-          Identifier: 2, // identifier
+          Identifier: 2,
         },
       },
     });
@@ -68,17 +67,55 @@ class AmazonSellerProvider implements IAmazonSellerProvider {
     return res;
   }
 
-  public async createReport({
-    name_report,
-  }: IParamsCreateReportInAmazon): Promise<any> {
+  public async manageReportSchedule(): Promise<IGetDataProductAmazonDTO> {
     const res = await this.client.callAPI({
-      operation: 'createReport',
-      body: {
-        marketplaceIds: ['ATVPDKIKX0DER'],
-        reportType: name_report,
+      operation: 'manageReportSchedule',
+      query: {
+        MarketplaceId: 'ATVPDKIKX0DER',
+        reportType: 'GET_FBA_STORAGE_FEE_CHARGES_DATA',
       },
     });
     return res;
+  }
+
+  public async createReport({
+    name_report,
+  }: IParamsCreateReportInAmazon): Promise<IResponseCreateReportInAmazon> {
+    try {
+      const res = await this.client.callAPI({
+        operation: 'createReport',
+        body: {
+          marketplaceIds: ['ATVPDKIKX0DER'],
+          reportType: name_report,
+        },
+      });
+      return res;
+    } catch (err) {
+      console.log(err);
+      return {} as IResponseCreateReportInAmazon;
+    }
+  }
+
+  public async createReportStorageFee({
+    name_report,
+    date_start,
+    date_end,
+  }: IParamsCreateReportInAmazon): Promise<IResponseCreateReportInAmazon> {
+    try {
+      const res = await this.client.callAPI({
+        operation: 'createReport',
+        body: {
+          marketplaceIds: ['ATVPDKIKX0DER'],
+          reportType: name_report,
+          dataStartTime: date_start,
+          dataEndTime: date_end,
+        },
+      });
+      return res;
+    } catch (err) {
+      console.log(err);
+      return {} as IResponseCreateReportInAmazon;
+    }
   }
 
   public async getShipment(
@@ -133,6 +170,26 @@ class AmazonSellerProvider implements IAmazonSellerProvider {
       return res;
     } catch (err) {
       return {} as IResponseGetStatusReport;
+    }
+  }
+
+  public async getReportSchedulesByReportType(
+    report_type: string,
+  ): Promise<IResponseGetStatusReport[]> {
+    try {
+      const res = await this.client.callAPI({
+        operation: 'getReports',
+        query: {
+          marketplaceIds: ['ATVPDKIKX0DER'],
+          reportTypes: [report_type],
+          pageSize: 50,
+        },
+      });
+
+      return res;
+    } catch (err) {
+      console.log(err);
+      return [];
     }
   }
 

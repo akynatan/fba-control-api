@@ -14,7 +14,6 @@ import SyncDataProductByAmazonService from '@modules/products/services/SyncDataP
 import GetPrepInstructionsByAsinsService from '@modules/products/services/GetPrepInstructionsByAsinsService';
 import ListShipmentFromProductService from '@modules/products/services/ListShipmentFromProductService';
 import GetReportProductsUpdatedInAmazon from '@modules/products/services/GetReportProductsUpdatedInAmazon';
-import CreateReportInventoryInAmazonService from '@modules/products/services/CreateReportInventoryInAmazonService';
 import TestesService from '@modules/products/services/TestesService';
 
 export default class ProductsController {
