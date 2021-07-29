@@ -60,6 +60,13 @@ export default class ConvertBackOrderInOrderService {
       }),
     );
 
+    await Promise.all(
+      backorders.map(async backOrder => {
+        await this.backOrderRepository.delete(backOrder.id);
+        return backOrder;
+      }),
+    );
+
     order.products_order = productsOrder;
 
     return order;
