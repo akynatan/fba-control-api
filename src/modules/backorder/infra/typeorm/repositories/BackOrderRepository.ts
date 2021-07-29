@@ -1,4 +1,4 @@
-import { getRepository, Repository } from 'typeorm';
+import { getRepository, In, Repository } from 'typeorm';
 import IBackOrderRepository from '@modules/backorder/repositories/IBackOrderRepository';
 
 import ICreateBackOrderDTO from '@modules/backorder/dtos/ICreateBackOrderDTO';
@@ -54,5 +54,15 @@ export default class BackOrderRepository implements IBackOrderRepository {
       console.log(err);
       throw new AppError('Erro');
     }
+  }
+
+  public async findByIds(ids: string[]): Promise<BackOrder[]> {
+    const storages = await this.ormRepository.find({
+      where: {
+        id: In(ids),
+      },
+    });
+
+    return storages;
   }
 }

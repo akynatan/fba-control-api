@@ -7,6 +7,6 @@ export default interface IBackOrderRepository {
   findByID(id: string): Promise<BackOrder | undefined>;
   findByAmazonOrderId(amazon_order_id: string): Promise<BackOrder | undefined>;
   findAll(): Promise<BackOrder[]>;
-
+  findByIds(ids: string[]): Promise<BackOrder[]>;
   delete(id: string): Promise<void>;
 }

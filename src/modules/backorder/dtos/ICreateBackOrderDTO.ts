@@ -1,6 +1,5 @@
 export default interface ICreateBackOrderDTO {
-  supplier_id: number;
-  product_id: number;
+  product_supplier_id: string;
   qtd: number;
   unit_price: number;
   eta: number;

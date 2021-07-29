@@ -15,12 +15,7 @@ export default class CreateBackOrder1627594889604
             default: 'uuid_generate_v4()',
           },
           {
-            name: 'supplier_id',
-            type: 'varchar',
-            isNullable: true,
-          },
-          {
-            name: 'product_id',
+            name: 'product_supplier',
             type: 'varchar',
             isNullable: true,
           },

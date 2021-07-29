@@ -1,10 +1,13 @@
 /* eslint-disable camelcase */
+import ProductSupplier from '@modules/products/infra/typeorm/entities/ProductSupplier';
 import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToOne,
+  JoinColumn,
 } from 'typeorm';
 
 @Entity('backorder')
@@ -12,11 +15,12 @@ export default class BackOrder {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column('decimal', { precision: 5, scale: 2 })
-  supplier_id: number;
+  @Column()
+  product_supplier_id: string;
 
-  @Column('decimal', { precision: 5, scale: 2 })
-  product_id: number;
+  @OneToOne(() => ProductSupplier)
+  @JoinColumn({ name: 'product_supplier_id' })
+  product_supplier: ProductSupplier;
 
   @Column()
   qtd: number;
