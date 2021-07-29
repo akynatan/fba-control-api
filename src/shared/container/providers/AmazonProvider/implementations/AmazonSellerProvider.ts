@@ -96,7 +96,7 @@ class AmazonSellerProvider implements IAmazonSellerProvider {
     }
   }
 
-  public async createReportStorageFee({
+  public async createReportWithDateStartEnd({
     name_report,
     date_start,
     date_end,

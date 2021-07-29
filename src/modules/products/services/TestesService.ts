@@ -32,19 +32,19 @@ export default class TestesService {
     // 377769018833
     // 367973018825
     // 377811018833
-    const {
-      processingStatus,
-      reportDocumentId,
-    } = await this.amazonSellerProvider.getStatusReport('311760018747');
-    console.log(processingStatus);
-    console.log(reportDocumentId);
-    // if (processingStatus === 'DONE') {
-    const report = await this.amazonSellerProvider.downloadReport(
-      reportDocumentId,
-    );
-    return report;
+    // const {
+    //   processingStatus,
+    //   reportDocumentId,
+    // } = await this.amazonSellerProvider.getStatusReport('378364018833');
+    // console.log(processingStatus);
+    // console.log(reportDocumentId);
+    // // if (processingStatus === 'DONE') {
+    // const report = await this.amazonSellerProvider.downloadReport(
+    //   reportDocumentId,
+    // );
+    // return report;
     // const lastDayOfMonthLast = subDays(new Date(2021, 6, 1), 1);
-    // const { reportId } = await this.amazonSellerProvider.createReportStorageFee(
+    // const { reportId } = await this.amazonSellerProvider.createReportWithDateStartEnd(
     //   {
     //     name_report: 'GET_FBA_STORAGE_FEE_CHARGES_DATA',
     //     date_start: `${format(
@@ -55,10 +55,10 @@ export default class TestesService {
     //   },
     // );
     // return { reportId };
-    // const reports = await this.amazonSellerProvider.getReportSchedulesByReportType(
-    //   'GET_FLAT_FILE_ALL_ORDERS_DATA_BY_ORDER_DATE_GENERAL',
-    // );
-    // return reports;
+    const reports = await this.amazonSellerProvider.getReportSchedulesByReportType(
+      'GET_FLAT_FILE_ALL_ORDERS_DATA_BY_LAST_UPDATE_GENERAL',
+    );
+    return reports;
     // const report = await this.amazonSellerProvider.manageReportSchedule(
     //   'GET_FBA_STORAGE_FEE_CHARGES_DATA',
     // );

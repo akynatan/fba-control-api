@@ -22,7 +22,6 @@ export default class DownloadReportStorageFeeInAmazonService {
   ) {}
 
   public async execute(report_id_storages: string[]): Promise<any> {
-    console.log('começou');
     for (let i = 0; i < report_id_storages.length; i += 1) {
       const report_id = report_id_storages[i];
 

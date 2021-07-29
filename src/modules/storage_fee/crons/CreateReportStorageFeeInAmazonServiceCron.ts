@@ -4,10 +4,10 @@ import CreateReportStorageFeeInAmazonService from '@modules/storage_fee/services
 
 export default class CreateReportStorageFeeInAmazonServiceCron {
   public async execute(): Promise<void> {
-    const createReportStorageFeeInAmazon = container.resolve(
+    const createReportWithDateStartEndInAmazon = container.resolve(
       CreateReportStorageFeeInAmazonService,
     );
 
-    createReportStorageFeeInAmazon.execute();
+    createReportWithDateStartEndInAmazon.execute();
   }
 }

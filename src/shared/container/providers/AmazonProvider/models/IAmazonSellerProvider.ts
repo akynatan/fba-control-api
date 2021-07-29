@@ -27,7 +27,7 @@ export default interface IAmazonSellerProvider {
   createReport({
     name_report,
   }: IParamsCreateReportInAmazon): Promise<IResponseCreateReportInAmazon>;
-  createReportStorageFee({
+  createReportWithDateStartEnd({
     name_report,
     date_start,
     date_end,
