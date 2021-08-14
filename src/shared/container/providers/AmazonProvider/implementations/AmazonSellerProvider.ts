@@ -225,16 +225,39 @@ class AmazonSellerProvider implements IAmazonSellerProvider {
 
   public async getInventorySummaries({
     start_date,
+    sku,
   }: IGetProductsUpdated): Promise<IResponseGetProductsUpdated> {
     try {
       const res = await this.client.callAPI({
         operation: 'getInventorySummaries',
         query: {
           marketplaceIds: ['ATVPDKIKX0DER'],
-          startDateTime: start_date,
+          // startDateTime: start_date,
           granularityType: 'Marketplace',
           granularityId: 'ATVPDKIKX0DER',
           details: true,
+          // sellerSkus: [sku],
+        },
+      });
+      return res;
+    } catch (err) {
+      console.log(err);
+      return {} as IResponseGetProductsUpdated;
+    }
+  }
+
+  public async getOrderMetrics({
+    sku,
+  }: IGetProductsUpdated): Promise<IResponseGetProductsUpdated> {
+    try {
+      const res = await this.client.callAPI({
+        operation: 'getOrderMetrics',
+        query: {
+          marketplaceIds: ['ATVPDKIKX0DER'],
+          interval: '2021-07-01T00:00:00-07:00--2021-07-30T00:00:00-07:00',
+          granularity: 'Day',
+          details: true,
+          sku,
         },
       });
       return res;
