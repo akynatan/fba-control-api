@@ -9,7 +9,6 @@ import IParamsGetAlYlShipments from '@shared/container/providers/AmazonProvider/
 import ShipmentOrder from '../infra/typeorm/entities/Sale';
 import IStorageFeeRepository from '../repositories/ISaleRepository';
 
-
 @injectable()
 export default class UpsertStorageFeeService {
   constructor(
@@ -25,12 +24,10 @@ export default class UpsertStorageFeeService {
       'GET_FBA_STORAGE_FEE_CHARGES_DATA',
     );
 
-    const report = all_reports.find(
-      report => report.processingStatus === 'DONE',
-    );
+    const report = all_reports.find(repor => repor.processingStatus === 'DONE');
 
-    if(report) {
-
+    if (report) {
+      console.log(report);
     }
-
   }
+}
