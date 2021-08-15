@@ -25,7 +25,7 @@ export default class CreateReportUpdatedSaleInAmazonService {
 
   public async execute(): Promise<void> {
     const name_report = 'GET_FLAT_FILE_ALL_ORDERS_DATA_BY_LAST_UPDATE_GENERAL';
-    const lastDayOfMonthLast = subDays(new Date(), 1);
+    const lastDayOfMonthLast = new Date();
 
     const {
       reportId,

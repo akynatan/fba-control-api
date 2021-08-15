@@ -16,12 +16,10 @@ export default class TestesService {
   ) {}
 
   public async execute(): Promise<any> {
-    // const {
-    //   processingStatus,
-    //   reportDocumentId,
-    // } = await this.amazonSellerProvider.createReport({
-    //   name_report: 'GET_FBA_STORAGE_FEE_CHARGES_DATA',
+    // const { reportId } = await this.amazonSellerProvider.createReport({
+    //   name_report: 'GET_MERCHANT_LISTINGS_ALL_DATA',
     // });
+    // return reportId;
     // const oiii = await this.amazonSellerProvider.createReport({
     //   name_report: 'GET_FBA_STORAGE_FEE_CHARGES_DATA',
     // });
@@ -34,17 +32,17 @@ export default class TestesService {
     // 377811018833
 
     // 383072018837 merchants
-    // const {
-    //   processingStatus,
-    //   reportDocumentId,
-    // } = await this.amazonSellerProvider.getStatusReport('378401018834');
-    // console.log(processingStatus);
-    // console.log(reportDocumentId);
-    // // if (processingStatus === 'DONE') {
-    // const report = await this.amazonSellerProvider.downloadReport(
-    //   reportDocumentId,
-    // );
-    // return report;
+    const {
+      processingStatus,
+      reportDocumentId,
+    } = await this.amazonSellerProvider.getStatusReport('402878018854');
+    console.log(processingStatus);
+    console.log(reportDocumentId);
+    // if (processingStatus === 'DONE') {
+    const report = await this.amazonSellerProvider.downloadReport(
+      reportDocumentId,
+    );
+    return report;
     // const lastDayOfMonthLast = subDays(new Date(2021, 6, 1), 1);
     // const { reportId } = await this.amazonSellerProvider.createReportWithDateStartEnd(
     //   {

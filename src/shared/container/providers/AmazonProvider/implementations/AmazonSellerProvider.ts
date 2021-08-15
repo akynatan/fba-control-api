@@ -88,6 +88,10 @@ class AmazonSellerProvider implements IAmazonSellerProvider {
           marketplaceIds: ['ATVPDKIKX0DER'],
           reportType: name_report,
         },
+        reportOptions: {
+          custom: true,
+        },
+        custom: true,
       });
       return res;
     } catch (err) {
