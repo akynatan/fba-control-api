@@ -21,11 +21,6 @@ export default class CreateBackOrder1627594889604
           },
           {
             name: 'qtd',
-            type: 'varchar',
-            isNullable: true,
-          },
-          {
-            name: 'qtd',
             type: 'integer',
             isNullable: true,
             default: 1,
