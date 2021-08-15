@@ -11,7 +11,7 @@ pipelines:
                SERVER: '157.230.85.165'
                COMMAND: >
                  cd ~/app/fba-control-api &&
-                 git pull -f origin master &&
+                 git pull originbit master &&
                  yarn &&
                  yarn build &&
                  ./node_modules/.bin/typeorm migration:run &&
