@@ -65,13 +65,15 @@ export default class TestesService {
     //   'GET_FBA_STORAGE_FEE_CHARGES_DATA',
     // );
 
-    const yesterday = subDays(new Date(), 1);
-    const data = await this.amazonSellerProvider.getInventorySummaries({
-      start_date: `${format(yesterday, 'yyyy-MM-dd')}T00:00:00+00:00`,
-      sku: 'B002UV7BM2',
-    });
-    return data;
+    // const yesterday = subDays(new Date(), 1);
+    // const data = await this.amazonSellerProvider.getInventorySummaries({
+    //   start_date: `${format(yesterday, 'yyyy-MM-dd')}T00:00:00+00:00`,
+    //   sku: 'B002UV7BM2',
+    // });
+    // return data;
 
     // return this.amazonSellerProvider.getDataProduct('ANIH4D10C30U07282020');
+
+    return { teste: 'deu certo' };
   }
 }
