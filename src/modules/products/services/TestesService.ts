@@ -74,6 +74,6 @@ export default class TestesService {
 
     // return this.amazonSellerProvider.getDataProduct('ANIH4D10C30U07282020');
 
-    return { teste: 'deu certo caralho' };
+    return { teste: 'deu certo caralho 22' };
   }
 }
