@@ -10,5 +10,9 @@ pipelines:
                SSH_USER: 'root'
                SERVER: '157.230.85.165'
                COMMAND: >
-                 cd app &&
-                 echo ola
+                 cd ~/app/fba-control-api
+                 git pull -f origin master
+                 yarn
+                 yarn build            
+                 ./node_modules/.bin/typeorm migration:run
+                 pm2 restart fhseller-api
