@@ -4,7 +4,7 @@ import { format, subDays } from 'date-fns';
 import GetLastSyncByNameRoutineService from '@modules/routines/services/GetLastSyncByNameRoutineService';
 import SyncAllShipmentsService from '@modules/shipments/services/SyncAllShipmentsService';
 
-export default class InsertedShipmentsCron {
+export default class UpsertShipmentsCron {
   public async execute(): Promise<void> {
     const getLastSyncByNameRoutine = container.resolve(
       GetLastSyncByNameRoutineService,
@@ -27,8 +27,8 @@ export default class InsertedShipmentsCron {
     }
 
     await syncAllShipments.execute({
-      date_init: `${format(today, 'yyyy-MM-dd')}T00:00:00-07:00`,
-      date_finally: `${format(yesterday, 'yyyy-MM-dd')}T00:00:00-07:00`,
+      date_init: `${format(today, 'yyyy-MM-dd')}T00:00:00+00:00`,
+      date_finally: `${format(yesterday, 'yyyy-MM-dd')}T00:00:00+00:00`,
     });
   }
 }

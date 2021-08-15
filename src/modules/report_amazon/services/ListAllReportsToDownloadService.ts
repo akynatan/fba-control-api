@@ -15,13 +15,18 @@ export default class ListAllReportsToDownloadService {
   ) {}
 
   public async execute(): Promise<ReportAmazon[]> {
-    let reports = await this.cacheProvider.recover<ReportAmazon[]>(
-      'ALL_REPORTS_TO_DOWNLOAD',
-    );
+    try {
+      let reports = await this.cacheProvider.recover<ReportAmazon[]>(
+        'ALL_REPORTS_TO_DOWNLOAD',
+      );
 
-    if (!reports)
-      reports = await this.reportAmazonRepository.findAllToDownload();
+      if (!reports)
+        reports = await this.reportAmazonRepository.findAllToDownload();
 
-    return reports;
+      return reports;
+    } catch (err) {
+      console.log(err);
+      return [];
+    }
   }
 }

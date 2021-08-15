@@ -1,0 +1,33 @@
+export default interface ICreateSaleDTO {
+  amazon_order_id: string;
+  merchant_order_id: string;
+  purchase_date: string;
+  last_updated_date: string;
+  order_status: string;
+  fulfillment_channel: string;
+  sales_channel: string;
+  order_channel: string;
+  ship_service_level: string;
+  product_name: string;
+  sku: string;
+  asin: string;
+  item_status: string;
+  quantity: number;
+  currency: string;
+  item_price: number;
+  item_tax: number;
+  shipping_price: number;
+  shipping_tax: number;
+  gift_wrap_price: number;
+  gift_wrap_tax: number;
+  item_promotion_discount: number;
+  ship_promotion_discount: number;
+  ship_city: string;
+  ship_state: string;
+  ship_postal_code: string;
+  ship_country: string;
+  promotion_ids: string;
+  is_business_order: string;
+  purchase_order_number: string;
+  price_designation: string;
+}

@@ -4,6 +4,7 @@ import { injectable, inject } from 'tsyringe';
 import IAmazonSellerProvider from '@shared/container/providers/AmazonProvider/models/IAmazonSellerProvider';
 import IReportAmazonRepository from '@modules/report_amazon/repositories/IReportAmazonRepository';
 import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
+import ILogRoutineRepository from '@modules/routines/repositories/ILogRoutineRepository';
 
 @injectable()
 export default class CreateReportInventoryInAmazonService {
@@ -13,6 +14,9 @@ export default class CreateReportInventoryInAmazonService {
 
     @inject('ReportAmazonRepository')
     private reportAmazonRepository: IReportAmazonRepository,
+
+    @inject('LogRoutineRepository')
+    private logRoutineRepository: ILogRoutineRepository,
 
     @inject('CacheProvider')
     private cacheProvider: ICacheProvider,
@@ -26,6 +30,10 @@ export default class CreateReportInventoryInAmazonService {
     await this.reportAmazonRepository.create({
       name: 'GET_AFN_INVENTORY_DATA',
       report_id: reportId,
+    });
+
+    await this.logRoutineRepository.create({
+      name_routine: 'GET_AFN_INVENTORY_DATA',
     });
 
     await this.cacheProvider.invalidate('ALL_REPORTS_TO_DOWNLOAD');

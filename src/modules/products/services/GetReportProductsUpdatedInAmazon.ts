@@ -30,7 +30,7 @@ export default class GetReportProductsUpdatedInAmazon {
 
     const productAmazon = await this.amazonSellerProvider.getInventorySummaries(
       {
-        start_date: `${format(yesterday, 'yyyy-MM-dd')}T00:00:00-07:00`,
+        start_date: `${format(yesterday, 'yyyy-MM-dd')}T00:00:00+00:00`,
       },
     );
 

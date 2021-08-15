@@ -31,4 +31,24 @@ export default class ReportAmazonRepository implements IReportAmazonRepository {
     await this.ormRepository.save(report);
     return report;
   }
+
+  public async findByReportId(
+    report_id: string,
+  ): Promise<ReportAmazon | undefined> {
+    const report = await this.ormRepository.findOne({
+      where: { report_id },
+    });
+    return report;
+  }
+
+  public async checkDownloadedEqualTrue(report_id: string): Promise<void> {
+    const report = await this.ormRepository.findOne({
+      where: { report_id },
+    });
+
+    if (report) {
+      report.downloaded = true;
+      await this.ormRepository.save(report);
+    }
+  }
 }

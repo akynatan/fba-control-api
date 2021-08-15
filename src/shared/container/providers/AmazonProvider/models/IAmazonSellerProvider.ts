@@ -10,6 +10,7 @@ import IParamsGetAllShipments from '../dtos/IParamsGetAllShipments';
 import IGetProductsUpdated from '../dtos/IGetProductsUpdated';
 import IResponseGetProductsUpdated from '../dtos/IResponseGetProductsUpdated';
 import IParamsCreateReportInAmazon from '../dtos/IParamsCreateReportInAmazon';
+import IResponseCreateReportInAmazon from '../dtos/IResponseCreateReportInAmazon';
 import IResponseGetStatusReport from '../dtos/IResponseGetStatusReport';
 
 export default interface IAmazonSellerProvider {
@@ -23,8 +24,18 @@ export default interface IAmazonSellerProvider {
     date_init,
     date_finally,
   }: IParamsGetAllShipments): Promise<IAllShipments>;
-  createReport({ name_report }: IParamsCreateReportInAmazon): Promise<any>;
+  createReport({
+    name_report,
+  }: IParamsCreateReportInAmazon): Promise<IResponseCreateReportInAmazon>;
+  createReportWithDateStartEnd({
+    name_report,
+    date_start,
+    date_end,
+  }: IParamsCreateReportInAmazon): Promise<IResponseCreateReportInAmazon>;
   downloadReport(report_id: string): Promise<any>;
+  getReportSchedulesByReportType(
+    report_type: string,
+  ): Promise<IResponseGetStatusReport[]>;
   getStatusReport(report_id: string): Promise<IResponseGetStatusReport>;
   getInventorySummaries({
     start_date,

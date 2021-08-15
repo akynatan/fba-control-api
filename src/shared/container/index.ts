@@ -42,6 +42,12 @@ import LogRoutineRepository from '@modules/routines/infra/typeorm/repositories/L
 import IReportAmazonRepository from '@modules/report_amazon/repositories/IReportAmazonRepository';
 import ReportAmazonRepository from '@modules/report_amazon/infra/typeorm/repositories/ReportAmazonRepository';
 
+import IStorageFeeRepository from '@modules/storage_fee/repositories/IStorageFeeRepository';
+import StorageFeeRepository from '@modules/storage_fee/infra/typeorm/repositories/StorageFeeRepository';
+
+import SaleRepository from '@modules/sale/infra/typeorm/repositories/SaleRepository';
+import ISaleRepository from '@modules/sale/repositories/ISaleRepository';
+
 container.registerSingleton<ISuppliersRepository>(
   'SuppliersRepository',
   SuppliersRepository,
@@ -106,3 +112,10 @@ container.registerSingleton<IReportAmazonRepository>(
   'ReportAmazonRepository',
   ReportAmazonRepository,
 );
+
+container.registerSingleton<IStorageFeeRepository>(
+  'StorageFeeRepository',
+  StorageFeeRepository,
+);
+
+container.registerSingleton<ISaleRepository>('SaleRepository', SaleRepository);

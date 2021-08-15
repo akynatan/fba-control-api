@@ -9,8 +9,6 @@ import Product from '../infra/typeorm/entities/Product';
 import SyncDataProductByAmazonService from './SyncDataProductByAmazonService';
 
 import IProductsRepository from '../repositories/IProductsRepository';
-import IProductSupplierRepository from '../repositories/IProductSupplierRepository';
-import ICreateProductDTO from '../dtos/ICreateProductDTO';
 
 interface IResponseJSONDonwloadReportAmazon {
   'seller-sku': string;
@@ -35,8 +33,6 @@ export default class DownloadReportsInventoryInAmazonService {
   ) {}
 
   public async execute(report_id_products: string[]): Promise<any> {
-    console.log('iniciou');
-
     for (let i = 0; i < report_id_products.length; i += 1) {
       const report_id = report_id_products[i];
 
@@ -64,6 +60,8 @@ export default class DownloadReportsInventoryInAmazonService {
             );
           }
         }
+
+        await this.reportAmazonRepository.checkDownloadedEqualTrue(report_id);
       }
     }
   }
