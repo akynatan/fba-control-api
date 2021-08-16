@@ -6,7 +6,7 @@ import cron from 'node-cron';
 export default class StorageFeeCron {
   public async execute(): Promise<void> {
     cron.schedule(
-      '0 0 1 * *',
+      '0 0 30 * *',
       new CreateReportStorageFeeInAmazonServiceCron().execute,
     );
   }

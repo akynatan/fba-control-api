@@ -10,5 +10,6 @@ const storageFeeController = new StorageFeeController();
 storageFeeRouter.use(ensureAuthenticated);
 
 storageFeeRouter.get('/', storageFeeController.index);
+storageFeeRouter.get('/reports_retroactive', storageFeeController.retroactive);
 
 export default storageFeeRouter;

@@ -17,8 +17,6 @@ import ProductsCron from '@modules/products/crons';
 import StorageFeeCron from '@modules/storage_fee/crons';
 import SaleCron from '@modules/sale/crons';
 
-import ShipmentsScript from '@modules/storage_fee/scripts';
-
 import rateLimiter from './middlewares/RateLimiter';
 
 import '@shared/infra/typeorm';
@@ -52,8 +50,6 @@ app.listen(process.env.PORT || 4444, async () => {
   new ProductsCron().execute();
   new StorageFeeCron().execute();
   new SaleCron().execute();
-
-  new ShipmentsScript().execute();
 
   console.log(`Server started on portt ${process.env.PORT || 4444}`);
 });

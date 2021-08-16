@@ -7,11 +7,11 @@ import cron from 'node-cron';
 export default class SaleCron {
   public async execute(): Promise<void> {
     cron.schedule(
-      '0 2 * * *',
+      '0 */8 * * *',
       new CreateReportNewSaleInAmazonServiceCron().execute,
     );
     cron.schedule(
-      '0 2 * * *',
+      '0 */8 * * *',
       new CreateReportUpdatedSaleInAmazonServiceCron().execute,
     );
   }

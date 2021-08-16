@@ -37,8 +37,8 @@ export default class DownloadReportUpdatedSaleInAmazonService {
         );
 
         await Promise.all(
-          sale_json_amazon.map(async sale_amazon_2 => {
-            const sale_amazon = convetSaleAmazonInFhSeller(sale_amazon_2);
+          sale_json_amazon.map(async sale_amazon_current => {
+            const sale_amazon = convetSaleAmazonInFhSeller(sale_amazon_current);
 
             const sale = await this.saleRepository.findByAmazonOrderId(
               sale_amazon.amazon_order_id,
