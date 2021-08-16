@@ -2,10 +2,10 @@ import { Router } from 'express';
 
 import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
 
-import StorageFeeController from '../controllers/SaleController';
+import SaleController from '../controllers/SaleController';
 
 const saleRouter = Router();
-const saleController = new StorageFeeController();
+const saleController = new SaleController();
 
 saleRouter.use(ensureAuthenticated);
 
